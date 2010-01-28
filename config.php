@@ -1,5 +1,6 @@
 <?php
-	$dbhost = 'localhost';
+	// mysql parms
+    $dbhost = 'localhost';
 	$db = 'bookwarrior';
 	$dbtable = 'updated';
 	$dbuser = '';
@@ -8,6 +9,15 @@
 	// problem resolution URL to mention in error messages
 	$errurl = '';
 
-	$repository = 'repository';
+    // lines per page in results
 	$maxlines = 25;
+    
+    // separator symbol
+    $filesep = '/';
+	
+    // distributed repository
+	$repository = array(
+		'0-114000' => 'repository' ,
+		'' => 'repository'
+		);
 ?>

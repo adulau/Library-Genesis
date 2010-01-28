@@ -1,5 +1,5 @@
 <?php
-	include 'conf.php';
+	include 'config.php';
 	include 'confdb.php';
 	include 'connect.php';
 	include 'html.php';
@@ -14,7 +14,7 @@
 	mysql_free_result($result);
 	mysql_close($con);
 	list($dir,$file) = split($filesep,$rows['Filename']); //print "$dir $file<br>\n";
-	foreach  ($repodirs as $key => $value) {
+	foreach  ($repository as $key => $value) {
 		list ($start,$end)=split('-',$key);
 		if ($dir>=$start and $dir<=$end) {
 			$repdir=$value; 
