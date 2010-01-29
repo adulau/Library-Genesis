@@ -2,6 +2,7 @@
 	include 'connect.php';
 	include 'html.php';
 	include 'strings.php';
+	include 'util.php';
 
 	if (sizeof($_GET)) $mainpage = false;
 	else $mainpage = true;
@@ -133,7 +134,7 @@
 	echo $navigator;
 	echo $tabheader;
 
-	$repository = str_replace('\\','/',realpath($repository));
+	//$repository = str_replace('\\','/',realpath($repository));
 
 	$i = 1;
 	while ($row = mysql_fetch_assoc($result)){
@@ -148,6 +149,7 @@
 		$edition = stripslashes($row['Edition']);
 		$ext = stripslashes($row['Extension']);
 		$library = stripslashes($row['Library']);
+        $filename = stripslashes($row['Filename']);
 
 		$size = $row['Filesize'];
 		if ($size >= 1024*1024*1024){
@@ -210,11 +212,13 @@
 
 		$ires = $from + $i;
 
-		$tipdir = str_replace($row['MD5'],'',$row['Filename']);
+		//$tipdir = str_replace($row['MD5'],'',$filename,$count); //echo $count;
+        list($tipdir,$file) = split($filesep,$filename);
 		if ($library) $tiplib = 'Library: '.$library."\n";
 		else $tiplib = '';
 
-		$tip = "ID: $row[ID]\n$tiplib"."Location: $repository/$tipdir";
+        $repdir = str_replace('\\','/',realpath(getRepDirByFilename($filename)));
+		$tip = "ID: $row[ID]; $tiplib; Location: $repdir/$tipdir";
 		$line = "<tr valign=top bgcolor=$color><td>$ires.</td>
 		<td><a href='librarian/registration?md5=$row[MD5]'>[edit]</a></td>
 		<td nowrap><a href='get?md5=$row[MD5]' title='$tip'>$title$volume$volstamp</a></td>
