@@ -24,7 +24,7 @@
 	$torrents = "<a href='http://free-books.dontexist.com/repository_torrent/'>Torrents</a>";
 	$source = "<a href='http://free-books.dontexist.com/code/'>Code</a>";
 	$dbdump = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/'>Dump (Daily)</a>";
-	$donate = "<a href='http://lib.rus.ec/donate'>Donate</a>";
+	$donate = "";//"<a href='http://lib.rus.ec/donate'>Donate</a>";
         $export = "<a href='http://free-books.dontexist.com/export/'>Import your books to LibGen</a>";
 	$forum = "<a href='http://gen.lib.rus.ec/forum/'>Forum</a>";
         $upload = "<a href='http://free-books.dontexist.com/librarian/'>Upload &amp; edit</a>";
@@ -35,7 +35,7 @@
 <table height=100% width=100% cellspacing=0 cellpadding=0>
 <tr>
 <td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1} // {$torrents} // {$source} // {$dbdump} // {$export} // {$forum} // {$upload}</font></b></td>
-<td align=right><b><font face=Arial size=2 color={$textcol1}>{$donte}</font></b></td>
+<td align=right><b><font face=Arial size=2 color={$textcol1}>{$donate}</font></b></td>
 </tr>
 </table>";
 
