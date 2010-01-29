@@ -1,6 +1,5 @@
 <?php
 	include 'config.php';
-	include 'confdb.php';
 	include 'connect.php';
 	include 'html.php';
 	include 'resume.php';
