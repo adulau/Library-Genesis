@@ -14,8 +14,10 @@
 
 		$req_htm = htmlspecialchars($_GET['req'],ENT_QUOTES);
 		$req_htm_enc = urlencode($_GET['req']);
+        $dlnametype = $_GET['Radioname'];
 	} else {
 		$req_htm = "";
+        $dlnametype = "orig";
 	}
 
 	$textcol1 = 'gray';//'A0A000';
@@ -40,9 +42,28 @@
 </tr>
 </table>";
 
+    $dlnametypes = array('orig' => '',
+                         'md5' => '',
+                         'translit' => ''
+    );
+    
+    foreach( $dlnametypes as $key => $value ) {
+        if ( $key == $dlnametype ) {
+            $dlnametypes[$key] = 'checked';
+            break;
+        }
+    }
+    
 	$form = "<form action='search'>
 	<input name=req id=1 size=60 maxlength=254 value='$req_htm'> <input type=submit value='Search!'>
 	<br><font face=Arial color={$textcol1} size=1>$searchtip</font>
+    <br><label>Download name as: </label>
+    <input type=radio name='Radioname' value='orig' ".$dlnametypes['orig']."/>
+    <label for='Original'>Original</label>
+    <input type=radio name='Radioname' value='md5' ".$dlnametypes['md5']."/>
+    <label for='Md5'>Md5</label>
+    <input type=radio name='Radioname' value='translit' ".$dlnametypes['translit']."/>
+    <label for='Translit'>Translit</label>
 	</form>";
 
 	echo $htmlheadfocus;
