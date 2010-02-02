@@ -18,7 +18,7 @@ table { border-spacing: 1px 1px; }
 ";
 $htmlheadend = "</head><body topmargin=0>";
 $script = "<script type='text/javascript'>
-function f() {document.getElementById('1').focus();}
+function f() { document.getElementById('searchform').focus(); }
 window.onload = f;
 </script>";
 

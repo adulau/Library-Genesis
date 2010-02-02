@@ -14,7 +14,7 @@
 
 		$req_htm = htmlspecialchars($_GET['req'],ENT_QUOTES);
 		$req_htm_enc = urlencode($_GET['req']);
-        $dlnametype = $_GET['Radioname'];
+        $dlnametype = $_GET['nametype'];
 	} else {
 		$req_htm = "";
         $dlnametype = "orig";
@@ -50,19 +50,20 @@
     foreach( $dlnametypes as $key => $value ) {
         if ( $key == $dlnametype ) {
             $dlnametypes[$key] = 'checked';
-            break;
+        } else {
+            $dlnametypes[$key] = '';
         }
     }
     
-	$form = "<form action='search'>
-	<input name=req id=1 size=60 maxlength=254 value='$req_htm'> <input type=submit value='Search!'>
+	$form = "<form name ='myform' action='search'>
+	<input name=req id='searchform' size=60 maxlength=254 value='$req_htm'> <input type=submit value='Search!'>
 	<br><font face=Arial color={$textcol1} size=1>$searchtip</font>
     <br><label>Download name as: </label>
-    <input type=radio name='Radioname' value='orig' ".$dlnametypes['orig']."/>
+    <input type=radio name='nametype' id='orig' value='orig' ".$dlnametypes['orig']." onclick=radioOnClick('orig') />
     <label for='Original'>Original</label>
-    <input type=radio name='Radioname' value='md5' ".$dlnametypes['md5']."/>
+    <input type=radio name='nametype' id='md5' value='md5' ".$dlnametypes['md5']." onclick=radioOnClick('md5') />
     <label for='Md5'>Md5</label>
-    <input type=radio name='Radioname' value='translit' ".$dlnametypes['translit']."/>
+    <input type=radio name='nametype' id='translit' value='translit' ".$dlnametypes['translit']." onclick=radioOnClick('translit') />
     <label for='Translit'>Translit</label>
 	</form>";
 
@@ -119,29 +120,79 @@
 	///////////////////////////////////////////////////////////////
 	// pagination
 
-	$args = "search?req=$req_htm_enc&lines=$lines";
+	$args = "search?nametype=$dlnametype&req=$req_htm_enc&lines=$lines";
 
 	if ($totalrows > $from + $lines){
 		$nextpage = $from + $lines;
 		$argsnext = $args."&from=".$nextpage;
-		$nextlink = "<a href='$argsnext'>".$str_next."</a>";
+		$nextlink1 = "<a href='$argsnext' id='nextlink1'>".$str_next."</a>";
+		$nextlink2 = "<a href='$argsnext' id='nextlink2'>".$str_next."</a>";
+        $linesOnPage = $lines;
 	} else {
 		$nextpage = 0;
-		$nextlink = $str_next;
+		$nextlink1 = $str_next;
+		$nextlink2 = $str_next;
+        $linesOnPage = $totalrows-$from;
 	}
 
 	if ($from > 0) {
 		$prevpage = $from - $lines;
 		if ($prevpage < 0) $prevpage = 0;
 		$argsprev = $args."&from=".$prevpage;
-		$prevlink = "<a href='$argsprev'>".$str_prev."</a>";
+		$prevlink1 = "<a href='$argsprev' id='prevlink1'>".$str_prev."</a>";
+		$prevlink2 = "<a href='$argsprev' id='prevlink2'>".$str_prev."</a>";
 	} else {
-		$prevlink = $str_prev;
+		$prevlink1 = $str_prev;
+		$prevlink2 = $str_prev;
 	}
-
+    
+    $onClickScript = "<script type='text/javascript'>
+    function radioOnClick(txt) 
+    {
+        for (var i=$from+1;i<$from+$linesOnPage+1;i++) {
+            changeQuery(document.getElementById(i),txt);
+        }
+        
+        changeQuery(document.getElementById('prevlink1'),txt);
+        changeQuery(document.getElementById('prevlink2'),txt);
+        changeQuery(document.getElementById('nextlink1'),txt);
+        changeQuery(document.getElementById('nextlink2'),txt);
+    }
+    
+    function changeQuery(obj,txt) {
+        if (!obj) return;
+        var query = obj.href;
+        var vars = query.split('&');
+        var pair = vars[0].split('=');
+        obj.href = pair[0] + '=' + txt;
+        
+        for(var i=1;i<vars.length;i++) {
+            obj.href = obj.href + '&' + vars[i];
+        }
+    }
+    
+    function forceDlNameTypeSwitch() {
+        var x=document.myform.nametype;
+        if (!x) return;
+        for(var i=0;i<x.length;i++) {
+            if (x[i].value == '$dlnametype') {
+                x[i].checked = 'true';
+            } 
+        }
+    }
+    
+    // When 'Refresh' is clicked, Firefox refuses to change radiobutton
+    // back to the one, which was chosen originally, which leads to
+    // broken synchronization between radiobuttons and links on the page,
+    // so wee need to force switch radiobuttons to the correct state.
+    // Other browsers seem to react nicely to this, too.    
+    forceDlNameTypeSwitch();
+    </script>";
+    
 	$reshead = "<table width=100% cellspacing=0 cellpadding=0 border=0 class=c align=center>";
 
 	include 'ads.php';
+    
 	echo $form;
 	echo $reshead;
 
@@ -150,9 +201,10 @@
 	$color3 = '#A0E000';
 
 	echo "\n<b>".$totalrows." pieces found for <u>$req_htm</u> </b>\n";
-	$navigator = "<tr><th valign=top bgcolor=$color3 colspan=6><font color=$color1><center><b>$prevlink | $nextlink</b></center></font></th></tr>";
+	$navigatortop = "<tr><th valign=top bgcolor=$color3 colspan=6><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
+	$navigatorbottom = "<tr><th valign=top bgcolor=$color3 colspan=6><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
 	$tabheader = "<tr valign=top bgcolor=$color2><td><b>#</b></td><td></td><td><b>Name</b></td><td><b>Author</b></td><td><b>Size</b></td><td><b>Type</b></td></tr>";
-	echo $navigator;
+	echo $navigatortop;
 	echo $tabheader;
 
 	//$repository = str_replace('\\','/',realpath($repository));
@@ -242,7 +294,7 @@
 		$tip = "ID: $row[ID]; $tiplib; Location: $repdir/$tipdir";
 		$line = "<tr valign=top bgcolor=$color><td>$ires.</td>
 		<td><a href='librarian/registration?md5=$row[MD5]'>[edit]</a></td>
-		<td nowrap><a href='get?md5=$row[MD5]' title='$tip'>$title$volume$volstamp</a></td>
+		<td nowrap><a href='get?nametype=$dlnametype&md5=$row[MD5]' title='$tip' id=$ires>$title$volume$volstamp</a></td>
 		<td nowrap>$author</td>
 		<td nowrap>$size</td>
 		<td nowrap>$ext</td>
@@ -252,7 +304,9 @@
 		$i = $i + 1;
 	}
 
-	echo $navigator;
+    echo $onClickScript;
+    
+	echo $navigatorbottom;
 	echo $footer;
 	echo $htmlfoot;
 
