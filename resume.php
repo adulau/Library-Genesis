@@ -8,15 +8,17 @@
 class getresumable {
 
 	var $filename = null;
+	var $downloadname = null;
 	var $fileext = null;
 	var $bufsize = 2048;
 	var $seek_start = 0;
 	var $seek_end = -1;
 
-	public function __construct($file,$ext){
+	public function __construct($file,$ext,$dlname){
 		if (is_readable($file) && is_file($file)){
 			$this->filename = $file;
 			$this->fileext = $ext;
+			$this->downloadname = $dlname;
 		}
 		else die;
 
@@ -47,7 +49,7 @@ class getresumable {
 
 	protected function header($size,$seek_start=null,$seek_end=null) {
 		header("Content-Type: application/$this->fileext");
-		header('Content-Disposition: attachment; filename='.basename($this->filename.'.'.$this->fileext));
+		header('Content-Disposition: attachment; filename="'.basename($this->downloadname.'.'.$this->fileext).'"');
 		header('HTTP/1.0 206 Partial Content');
 		header('Status: 206 Partial Content');
 		header('Accept-Ranges: bytes');
