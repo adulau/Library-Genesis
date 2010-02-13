@@ -16,7 +16,7 @@ LOCAL INSTALLATION INSTRUCTIONS
    'bookuser' and 'bookpass' with your access details).
 
 
-That's it! Now start Apache, visit your local WWW-page (http://127.0.0.1/)
+That's it! Now start Apache, visit your local WWW-page (http://127.0.0.1/  or http://localhost/)
 and enjoy reading!
 
 
