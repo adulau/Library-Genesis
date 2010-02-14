@@ -1,0 +1,42 @@
+<refentry id="package.pending.isbn.isbn.getisbn">
+ <refnamediv>
+  <refname>
+   <function>ISBN::getISBN</function>
+  </refname>
+  <refpurpose>Get whole ISBN Number</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <funcsynopsis>
+   <funcsynopsisinfo>require_once &apos;/ISBN.php&apos;;</funcsynopsisinfo>
+   <funcprototype>
+    <funcdef>
+     string
+     <function>ISBN::getISBN</function>
+    </funcdef>
+    <paramdef />
+   </funcprototype>
+  </funcsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="package.pending.isbn.isbn.getisbn.desc">
+  &title.desc;
+  &notdocumented;
+</refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getisbn.returns">
+  &title.returns;
+  <para>
+   <emphasis>returns</emphasis>
+   ISBN Number (unformatted); empty string if this is                 not a valid ISBN
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getisbn.throws">
+  &title.throws;
+  <para>
+   <emphasis>throws</emphasis>
+   no exceptions thrown
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getisbn.note">
+  &title.note;
+  &note.notstatic;
+</refsect1>
+</refentry>

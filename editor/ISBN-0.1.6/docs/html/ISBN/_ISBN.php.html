@@ -1,0 +1,235 @@
+<html>
+<head>
+<title>Docs for page ISBN.php</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">ISBN</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_ISBN.html" class="menu">class tree: ISBN</a> ]
+		  [ <a href="../elementindex_ISBN.html" class="menu">index: ISBN</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+	<div id="ric">
+					<p><a href="../ric_README.html">README</a></p>
+			</div>
+	<div id="todolist">
+			<p><a href="../todolist.html">Todo List</a></p>
+	</div>
+      <b>Packages:</b><br />
+              <a href="../li_ISBN.html">ISBN</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../ISBN/_ISBN.php.html">		ISBN.php
+		</a><br>
+	  </div><br />
+      
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../ISBN/ISBN.html">ISBN</a><br />
+	    		<a href="../ISBN/ISBN_Exception.html">ISBN_Exception</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Procedural File: ISBN.php</h1>
+Source Location: /ISBN.php<br /><br />
+
+<br>
+<br>
+
+<div class="contents">
+<h2>Classes:</h2>
+<dt><a href="../ISBN/ISBN_Exception.html">ISBN_Exception</a></dt>
+	<dd>ISBN_Exception class</dd>
+<dt><a href="../ISBN/ISBN.html">ISBN</a></dt>
+	<dd>ISBN class</dd>
+</div><br /><br />
+
+<h2>Page Details:</h2>
+ISBN<br /><br /><p>Handle, Convert and Validate ISBN Numbers</p><p>PHP version 5</p><p>LICENSE: LGPL (In cases LGPL is not appropriate, it is licensed under GPL)</p><p>Package to handle, convert and validate ISBN numbers. It includes:</p><p><ul><li>ISBN specifics: EAN/PrefixArrayAccess (integer)</li><li>ISBN specifics: Group/Registration Group [2001: Group identifier] (integer)</li><li>ISBN specifics: GroupTitle/Registration Group Title (string)</li><li>ISBN specifics: Publisher/Registrant [2001: Publisher identifier] (string)</li><li>ISBN specifics: Title/Publication [2001: Title identifier] (string)</li><li>ISBN specifics: Checkdigit (string)</li><li>ISBN specifics: 'ISBNBody' (string)</li><li>ISBN specifics: 'ISBNSubbody' (string)</li><li>ISBN Version handling</li><li>Syntactical Validation plus Validation based on real ISBN Data</li><li>ISBN-10 (ISO 2108) checksum calculation</li><li>Validation (ISBN-10 and ISBN-13-978)</li><li>Conversion to ISBN-13-978</li><li>ISBN-13-978 (2005 Handbook, ISO pending; ISBN-13)</li><li>ISBN-13 checksum calculation (EAN)</li></ul>  Based on standards published by international ISBN Agency  http://www.isbn-international.org/</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>todo:</b>&nbsp;&nbsp;</td><td>GroupTitle</td>
+  </tr>
+  <tr>
+    <td><b>todo:</b>&nbsp;&nbsp;</td><td>License for .js file or remove it</td>
+  </tr>
+  <tr>
+    <td><b>filesource:</b>&nbsp;&nbsp;</td><td><a href="../__filesource/fsource_ISBN__ISBN.php.html">Source Code for this file</a></td>
+  </tr>
+  <tr>
+    <td><b>todo:</b>&nbsp;&nbsp;</td><td>PEAR Package.xml</td>
+  </tr>
+  <tr>
+    <td><b>link:</b>&nbsp;&nbsp;</td><td><a href="http://isbn.lastflood.com">http://isbn.lastflood.com online docs</a></td>
+  </tr>
+  <tr>
+    <td><b>copyright:</b>&nbsp;&nbsp;</td><td>2006-2007 Tom Klingenberg</td>
+  </tr>
+  <tr>
+    <td><b>license:</b>&nbsp;&nbsp;</td><td>LGPL</td>
+  </tr>
+  <tr>
+    <td><b>version:</b>&nbsp;&nbsp;</td><td>v 0.1.6 CVS: &lt;cvs_id&gt;</td>
+  </tr>
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Tom Klingenberg &lt;<a href="mailto:tkli-php@lastflood.net">tkli-php@lastflood.net</a>&gt;</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+<h4>Includes:</h4>
+<div class="tags">
+require_once('PEAR/Exception.php') [line <a href="../__filesource/fsource_ISBN__ISBN.php.html#a82">82</a>]<br />
+</div>
+<br /><br />
+<br /><br />
+  <hr />
+	<a name="defineISBN_DEFAULT_COSMETIC_SEPERATOR"></a>
+	<h3>ISBN_DEFAULT_COSMETIC_SEPERATOR <span class="smalllinenumber">[line <a href="../__filesource/fsource_ISBN__ISBN.php.html#a68">68</a>]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ISBN_DEFAULT_COSMETIC_SEPERATOR = '-'</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+  <hr />
+	<a name="defineISBN_DEFAULT_INPUTVERSION"></a>
+	<h3>ISBN_DEFAULT_INPUTVERSION <span class="smalllinenumber">[line <a href="../__filesource/fsource_ISBN__ISBN.php.html#a64">64</a>]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ISBN_DEFAULT_INPUTVERSION = ISBN_VERSION_UNKNOWN</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+  <hr />
+	<a name="defineISBN_DEFAULT_PRINT_LANG_SPECIFIC_PREFIX"></a>
+	<h3>ISBN_DEFAULT_PRINT_LANG_SPECIFIC_PREFIX <span class="smalllinenumber">[line <a href="../__filesource/fsource_ISBN__ISBN.php.html#a79">79</a>]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ISBN_DEFAULT_PRINT_LANG_SPECIFIC_PREFIX = ''</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+  <hr />
+	<a name="defineISBN_VERSION_ISBN_10"></a>
+	<h3>ISBN_VERSION_ISBN_10 <span class="smalllinenumber">[line <a href="../__filesource/fsource_ISBN__ISBN.php.html#a56">56</a>]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ISBN_VERSION_ISBN_10 = 10</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+  <hr />
+	<a name="defineISBN_VERSION_ISBN_13"></a>
+	<h3>ISBN_VERSION_ISBN_13 <span class="smalllinenumber">[line <a href="../__filesource/fsource_ISBN__ISBN.php.html#a57">57</a>]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ISBN_VERSION_ISBN_13 = 13978</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+  <hr />
+	<a name="defineISBN_VERSION_ISBN_13_978"></a>
+	<h3>ISBN_VERSION_ISBN_13_978 <span class="smalllinenumber">[line <a href="../__filesource/fsource_ISBN__ISBN.php.html#a58">58</a>]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ISBN_VERSION_ISBN_13_978 = ISBN_VERSION_ISBN_13</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+  <hr />
+	<a name="defineISBN_VERSION_ISBN_13_979"></a>
+	<h3>ISBN_VERSION_ISBN_13_979 <span class="smalllinenumber">[line <a href="../__filesource/fsource_ISBN__ISBN.php.html#a59">59</a>]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ISBN_VERSION_ISBN_13_979 = 13979</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+  <hr />
+	<a name="defineISBN_VERSION_NONE"></a>
+	<h3>ISBN_VERSION_NONE <span class="smalllinenumber">[line <a href="../__filesource/fsource_ISBN__ISBN.php.html#a50">50</a>]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ISBN_VERSION_NONE = false</code>
+    </td></tr></table>
+    </td></tr></table>
+
+    ISBN Versions supported<br /><br />    <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+  <hr />
+	<a name="defineISBN_VERSION_UNKNOWN"></a>
+	<h3>ISBN_VERSION_UNKNOWN <span class="smalllinenumber">[line <a href="../__filesource/fsource_ISBN__ISBN.php.html#a55">55</a>]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ISBN_VERSION_UNKNOWN = 0</code>
+    </td></tr></table>
+    </td></tr></table>
+
+    VERSION_UNKNOWN is by the caller only, this shall never<br /><br /><p>be a value returned by a public function or getter</p><br />    <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+<br />
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Tue, 06 Mar 2007 01:03:02 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.1</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

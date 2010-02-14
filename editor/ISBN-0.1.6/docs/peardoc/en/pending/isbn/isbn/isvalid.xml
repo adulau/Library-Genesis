@@ -1,0 +1,35 @@
+<refentry id="package.pending.isbn.isbn.isvalid">
+ <refnamediv>
+  <refname>
+   <function>ISBN::isValid</function>
+  </refname>
+  <refpurpose>Returns this ISBN validity</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <funcsynopsis>
+   <funcsynopsisinfo>require_once &apos;/ISBN.php&apos;;</funcsynopsisinfo>
+   <funcprototype>
+    <funcdef>
+     boolean
+     <function>ISBN::isValid</function>
+    </funcdef>
+    <paramdef />
+   </funcprototype>
+  </funcsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="package.pending.isbn.isbn.isvalid.desc">
+  &title.desc;
+  &notdocumented;
+</refsect1>
+ <refsect1 id="package.pending.isbn.isbn.isvalid.throws">
+  &title.throws;
+  <para>
+   <emphasis>throws</emphasis>
+   no exceptions thrown
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.isvalid.note">
+  &title.note;
+  &note.notstatic;
+</refsect1>
+</refentry>

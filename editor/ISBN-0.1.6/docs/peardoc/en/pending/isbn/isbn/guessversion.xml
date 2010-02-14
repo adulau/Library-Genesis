@@ -1,0 +1,68 @@
+<refentry id="package.pending.isbn.isbn.guessversion">
+ <refnamediv>
+  <refname>
+   <function>ISBN::guessVersion</function>
+  </refname>
+  <refpurpose>Guesses ISBN version of passed string</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <funcsynopsis>
+   <funcsynopsisinfo>require_once &apos;/ISBN.php&apos;;</funcsynopsisinfo>
+   <funcprototype>
+    <funcdef>
+     <replaceable>integer|&false;</replaceable>
+     <function>ISBN::guessVersion</function>
+    </funcdef>
+    <paramdef>
+     string
+     <parameter>$isbn</parameter>
+    </paramdef>
+   </funcprototype>
+  </funcsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="package.pending.isbn.isbn.guessversion.desc">
+  &title.desc;
+  <para>Note: This is not Validation. To get the validated  version of an ISBN Number use self::validate();</para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.guessversion.param">
+  &title.param;
+  <para>
+   <variablelist>
+    <varlistentry>
+     <term>
+      &type.string;
+      <parameter>$isbn</parameter>
+     </term>
+     <listitem>
+      <para>ISBN Number to guess Version of</para>
+     </listitem>
+    </varlistentry>
+   </variablelist>
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.guessversion.returns">
+  &title.returns;
+  <para>
+   <emphasis>returns</emphasis>
+   Version Value or false if failed
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.guessversion.throws">
+  &title.throws;
+  <para>
+   <emphasis>throws</emphasis>
+   no exceptions thrown
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.guessversion.see">
+  &title.see;
+  <para>
+   <emphasis>see</emphasis>
+   validate();
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.guessversion.note">
+  &title.note;
+  &note.notstatic;
+</refsect1>
+</refentry>

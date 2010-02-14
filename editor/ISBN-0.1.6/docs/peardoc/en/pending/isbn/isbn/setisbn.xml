@@ -1,0 +1,57 @@
+<refentry id="package.pending.isbn.isbn.setisbn">
+ <refnamediv>
+  <refname>
+   <function>ISBN::setISBN</function>
+  </refname>
+  <refpurpose>Setter for ISBN</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <funcsynopsis>
+   <funcsynopsisinfo>require_once &apos;/ISBN.php&apos;;</funcsynopsisinfo>
+   <funcprototype>
+    <funcdef>
+     void
+     <function>ISBN::setISBN</function>
+    </funcdef>
+    <paramdef>
+     string
+     <parameter>$isbn</parameter>
+    </paramdef>
+   </funcprototype>
+  </funcsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="package.pending.isbn.isbn.setisbn.desc">
+  &title.desc;
+  &notdocumented;
+</refsect1>
+ <refsect1 id="package.pending.isbn.isbn.setisbn.param">
+  &title.param;
+  <para>
+   <variablelist>
+    <varlistentry>
+     <term>
+      &type.string;
+      <parameter>$isbn</parameter>
+     </term>
+     <listitem>
+      <para>
+       ISBN Number           this is a valid ISBN Number or it is an Empty string
+       which will reset the class
+</para>
+     </listitem>
+    </varlistentry>
+   </variablelist>
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.setisbn.throws">
+  &title.throws;
+  <para>
+   <emphasis>throws</emphasis>
+   ISBN_Exception in case it fails
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.setisbn.note">
+  &title.note;
+  &note.notstatic;
+</refsect1>
+</refentry>
