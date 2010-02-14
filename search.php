@@ -27,18 +27,19 @@
 	$torrents = "<a href='http://free-books.dontexist.com/repository_torrent/'>Torrents</a>";
 	$source = "<a href='http://free-books.dontexist.com/code/'>Code</a>";
 	$dbdump = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/'>Dump (Daily)</a>";
-	$donate = "";//"<a href='http://lib.rus.ec/donate'>Donate</a>";
+	$donate = "<a href='http://lib.rus.ec/donate'>Donate</a>";
         $export = "<a href='http://free-books.dontexist.com/export/'>Import your books to LibGen</a>";
 	$forum = "<a href='http://gen.lib.rus.ec/forum/'>Forum</a>";
         $upload = "<a href='http://free-books.dontexist.com/librarian/'>Upload &amp; edit</a>";
+        $ftp1 = "<a href='ftp://free-books.dontexist.com/genesis/!Repository/'>FTP1</a>";
+        $ftp2 = "<a href='ftp://free-books.dontexist.com/genesis2/!reposithoty2/'>FTP2</a>";
 	//$master = "bookwarrior";
 	$footer = "</tr></table>\n";
 
 	$toolbar = "
 <table height=100% width=100% cellspacing=0 cellpadding=0>
 <tr>
-<td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1} // {$torrents} // {$source} // {$dbdump} // {$export} // {$forum} // {$upload}</font></b></td>
-<td align=right><b><font face=Arial size=2 color={$textcol1}>{$donate}</font></b></td>
+<td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1} // {$torrents} // {$source} // {$dbdump} // {$export} // {$forum} // {$upload} // {$ftp1} // {$ftp2}</font></b></td>
 </tr>
 </table>";
 
@@ -74,7 +75,7 @@
 		$searchbody = "<table cellspacing=0 width=100% height=100%>
 		<th colspan=3 height=30 align=left>{$toolbar}</th>
 		<tr><td height=27% width=35% valign=top align=left></td><td></td><td width=35% valign=top align=right></td></tr>
-		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>110k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
+		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>186k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
 		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td>";
 
 		//echo $toolbar;
@@ -217,6 +218,7 @@
 		$publisher = stripslashes($row['Publisher']);
 		$year = $row['Year'];
 		$pages = $row['Pages'];
+                $series = stripslashes($row['Series']);
 		$lang = stripslashes($row['Language']);
 		$ident = stripslashes($row['Identifier']);
 		$edition = stripslashes($row['Edition']);
@@ -294,7 +296,7 @@
 		$tip = "ID: $row[ID]; $tiplib; Location: $repdir/$tipdir";
 		$line = "<tr valign=top bgcolor=$color><td>$ires.</td>
 		<td><a href='librarian/registration?md5=$row[MD5]'>[edit]</a></td>
-		<td nowrap><a href='get?nametype=$dlnametype&md5=$row[MD5]' title='$tip' id=$ires>$title$volume$volstamp</a></td>
+		<td nowrap><a href='get?nametype=$dlnametype&md5=$row[MD5]' title='$tip'>{$series}. {$title}$volume$volstamp</a></td>
 		<td nowrap>$author</td>
 		<td nowrap>$size</td>
 		<td nowrap>$ext</td>
