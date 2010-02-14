@@ -28,11 +28,11 @@
 	$source = "<a href='http://free-books.dontexist.com/code/'>Code</a>";
 	$dbdump = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/'>Dump (Daily)</a>";
 	$donate = "<a href='http://lib.rus.ec/donate'>Donate</a>";
-        $export = "<a href='http://free-books.dontexist.com/export/'>Import your books to LibGen</a>";
+    $export = "<a href='http://free-books.dontexist.com/export/'>Import your books to LibGen</a>";
 	$forum = "<a href='http://gen.lib.rus.ec/forum/'>Forum</a>";
-        $upload = "<a href='http://free-books.dontexist.com/librarian/'>Upload &amp; edit</a>";
-        $ftp1 = "<a href='ftp://free-books.dontexist.com/genesis/!Repository/'>FTP1</a>";
-        $ftp2 = "<a href='ftp://free-books.dontexist.com/genesis2/!reposithoty2/'>FTP2</a>";
+    $upload = "<a href='http://free-books.dontexist.com/librarian/'>Upload &amp; edit</a>";
+    $ftp1 = "<a href='ftp://free-books.dontexist.com/genesis/!Repository/'>FTP1</a>";
+    $ftp2 = "<a href='ftp://free-books.dontexist.com/genesis2/!reposithoty2/'>FTP2</a>";
 	//$master = "bookwarrior";
 	$footer = "</tr></table>\n";
 
@@ -101,10 +101,10 @@
 
 	$sql_end = " ORDER BY Title LIMIT $from, $lines";
 	$search_words = explode(' ', $req);
-        $search_fields = "CONCAT(Author, Title) LIKE '%"; 
-        $search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
-        $search_isbn = "Identifier LIKE '%$req%'";
-        $sql_mid = "FROM $dbtable WHERE ((($search_core) OR $search_isbn) AND Filename!='' AND Generic='')";
+    $search_fields = "CONCAT(Author, Title, Series, Publisher) LIKE '%"; 
+    $search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
+    $search_isbn = "Identifier LIKE '%$req%'";
+    $sql_mid = "FROM $dbtable WHERE ((($search_core) OR $search_isbn) AND Filename!='' AND Generic='')";
 	$sql_req = "SELECT * ".$sql_mid.$sql_end;
 	$sql_cnt = "SELECT COUNT(*) ".$sql_mid;
 
@@ -218,13 +218,20 @@
 		$publisher = stripslashes($row['Publisher']);
 		$year = $row['Year'];
 		$pages = $row['Pages'];
-                $series = stripslashes($row['Series']);
+        $series = stripslashes($row['Series']);
 		$lang = stripslashes($row['Language']);
 		$ident = stripslashes($row['Identifier']);
 		$edition = stripslashes($row['Edition']);
 		$ext = stripslashes($row['Extension']);
 		$library = stripslashes($row['Library']);
         $filename = stripslashes($row['Filename']);
+        
+        $bookname = '';
+        if ($series <> '') {
+            $bookname = "<font face=Times color=green><i>($series) </i></font>";
+        }
+        
+        $bookname = $bookname.$title;
 
 		$size = $row['Filesize'];
 		if ($size >= 1024*1024*1024){
@@ -296,7 +303,7 @@
 		$tip = "ID: $row[ID]; $tiplib; Location: $repdir/$tipdir";
 		$line = "<tr valign=top bgcolor=$color><td>$ires.</td>
 		<td><a href='librarian/registration?md5=$row[MD5]'>[edit]</a></td>
-		<td nowrap><a href='get?nametype=$dlnametype&md5=$row[MD5]' title='$tip'>{$series}. {$title}$volume$volstamp</a></td>
+		<td nowrap><a href='get?nametype=$dlnametype&md5=$row[MD5]' title='$tip'>{$bookname}$volume$volstamp</a></td>
 		<td nowrap>$author</td>
 		<td nowrap>$size</td>
 		<td nowrap>$ext</td>
