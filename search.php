@@ -303,7 +303,7 @@
 		$tip = "ID: $row[ID]; $tiplib; Location: $repdir/$tipdir";
 		$line = "<tr valign=top bgcolor=$color><td>$ires.</td>
 		<td><a href='librarian/registration?md5=$row[MD5]'>[edit]</a></td>
-		<td nowrap><a href='get?nametype=$dlnametype&md5=$row[MD5]' title='$tip'>{$bookname}$volume$volstamp</a></td>
+		<td nowrap><a href='get?nametype=$dlnametype&md5=$row[MD5]' title='$tip' id=$ires>{$bookname}$volume$volstamp</a></td>
 		<td nowrap>$author</td>
 		<td nowrap>$size</td>
 		<td nowrap>$ext</td>
