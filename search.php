@@ -14,7 +14,8 @@
 
 		$req_htm = htmlspecialchars($_GET['req'],ENT_QUOTES);
 		$req_htm_enc = urlencode($_GET['req']);
-        $dlnametype = $_GET['nametype'];
+        if( isset($_GET['nametype'])) $dlnametype = $_GET['nametype'];
+        else $dlnametype = "md5"; // в строке €вно Ќ≈ указан тип - скорее всего ожидаетс€ md5, в соответствии со старой версией
 	} else {
 		$req_htm = "";
         $dlnametype = "orig";

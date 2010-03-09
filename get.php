@@ -42,7 +42,9 @@
 	if (!file_exists($fullfilename))
 		die($htmlhead."<font color='#A00000'><h1>File not found!</h1></font>Please, report to the administrator.".$htmlfoot);    
     
-    $nametype = $_GET['nametype'];
+    if (isset($_GET['nametype']) ) $nametype = $_GET['nametype'];
+    else $nametype = 'md5'; //тип явно не указан, вероятнее всего ожидается md5
+    
     if (($nametype == '') || ($nametype == 'md5')) {
         $downloadname = basename($fullfilename);
     } elseif ($nametype == 'orig') {
