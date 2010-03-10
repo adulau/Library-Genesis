@@ -12,7 +12,8 @@
         
         $repdir=$repository[''];
         foreach  ($repository as $key => $value) {
-            if(!isset($key)) {
+            if(!isset($key) or $key=='') {
+              // $key can't be not set, but it can be empty, in which case we skip it - it's the default value
               continue;
             }
             
