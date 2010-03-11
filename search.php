@@ -100,7 +100,7 @@
 
 	if ($from < $maxlines - $lines) $from = 0;
 
-	$sql_end = " ORDER BY Title LIMIT $from, $lines";
+	$sql_end = " ORDER BY Series, Title, Author, Edition, Volumeinfo LIMIT $from, $lines";
 	$search_words = explode(' ', $req);
     $search_fields = "CONCAT(Author, Title, Series, Publisher) LIKE '%"; 
     $search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
