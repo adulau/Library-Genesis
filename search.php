@@ -105,7 +105,7 @@
     $search_fields = "CONCAT(Author, Title, Series, Publisher) LIKE '%"; 
     $search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
     $search_isbn = "Identifier LIKE '%$req%'";
-    $sql_mid = "FROM $dbtable WHERE ((($search_core) OR $search_isbn) AND Filename!='' AND Generic='')";
+    $sql_mid = "FROM $dbtable WHERE ((($search_core) OR $search_isbn) AND Filename!='' AND Generic='' AND Visible='')";
 	$sql_req = "SELECT * ".$sql_mid.$sql_end;
 	$sql_cnt = "SELECT COUNT(*) ".$sql_mid;
 
