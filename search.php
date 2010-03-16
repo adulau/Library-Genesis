@@ -29,18 +29,21 @@
 	$source = "<a href='http://free-books.dontexist.com/code/'>Code</a>";
 	$dbdump = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/'>Dump (Daily)</a>";
 	$donate = "<a href='http://lib.rus.ec/donate'>Donate</a>";
-    $export = "<a href='http://free-books.dontexist.com/export/'>Import your books to LibGen</a>";
+        $export = "<a href='http://free-books.dontexist.com/export/'>Import your books to LibGen</a>";
 	$forum = "<a href='http://gen.lib.rus.ec/forum/'>Forum</a>";
-    $upload = "<a href='http://free-books.dontexist.com/librarian/'>Upload &amp; edit</a>";
-    $ftp1 = "<a href='ftp://free-books.dontexist.com/genesis/!Repository/'>FTP1</a>";
-    $ftp2 = "<a href='ftp://free-books.dontexist.com/genesis2/!reposithoty2/'>FTP2</a>";
+        $upload = "<a href='http://free-books.dontexist.com/librarian/'>Single Upload &amp; edit</a>";
+        $batchupload = "<a href='http://free-books.dontexist.com/batchupload/'>Batch Upload</a>";
+        $ftp1 = "<a href='ftp://free-books.dontexist.com/genesis/!Repository/'>FTP1</a>";
+        $ftp2 = "<a href='ftp://free-books.dontexist.com/genesis2/!reposithoty2/'>FTP2</a>";
+        $comics = "<a href='http://free-books.dontexist.com/comics/'>Comics</a>";
+        $sitemap = "<a href='http://gen.lib.rus.ec/forum/viewtopic.php?p=9000/'>Sitemap</a>";
 	//$master = "bookwarrior";
 	$footer = "</tr></table>\n";
 
 	$toolbar = "
 <table height=100% width=100% cellspacing=0 cellpadding=0>
 <tr>
-<td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1} // {$torrents} // {$source} // {$dbdump} // {$export} // {$forum} // {$upload} // {$ftp1} // {$ftp2}</font></b></td>
+<td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1} // {$torrents} // {$source} // {$dbdump} // {$export} // {$forum} // {$upload} // {$batchupload} // {$ftp1} // {$ftp2} // {$comics} // {$sitemap}</font></b></td>
 </tr>
 </table>";
 
@@ -65,9 +68,7 @@
     <label for='Original'>Original</label>
     <input type=radio name='nametype' id='md5' value='md5' ".$dlnametypes['md5']." onclick=radioOnClick('md5') />
     <label for='Md5'>Md5</label>
-    <input type=radio name='nametype' id='translit' value='translit' ".$dlnametypes['translit']." onclick=radioOnClick('translit') />
-    <label for='Translit'>Translit</label>
-	</form>";
+    	</form>";
 
 	echo $htmlheadfocus;
 
@@ -76,7 +77,7 @@
 		$searchbody = "<table cellspacing=0 width=100% height=100%>
 		<th colspan=3 height=30 align=left>{$toolbar}</th>
 		<tr><td height=27% width=35% valign=top align=left></td><td></td><td width=35% valign=top align=right></td></tr>
-		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>186k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
+		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>220k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
 		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td>";
 
 		//echo $toolbar;
@@ -100,9 +101,9 @@
 
 	if ($from < $maxlines - $lines) $from = 0;
 
-	$sql_end = " ORDER BY Series, Title, Author, Edition, Volumeinfo LIMIT $from, $lines";
+	$sql_end = " ORDER BY Periodical, Series, Title, Author, Edition, Volumeinfo LIMIT $from, $lines";
 	$search_words = explode(' ', $req);
-    $search_fields = "CONCAT(Author, Title, Series, Publisher) LIKE '%"; 
+    $search_fields = "CONCAT(Author, Title, Series, Publisher, MD5, Periodical) LIKE '%"; 
     $search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
     $search_isbn = "Identifier LIKE '%$req%'";
     $sql_mid = "FROM $dbtable WHERE ((($search_core) OR $search_isbn) AND Filename!='' AND Generic='' AND Visible='')";
@@ -219,6 +220,7 @@
 		$publisher = stripslashes($row['Publisher']);
 		$year = $row['Year'];
 		$pages = $row['Pages'];
+        $periodical = stripslashes($row['Periodical']);
         $series = stripslashes($row['Series']);
 		$lang = stripslashes($row['Language']);
 		$ident = stripslashes($row['Identifier']);
@@ -232,7 +234,12 @@
             $bookname = "<font face=Times color=green><i>($series) </i></font>";
         }
         
-        $bookname = $bookname.$title;
+        $bookname1 = '';
+        if ($periodical <> '') {
+            $bookname1 = "<font face=Times color=Red><i>$periodical </i></font>";
+        }
+
+        $bookname = $bookname1.$bookname.$title;
 
 		$size = $row['Filesize'];
 		if ($size >= 1024*1024*1024){
