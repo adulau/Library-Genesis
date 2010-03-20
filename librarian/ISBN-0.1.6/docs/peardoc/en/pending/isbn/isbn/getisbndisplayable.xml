@@ -1,0 +1,75 @@
+<refentry id="package.pending.isbn.isbn.getisbndisplayable">
+ <refnamediv>
+  <refname>
+   <function>ISBN::getISBNDisplayable</function>
+  </refname>
+  <refpurpose>Get whole ISBN Number in a displayable fashion (see Handbook p. 15)</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <funcsynopsis>
+   <funcsynopsisinfo>require_once &apos;/ISBN.php&apos;;</funcsynopsisinfo>
+   <funcprototype>
+    <funcdef>
+     string
+     <function>ISBN::getISBNDisplayable</function>
+    </funcdef>
+    <paramdef>
+     string
+     <parameter>
+      <optional>$format = &apos;&apos;</optional>
+     </parameter>
+    </paramdef>
+   </funcprototype>
+  </funcsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="package.pending.isbn.isbn.getisbndisplayable.desc">
+  &title.desc;
+  &notdocumented;
+</refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getisbndisplayable.param">
+  &title.param;
+  <para>
+   <variablelist>
+    <varlistentry>
+     <term>
+      &type.string;
+      <parameter>$format</parameter>
+     </term>
+     <listitem>
+      <para>
+       Formatstring 1-4 Chars:                each character is a control char:
+       #1 i or not: use international pre-prefix                #2 i
+       or not: &quot;ISBN&quot; in front or v: incl. version                #3 :
+       or not: insert a &quot;:&quot;                #4 - or not: use - after EAN
+       (ISBN 13 only)                #4 or =: use - between each ISBN part
+       Example 1:                   &apos;   --&apos; 978-0-385-33941-4
+       classic displayable ISBN                Example 2:
+       &apos; v:-&apos; ISBN-13: 978-0385339414
+       ISBN-Format used by amazon                Example 3:
+       &apos;iv:=&apos; ISBN-13: 978-0-385-33941-4                   full blown:
+       more is more!
+</para>
+     </listitem>
+    </varlistentry>
+   </variablelist>
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getisbndisplayable.returns">
+  &title.returns;
+  <para>
+   <emphasis>returns</emphasis>
+   ISBN Number (formatted); empty string if this is                 not a valid ISBN
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getisbndisplayable.throws">
+  &title.throws;
+  <para>
+   <emphasis>throws</emphasis>
+   no exceptions thrown
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getisbndisplayable.note">
+  &title.note;
+  &note.notstatic;
+</refsect1>
+</refentry>

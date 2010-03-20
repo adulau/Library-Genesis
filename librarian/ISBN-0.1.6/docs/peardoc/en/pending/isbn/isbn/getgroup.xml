@@ -1,0 +1,42 @@
+<refentry id="package.pending.isbn.isbn.getgroup">
+ <refnamediv>
+  <refname>
+   <function>ISBN::getGroup</function>
+  </refname>
+  <refpurpose>Get the Registrationgroup Part of the ISBN Number</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <funcsynopsis>
+   <funcsynopsisinfo>require_once &apos;/ISBN.php&apos;;</funcsynopsisinfo>
+   <funcprototype>
+    <funcdef>
+     <replaceable>string|&false;</replaceable>
+     <function>ISBN::getGroup</function>
+    </funcdef>
+    <paramdef />
+   </funcprototype>
+  </funcsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="package.pending.isbn.isbn.getgroup.desc">
+  &title.desc;
+  &notdocumented;
+</refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getgroup.returns">
+  &title.returns;
+  <para>
+   <emphasis>returns</emphasis>
+   Group Identifier or false if failed
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getgroup.throws">
+  &title.throws;
+  <para>
+   <emphasis>throws</emphasis>
+   no exceptions thrown
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getgroup.note">
+  &title.note;
+  &note.notstatic;
+</refsect1>
+</refentry>

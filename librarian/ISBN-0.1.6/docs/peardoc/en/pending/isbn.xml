@@ -1,0 +1,77 @@
+<sect1 id="package.pending.isbn">
+ <title>ISBN</title>
+ <refentry id="package.pending.isbn.isbn-summary">
+  <refnamediv>
+   <refname>
+    Class Summary
+    <classname>ISBN</classname>
+   </refname>
+   <refpurpose>ISBN class</refpurpose>
+  </refnamediv>
+  <refsect1>
+   <title>ISBN class</title>
+   <para>Class to Handle, Convert and Validate ISBN Numbers</para>
+  </refsect1>
+  <refsect1>
+   <title>
+    Class Trees for
+    <classname>ISBN</classname>
+   </title>
+   <para>
+    <itemizedlist>
+     <listitem>
+      <para>ISBN</para>
+     </listitem>
+    </itemizedlist>
+   </para>
+  </refsect1>
+ </refentry>
+ &package.pending.isbn.isbn.--construct;
+&package.pending.isbn.isbn.convert;
+&package.pending.isbn.isbn.getcheckdigit;
+&package.pending.isbn.isbn.getean;
+&package.pending.isbn.isbn.getgroup;
+&package.pending.isbn.isbn.getisbn;
+&package.pending.isbn.isbn.getisbndisplayable;
+&package.pending.isbn.isbn.getpublisher;
+&package.pending.isbn.isbn.gettitle;
+&package.pending.isbn.isbn.getversion;
+&package.pending.isbn.isbn.guessversion;
+&package.pending.isbn.isbn.isvalid;
+&package.pending.isbn.isbn.setisbn;
+&package.pending.isbn.isbn.validate;
+ <refentry id="package.pending.isbn.isbn-exception-summary">
+  <refnamediv>
+   <refname>
+    Class Summary
+    <classname>ISBN_Exception</classname>
+   </refname>
+   <refpurpose>ISBN_Exception class</refpurpose>
+  </refnamediv>
+  <refsect1>
+   <title>ISBN_Exception class</title>
+   &notdocumented;
+  </refsect1>
+  <refsect1>
+   <title>
+    Class Trees for
+    <classname>ISBN_Exception</classname>
+   </title>
+   <para>
+    <itemizedlist>
+     <listitem>
+      <para>
+       PEAR_Exception
+       <itemizedlist>
+        <listitem>
+         <para>ISBN_Exception</para>
+        </listitem>
+       </itemizedlist>
+      </para>
+     </listitem>
+    </itemizedlist>
+   </para>
+  </refsect1>
+ </refentry>
+ &package.pending.isbn.constants;
+</sect1>

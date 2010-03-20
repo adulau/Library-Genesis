@@ -1,0 +1,74 @@
+<refentry id="package.pending.isbn.isbn.--construct">
+ <refnamediv>
+  <refname>
+   constructor
+   <function>ISBN::__construct</function>
+  </refname>
+  <refpurpose>Constructor</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <funcsynopsis>
+   <funcsynopsisinfo>require_once &apos;/ISBN.php&apos;;</funcsynopsisinfo>
+   <funcprototype>
+    <funcdef>
+     void      constructor
+     <function>ISBN::__construct</function>
+    </funcdef>
+    <paramdef>
+     array
+     <parameter>
+      <optional>$isbn = &apos;&apos;</optional>
+     </parameter>
+    </paramdef>
+    <paramdef>
+     mixed
+     <parameter>
+      <optional>$ver = ISBN_DEFAULT_INPUTVERSION</optional>
+     </parameter>
+    </paramdef>
+   </funcprototype>
+  </funcsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="package.pending.isbn.isbn.--construct.desc">
+  &title.desc;
+  &notdocumented;
+</refsect1>
+ <refsect1 id="package.pending.isbn.isbn.--construct.param">
+  &title.param;
+  <para>
+   <variablelist>
+    <varlistentry>
+     <term>
+      &type.array;
+      <parameter>$isbn</parameter>
+     </term>
+     <listitem>
+      <para>String of ISBN Value to use</para>
+     </listitem>
+    </varlistentry>
+   </variablelist>
+   <variablelist>
+    <varlistentry>
+     <term>
+      &type.mixed;
+      <parameter>$ver</parameter>
+     </term>
+     <listitem>
+      <para>Optional Version Constant</para>
+     </listitem>
+    </varlistentry>
+   </variablelist>
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.--construct.throws">
+  &title.throws;
+  <para>
+   <emphasis>throws</emphasis>
+   ISBN_Exception in case it fails
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.--construct.note">
+  &title.note;
+  &note.notstatic;
+</refsect1>
+</refentry>

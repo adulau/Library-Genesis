@@ -1,0 +1,7 @@
+<chapter id="package.pending">
+ <title>pending</title>
+ &package.pending.default;
+&package.pending.isbn;
+ &package.Pending.default;
+ &package.Pending.isbn;
+</chapter>

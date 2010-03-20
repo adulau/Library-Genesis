@@ -1,0 +1,78 @@
+<refentry id="package.pending.isbn.isbn.validate">
+ <refnamediv>
+  <refname>
+   <function>ISBN::validate</function>
+  </refname>
+  <refpurpose>Validates an ISBN</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <funcsynopsis>
+   <funcsynopsisinfo>require_once &apos;/ISBN.php&apos;;</funcsynopsisinfo>
+   <funcprototype>
+    <funcdef>
+     <replaceable>integer|&false;</replaceable>
+     <function>ISBN::validate</function>
+    </funcdef>
+    <paramdef>
+     string
+     <parameter>$isbn</parameter>
+    </paramdef>
+    <paramdef>
+     integer
+     <parameter>
+      <optional>$ver = ISBN_DEFAULT_INPUTVERSION</optional>
+     </parameter>
+    </paramdef>
+   </funcprototype>
+  </funcsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="package.pending.isbn.isbn.validate.desc">
+  &title.desc;
+  &notdocumented;
+</refsect1>
+ <refsect1 id="package.pending.isbn.isbn.validate.param">
+  &title.param;
+  <para>
+   <variablelist>
+    <varlistentry>
+     <term>
+      &type.string;
+      <parameter>$isbn</parameter>
+     </term>
+     <listitem>
+      <para>ISBN to validate</para>
+     </listitem>
+    </varlistentry>
+   </variablelist>
+   <variablelist>
+    <varlistentry>
+     <term>
+      &type.int;
+      <parameter>$ver</parameter>
+     </term>
+     <listitem>
+      <para>ISBN-Version to validate against</para>
+     </listitem>
+    </varlistentry>
+   </variablelist>
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.validate.returns">
+  &title.returns;
+  <para>
+   <emphasis>returns</emphasis>
+   Version value of a valid ISBN or false                           if it did not validate
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.validate.throws">
+  &title.throws;
+  <para>
+   <emphasis>throws</emphasis>
+   no exceptions thrown
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.validate.note">
+  &title.note;
+  &note.notstatic;
+</refsect1>
+</refentry>

@@ -1,0 +1,73 @@
+<refentry id="package.pending.isbn.constants">
+ <refnamediv>
+  <refname>Package ISBN Constants</refname>
+  <refpurpose>Constants defined in and used by ISBN</refpurpose>
+ </refnamediv>
+ <refsect1 id="package.pending.isbn.constants.details">
+  <title>All Constants</title>
+  <refsect2 id="package.pending.isbn.constants.details.isbn---php">
+   <title>Constants defined in ISBN.php</title>
+   <para>
+    <table>
+     <title>Constants defined in ISBN.php</title>
+     <tgroup cols="3">
+      <thead>
+       <row>
+        <entry>Name</entry>
+        <entry>Value</entry>
+        <entry>Line Number</entry>
+       </row>
+      </thead>
+      <tbody>
+       <row>
+        <entry>ISBN_DEFAULT_COSMETIC_SEPERATOR</entry>
+        <entry>&apos;-&apos;</entry>
+        <entry>68</entry>
+       </row>
+       <row>
+        <entry>ISBN_DEFAULT_INPUTVERSION</entry>
+        <entry>ISBN_VERSION_UNKNOWN</entry>
+        <entry>64</entry>
+       </row>
+       <row>
+        <entry>ISBN_DEFAULT_PRINT_LANG_SPECIFIC_PREFIX</entry>
+        <entry>&apos;&apos;</entry>
+        <entry>79</entry>
+       </row>
+       <row>
+        <entry>ISBN_VERSION_ISBN_10</entry>
+        <entry>10</entry>
+        <entry>56</entry>
+       </row>
+       <row>
+        <entry>ISBN_VERSION_ISBN_13</entry>
+        <entry>13978</entry>
+        <entry>57</entry>
+       </row>
+       <row>
+        <entry>ISBN_VERSION_ISBN_13_978</entry>
+        <entry>ISBN_VERSION_ISBN_13</entry>
+        <entry>58</entry>
+       </row>
+       <row>
+        <entry>ISBN_VERSION_ISBN_13_979</entry>
+        <entry>13979</entry>
+        <entry>59</entry>
+       </row>
+       <row>
+        <entry>ISBN_VERSION_NONE</entry>
+        <entry>false</entry>
+        <entry>50</entry>
+       </row>
+       <row>
+        <entry>ISBN_VERSION_UNKNOWN</entry>
+        <entry>0</entry>
+        <entry>55</entry>
+       </row>
+      </tbody>
+     </tgroup>
+    </table>
+   </para>
+  </refsect2>
+ </refsect1>
+</refentry>

@@ -1,0 +1,42 @@
+<refentry id="package.pending.isbn.isbn.getversion">
+ <refnamediv>
+  <refname>
+   <function>ISBN::getVersion</function>
+  </refname>
+  <refpurpose>Returns version of this objects ISBN</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <funcsynopsis>
+   <funcsynopsisinfo>require_once &apos;/ISBN.php&apos;;</funcsynopsisinfo>
+   <funcprototype>
+    <funcdef>
+     <replaceable>integer|&false;</replaceable>
+     <function>ISBN::getVersion</function>
+    </funcdef>
+    <paramdef />
+   </funcprototype>
+  </funcsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="package.pending.isbn.isbn.getversion.desc">
+  &title.desc;
+  &notdocumented;
+</refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getversion.returns">
+  &title.returns;
+  <para>
+   <emphasis>returns</emphasis>
+   Version value or ISBN_VERSION_NONE
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getversion.throws">
+  &title.throws;
+  <para>
+   <emphasis>throws</emphasis>
+   no exceptions thrown
+  </para>
+ </refsect1>
+ <refsect1 id="package.pending.isbn.isbn.getversion.note">
+  &title.note;
+  &note.notstatic;
+</refsect1>
+</refentry>
