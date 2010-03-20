@@ -1,8 +1,0 @@
-DirectoryIndex registration
-Options +MultiViews
-
-AuthType Basic
-AuthName "Enter login and password"
-AuthUserFile "C:\Program Files\Apache Software Foundation\Apache2.2\htdocs\librarian\.htpasswd"
-AuthGroupFile "C:\Program Files\Apache Software Foundation\Apache2.2\htdocs\librarian\.htgroups"
-Require group genesis
