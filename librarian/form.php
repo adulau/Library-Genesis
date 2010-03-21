@@ -26,8 +26,9 @@
 	$udc = '';
 	$lbc = '';
 	$bookcode = '';
+    
 	// form 1 or 2 submitted?
-	if ($_POST['Form'] == 1)
+	if ($_POST['Form'] == 1) //new record
 	{
 		if (trim($_FILES['uploadedfile']['name']) == '')
 			die($htmlhead."<font color='#A00000'><h1>No file selected</h1></font>Use 'Browse...' to choose a file on your computer, then 'Send!' to upload it.<br><a href='registration.php'>Return to the last page</a> and try again!".$htmlfoot);
@@ -43,7 +44,7 @@
 		if (is_null($fileext))
 			die($htmlhead."<font color='#A00000'><h1>Error</h1></font>Cannot upload a file with no extension. Assign one and try again!".$htmlfoot);
 	}
-	else
+	elseif ($_POST['Form'] == 2) //edit record
 	{
 		if (strlen($_POST['MD5']) != 32)
 			die($htmlhead."<font color='#A00000'><h1>Wrong MD5</h1></font>MD5-hashsum must contain 32 symbols.<br>Check it and <a href='registration.php'>try again</a>.<p><h2>Thank you!</h2>".$htmlfoot);
@@ -54,9 +55,15 @@
 		$filesize = 0;
 		$fileext = '';
 	}
+    else
+    {
+      die($htmlhead."<font color='#A00000'><h1>Internal error</h1></font>The server experiecned an internal error. Try again.<p><h2>Thank you!</h2>".$htmlfoot);
+    }
 
 	// now look up in the database
-	$sql="SELECT * FROM $dbtable WHERE MD5='$md5'";
+	$sql="SELECT DISTINCT $db.$dbtable.*, $db.$descrtable.descr 
+          FROM $db.$dbtable LEFT JOIN $db.$descrtable ON $db.$dbtable.md5 = $db.$descrtable.md5
+          WHERE $db.$dbtable.MD5='$md5'";
 	$result = mysql_query($sql,$con);
 	if (!$result)
 	{
@@ -82,7 +89,7 @@
 		$volinfo = htmlspecialchars($rows['VolumeInfo'],ENT_QUOTES);
 		$year = $rows['Year'];
 		$publisher = htmlspecialchars($rows['Publisher'],ENT_QUOTES);
-                $city = htmlspecialchars($rows['City'],ENT_QUOTES);
+        $city = htmlspecialchars($rows['City'],ENT_QUOTES);
 		$edition = htmlspecialchars($rows['Edition'],ENT_QUOTES);
 		$pages = htmlspecialchars($rows['Pages'],ENT_QUOTES);
 		$identifier = htmlspecialchars($rows['Identifier'],ENT_QUOTES);
@@ -95,11 +102,12 @@
 		$cleaned = htmlspecialchars($rows['Cleaned'],ENT_QUOTES);
 		$commentary = htmlspecialchars($rows['Commentary'],ENT_QUOTES);
 		$series = htmlspecialchars($rows['Series'],ENT_QUOTES);
-                $periodical = htmlspecialchars($rows['Periodical'],ENT_QUOTES);
-                $coverurl = htmlspecialchars($rows['Coverurl'],ENT_QUOTES);
+        $periodical = htmlspecialchars($rows['Periodical'],ENT_QUOTES);
+        $coverurl = htmlspecialchars($rows['Coverurl'],ENT_QUOTES);
 		$udc = htmlspecialchars($rows['UDC'],ENT_QUOTES);
 		$lbc = htmlspecialchars($rows['LBC'],ENT_QUOTES);
 		$bookcode = htmlspecialchars($rows['BooksellingCode'],ENT_QUOTES);
+		$description = htmlspecialchars($rows['descr'],ENT_QUOTES);
 	} else {
 		$editing = false;
 		$mode = "<font color=green><h1>Registering a new book \\ Регистрация новой книги</h1></font>";
@@ -133,7 +141,8 @@
             $pages = htmlspecialchars($amazonInfo['Pages'],ENT_QUOTES);
             $identifier = 'ISBN '.htmlspecialchars($amazonInfo['ISBN'],ENT_QUOTES);
             $language = htmlspecialchars($amazonInfo['Language'],ENT_QUOTES);
-            $commentary = htmlspecialchars($amazonInfo['Content'],ENT_QUOTES); 
+            //$commentary = htmlspecialchars($amazonInfo['Content'],ENT_QUOTES); 
+            $description = htmlspecialchars($amazonInfo['Content'],ENT_QUOTES); 
                
         }   
     }
@@ -166,7 +175,8 @@
             $year = htmlspecialchars($ozonInfo['Year'],ENT_QUOTES);
             $pages = htmlspecialchars($ozonInfo['Pages'],ENT_QUOTES);
             $identifier = 'ISBN '.$isbn;
-            $commentary = htmlspecialchars($ozonInfo['Content'],ENT_QUOTES);
+            //$commentary = htmlspecialchars($ozonInfo['Content'],ENT_QUOTES);
+            $description = htmlspecialchars($ozonInfo['Content'],ENT_QUOTES);
             $topic = htmlspecialchars($ozonInfo['Topic'],ENT_QUOTES); 
                
         }   
@@ -207,6 +217,7 @@ ISBN: <input type='text' name='isbn' size='20' maxlength='25' value='".htmlspeci
 <tr><td><font face=arial size=3 color=gray><b>Filesize \\ Размер файла</b> <font size=2>(bytes)</font></font><td><input readonly type='text' name='Filesize' size=10 value='".$filesize."' maxlength=20/>
 <tr><td><font face=arial size=3 color=gray><b>MD5</b></font><td><input readonly type='text' name='MD5' size=35 value='".$md5."' maxlength=32/>
 <tr><td><font face=arial size=3 color=gray><b>File Extension \\ Расширение файла</b></font><td><input readonly type='text' name='Extension' size=10 value='".$fileext."' maxlength=50/>
+<tr><td><font face=arial size=3 color=gray><b>Book description \\ Описание книги</b></font><td><textarea name='Description' rows=10 cols=90>$description</textarea>
 <tr><th colspan=2><input type='submit' value='Register!'/>
 </table>
 

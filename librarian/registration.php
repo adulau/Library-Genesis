@@ -17,7 +17,10 @@ $page = "<center><table border=1 cellspacing=0 cellpadding=12 bordercolor='#A000
 <input type='hidden' name='MAX_FILE_SIZE' value='200000000'/>
 <input type='hidden' name='Form' value='1'/>
 <input type='hidden' name='MD5' value=''/>
-Choose file to upload (200 Mb max, if possible no *.rar *.zip) \\ Выберите файл для загрузки (макс. 200 Мб, если возможно без *.rar, *.zip):<br><input name='uploadedfile' type='file' size=120/> <input type='submit' value='Send!'/><br><font face=Arial color=gray size=1>Calculates MD5 upon completion \\ Рассчитывает MD5 после завершения загрузки</font></td></tr>
+Choose file to upload (200 Mb max, if possible no *.rar *.zip) \\ Выберите файл для загрузки (макс. 200 Мб, если возможно без *.rar, *.zip):<br>
+<input name='uploadedfile' type='file' size=120/> 
+<input type='submit' value='Send!'/><br>
+<font face=Arial color=gray size=1>Calculates MD5 upon completion \\ Рассчитывает MD5 после завершения загрузки</font></td></tr>
 </form>
 
 <!-- MD5-check-up Form -->
@@ -33,25 +36,4 @@ echo $htmlheadfocus;
 echo $page;
 echo $htmlfoot;
 
-
-function post($url, $data, $optional_headers = null)
-  {
-     $params = array('http' => array(
-                  'method' => 'POST',
-                  'content' => $data
-               ));
-     if ($optional_headers !== null) {
-        $params['http']['header'] = $optional_headers;
-     }
-     $ctx = stream_context_create($params);
-     $fp = @fopen($url, 'rb', false, $ctx);
-     if (!$fp) {
-        die("Problem with $url");
-     }
-     $response = @stream_get_contents($fp);
-     if ($response === false) {
-        die("Problem reading data from $url");
-     }
-     return $response;
-  }
 ?>
