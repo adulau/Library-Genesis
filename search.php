@@ -21,6 +21,14 @@
         $dlnametype = "orig";
 	}
 
+      $googletrans = "<div id='google_translate_element'></div><script>
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'en'
+        }, 'google_translate_element');
+     }
+      </script><script src='http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>";
+
 	$textcol1 = 'gray';//'A0A000';
 	$textcol2 = '#A00000';//'#E8E880';
 
@@ -45,7 +53,7 @@
 <tr>
 <td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1} // {$torrents} // {$source} // {$dbdump} // {$export} // {$forum} // {$upload} // {$batchupload} // {$ftp1} // {$ftp2} // {$comics} // {$sitemap}</font></b></td>
 </tr>
-</table>";
+</table>{$googletrans}";
 
     $dlnametypes = array('orig' => '',
                          'md5' => '',
@@ -198,6 +206,7 @@
     
 	echo $form;
 	echo $reshead;
+        echo $googletrans;
 
 	$color1 = '#D0D0D0';
 	$color2 = '#F6F6FF';
