@@ -37,12 +37,15 @@
 	$source = "<a href='http://free-books.dontexist.com/code/'>Code</a>";
 	$dbdump = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/'>Dump (Daily)</a>";
 	$donate = "<a href='http://lib.rus.ec/donate'>Donate</a>";
-        $export = "<a href='http://free-books.dontexist.com/export/'>Import your books to LibGen</a>";
+        $export = "<a href='http://free-books.dontexist.com/export/'>Import</a>";
 	$forum = "<a href='http://gen.lib.rus.ec/forum/'>Forum</a>";
         $upload = "<a href='http://free-books.dontexist.com/librarian/'>Single Upload &amp; edit</a>";
         $batchupload = "<a href='http://free-books.dontexist.com/batchupload/'>Batch Upload</a>";
-        $ftp1 = "<a href='ftp://free-books.dontexist.com/genesis/!Repository/'>FTP1</a>";
-        $ftp2 = "<a href='ftp://free-books.dontexist.com/genesis2/!reposithoty2/'>FTP2</a>";
+        $ftp1 = "<a href='ftp://free-books.dontexist.com/genesis/!Repository/'>1</a>";
+        $ftp2 = "<a href='ftp://free-books.dontexist.com/genesis2/!reposithoty2/'>2</a>";
+        $mirror1 = "<a href='http://gen.lib.rus.ec'>1-110k</a>";
+        $mirror2 = "<a href='http://lib.ololo.cc/gen'>2-110k</a>";
+        $mirror3 = "<a href='http://free-books.dontexist.org'>3-186k</a>";
         $comics = "<a href='http://free-books.dontexist.com/comics/'>Comics</a>";
         $sitemap = "<a href='http://gen.lib.rus.ec/forum/viewtopic.php?p=9000/'>Sitemap</a>";
 	//$master = "bookwarrior";
@@ -51,9 +54,9 @@
 	$toolbar = "
 <table height=100% width=100% cellspacing=0 cellpadding=0>
 <tr>
-<td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1} // {$torrents} // {$source} // {$dbdump} // {$export} // {$forum} // {$upload} // {$batchupload} // {$ftp1} // {$ftp2} // {$comics} // {$sitemap}</font></b></td>
+<td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1}//{$torrents}//{$source}//{$dbdump}//{$export}//{$forum}//{$upload}//{$batchupload}//FTP: {$ftp1}, {$ftp2}//Mirrors: {$mirror1};  {$mirror2};  {$mirror3}//{$comics}//{$sitemap}</font></b></td>
 </tr>
-</table>{$googletrans}";
+</table>";
 
     $dlnametypes = array('orig' => '',
                          'md5' => '',
