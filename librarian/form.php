@@ -112,6 +112,7 @@
 		$editing = false;
 		$mode = "<font color=green><h1>Registering a new book \\ Регистрация новой книги</h1></font>";
 	}
+    
 	if(isset($_POST['amazon'])){
        
         $filesize = $_GET['filesize'];
@@ -143,7 +144,7 @@
             $language = htmlspecialchars($amazonInfo['Language'],ENT_QUOTES);
             //$commentary = htmlspecialchars($amazonInfo['Content'],ENT_QUOTES); 
             $description = htmlspecialchars($amazonInfo['Content'],ENT_QUOTES); 
-               
+            $coverurl = htmlspecialchars($amazonInfo['Image'],ENT_QUOTES);
         }   
     }
 
@@ -178,14 +179,42 @@
             //$commentary = htmlspecialchars($ozonInfo['Content'],ENT_QUOTES);
             $description = htmlspecialchars($ozonInfo['Content'],ENT_QUOTES);
             $topic = htmlspecialchars($ozonInfo['Topic'],ENT_QUOTES); 
-               
+            $coverurl = htmlspecialchars($ozonInfo['Image'], ENT_QUOTES);
+            $coverurl = str_replace("/small", "", $image);
+            $coverurl = str_replace(".gif", ".jpg", $image);    
         }   
+    }
+    
+    //RGB
+    if(isset($_POST['rgb'])){
+        
+        
+        $filesize = $_GET['filesize'];
+        $fileext = $_GET['fileext'];
+        
+        $number = htmlspecialchars($_POST['isbn']);
+        
+        if( !(substr_count(trim($number),'-') == 3)&&(strlen(trim($number))==13) || !(substr_count(trim($number),'-') == 4)&&(strlen(trim($number))==17)){
+            
+            require_once 'ISBN-0.1.6/ISBN.php';
+            $isbn = new ISBN($number);
+            $number = substr($isbn->getISBNDisplayable(),9);
+            
+        }
+       
+        $isbn = $number;
+        
+        include 'rgbRequest.php';
+        
     }
     
     $isbnForm = "<form action='registration.php?md5=".$md5."&filesize=".$filesize."&fileext=".$fileext."' method='post' >
 ISBN: <input type='text' name='isbn' size='20' maxlength='25' value='".htmlspecialchars($_POST['isbn'],ENT_QUOTES)."' />
+search in: 
 <input type='submit' value='Info from Amazon' name='amazon'/>
-<input type='submit' value='Info from Ozon' name='ozon'/>\t".$amazonError.$ozonError."</form>";
+<input type='submit' value='Info from Ozon' name='ozon'/>
+<input type='submit' value='Info from RSL' name='rgb'/>
+\t".$amazonError.$ozonError.$rgbError."</form>";
    
     $regform = $htmlheadfocus.$isbnForm."<form action='register.php' method='post'>
 <table width=100% border=0 cellspacing=0>
