@@ -75,7 +75,18 @@
         $sql2="INSERT INTO $descrtable (id,md5,descr) VALUES ('$id_descr','$_POST[MD5]','$descr')";
 	} else {
 		$sql1="UPDATE $dbtable SET `Generic`='$generic',`Topic`='$topic',`Author`='$author',`Title`='$title',`VolumeInfo`='$volinfo',`Year`='$year',`Publisher`='$publisher',`City`='$city',`Edition`='$edition',`Identifier`='$identifier',`Pages`='$pages',`Issue`='$issue',`Orientation`='$orientation',`DPI`='$dpi',`Color`='$color',`Cleaned`='$cleaned',`Language`='$language',`Extension`='$_POST[Extension]',`Library`='$library',`Commentary`='$commentary',`Series`='$series',`Periodical`='$periodical',`Coverurl`='$coverurl',`UDC`='$udc',`LBC`='$lbc' WHERE `MD5`='$_POST[MD5]' LIMIT 1";
-	    $sql2="UPDATE $descrtable SET `descr`='$descr' WHERE `MD5`='$_POST[MD5]' LIMIT 1";
+	    
+        // check if there is a description for this book
+        $tmpsql = "SELECT COUNT(*) FROM $descrtable WHERE md5='$_POST[MD5]'";
+        $result = mysql_query($tmpsql,$con);
+	    if (!$result) die($dberr);
+        
+        $row = mysql_fetch_assoc($result);
+        if($row["COUNT(*)"] != 0 ) {
+          $sql2="UPDATE $descrtable SET `descr`='$descr' WHERE `MD5`='$_POST[MD5]' LIMIT 1";  
+        } else {
+          $sql2="INSERT INTO $descrtable (id,md5,descr) VALUES ('$id_descr','$_POST[MD5]','$descr')";
+        }
     }
 
 	if (!mysql_query($sql1,$con))

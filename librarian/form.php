@@ -246,7 +246,7 @@ search in:
 <tr><td><font face=arial size=3 color=gray><b>Filesize \\ Размер файла</b> <font size=2>(bytes)</font></font><td><input readonly type='text' name='Filesize' size=10 value='".$filesize."' maxlength=20/>
 <tr><td><font face=arial size=3 color=gray><b>MD5</b></font><td><input readonly type='text' name='MD5' size=35 value='".$md5."' maxlength=32/>
 <tr><td><font face=arial size=3 color=gray><b>File Extension \\ Расширение файла</b></font><td><input readonly type='text' name='Extension' size=10 value='".$fileext."' maxlength=50/>
-<tr><td><font face=arial size=3 color=gray><b>Book description \\ Описание книги</b></font><td><textarea name='Description' rows=10 cols=90>$description</textarea>
+<tr><td><font face=arial size=3 color=gray><b>Book description \\ Описание книги</b></font><td><textarea name='Description' rows=10 cols=90>".$description."</textarea>
 <tr><th colspan=2><input type='submit' value='Register!'/>
 </table>
 
