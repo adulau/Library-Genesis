@@ -35,7 +35,7 @@
 	$index1 = "<a href='http://free-books.dontexist.com/content/'>Contents</a>";
 	$torrents = "<a href='http://free-books.dontexist.com/repository_torrent/'>Torrents</a>";
 	$source = "<a href='http://free-books.dontexist.com/code/'>Code</a>";
-	$dbdump = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/'>Dump (Daily)</a>";
+	$dbdump = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/'>Dump DB (Daily)</a>";
 	$donate = "<a href='http://lib.rus.ec/donate'>Donate</a>";
         $export = "<a href='http://free-books.dontexist.com/export/'>Import</a>";
 	$forum = "<a href='http://gen.lib.rus.ec/forum/'>Forum</a>";
@@ -45,16 +45,17 @@
         $ftp2 = "<a href='ftp://free-books.dontexist.com/genesis2/!reposithoty2/'>2</a>";
         $mirror1 = "<a href='http://gen.lib.rus.ec'>1-110k</a>";
         $mirror2 = "<a href='http://lib.ololo.cc/gen'>2-110k</a>";
-        $mirror3 = "<a href='http://free-books.dontexist.org'>3-186k</a>";
         $comics = "<a href='http://free-books.dontexist.com/comics/'>Comics</a>";
         $sitemap = "<a href='http://gen.lib.rus.ec/forum/viewtopic.php?p=9000/'>Sitemap</a>";
+        $biblio = "<a href='http://free-books.dontexist.com/biblio/'>Biblio</a>";
+        $newbooks = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/!daily add/'>New books</a>";
 	//$master = "bookwarrior";
 	$footer = "</tr></table>\n";
 
 	$toolbar = "
 <table height=100% width=100% cellspacing=0 cellpadding=0>
 <tr>
-<td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1}//{$torrents}//{$source}//{$dbdump}//{$export}//{$forum}//{$upload}//{$batchupload}//FTP: {$ftp1}, {$ftp2}//Mirrors: {$mirror1};  {$mirror2};  {$mirror3}//{$comics}//{$sitemap}</font></b></td>
+<td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1}|{$torrents}|{$source}|{$dbdump}|{$export}|{$forum}|{$upload}|{$batchupload}|FTP: {$ftp1}, {$ftp2}|Mirrors: {$mirror1};  {$mirror2}|{$comics}|{$sitemap}|{$biblio}|{$newbooks}</font></b></td>
 </tr>
 </table>";
 
@@ -88,7 +89,7 @@
 		$searchbody = "<table cellspacing=0 width=100% height=100%>
 		<th colspan=3 height=30 align=left>{$toolbar}</th>
 		<tr><td height=27% width=35% valign=top align=left></td><td></td><td width=35% valign=top align=right></td></tr>
-		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>220k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
+		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>231k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
 		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td>";
 
 		//echo $toolbar;
@@ -114,7 +115,7 @@
 
 	$sql_end = " ORDER BY Periodical, Series, Title, Author, Edition, Volumeinfo LIMIT $from, $lines";
 	$search_words = explode(' ', $req);
-    $search_fields = "CONCAT(Author, Title, Series, Publisher, MD5, Periodical) LIKE '%"; 
+    $search_fields = "CONCAT(Author, Title, Series, Publisher, MD5, Periodical, CHAR(Year)) LIKE '%"; 
     $search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
     $search_isbn = "Identifier LIKE '%$req%'";
     $sql_mid = "FROM $dbtable WHERE ((($search_core) OR $search_isbn) AND Filename!='' AND Generic='' AND Visible='')";
@@ -206,7 +207,7 @@
 	$reshead = "<table width=100% cellspacing=0 cellpadding=0 border=0 class=c align=center>";
 
 	include 'ads.php';
-    
+
 	echo $form;
 	echo $reshead;
         echo $googletrans;
@@ -287,7 +288,7 @@
 		}
 
 		if ($volinf){
-			if ($ident) $volinf = $volinf.', ISBN '.$ident;
+			if ($ident) $volinf = $volinf.', '.$ident;
 		} else {
 			if ($ident) $volinf = 'ISBN '.$ident;
 		}

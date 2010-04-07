@@ -1,6 +1,6 @@
 <?php
 	$searchtip = "<p>Enter exact string or its fragment, e.g. <i><u>analy</u></i> for all entries like <i><u>analy</u></i>sis, <i><u>analy</u></i>tical etc.</p> 
-<p>Search in colunm Title, Author, Publisher, Series, Periodicsl, MD5</p>";
+<p>Search in column Title, Author, Publisher, Series, Periodicsl, MD5</p>";
 	$str_prev = "&lt; &lt; &lt; PREV";
 	$str_next = "NEXT &gt; &gt; &gt;";
 	$str_pp_ru = "стр.";
