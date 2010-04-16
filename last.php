@@ -3,7 +3,6 @@
 	include 'html.php';
 	include 'strings.php';
 	include 'util.php';
-      include 'menu.html';
 
 	if (sizeof($_GET)) $mainpage = false;
 	else $mainpage = true;
@@ -30,10 +29,36 @@
      }
       </script><script src='http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>";
 
-
 	$textcol1 = 'gray';//'A0A000';
 	$textcol2 = '#A00000';//'#E8E880';
+
+	$index1 = "<a href='http://free-books.dontexist.com/content/'>Contents</a>";
+	$torrents = "<a href='http://free-books.dontexist.com/repository_torrent/'>Torrents</a>";
+	$source = "<a href='http://free-books.dontexist.com/code/'>Code</a>";
+	$dbdump = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/'>Dump DB (Daily)</a>";
+	$donate = "<a href='http://lib.rus.ec/donate'>Donate</a>";
+        $import = "<a href='http://free-books.dontexist.com/import/'>Import</a>";
+	$forum = "<a href='http://gen.lib.rus.ec/forum/'>Forum</a>";
+        $upload = "<a href='http://free-books.dontexist.com/librarian/'>Single Upload &amp; edit</a>";
+        $batchupload = "<a href='http://free-books.dontexist.com/batchupload/'>Batch Upload</a>";
+        $ftp1 = "<a href='ftp://free-books.dontexist.com/genesis/!Repository/'>1</a>";
+        $ftp2 = "<a href='ftp://free-books.dontexist.com/repository2/'>2</a>";
+        $mirror1 = "<a href='http://gen.lib.rus.ec'>1-110k</a>";
+        $mirror2 = "<a href='http://lib.ololo.cc/gen'>2-110k</a>";
+        $comics = "<a href='http://free-books.dontexist.com/comics/'>Comics</a>";
+        $sitemap = "<a href='http://gen.lib.rus.ec/forum/viewtopic.php?p=9000/'>Sitemap</a>";
+        $biblio = "<a href='http://free-books.dontexist.com/biblio/'>Biblio</a>";
+        $newbooks = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/!daily add/'>New books</a>";
+        $lastbooks = "<a href='http://free-books.dontexist.com/last.php'>Last books</a>";
+	//$master = "bookwarrior";
 	$footer = "</tr></table>\n";
+
+	$toolbar = "
+<table height=100% width=100% cellspacing=0 cellpadding=0>
+<tr>
+<td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1}|{$torrents}|{$source}|{$dbdump}|{$import}|{$forum}|{$upload}|{$batchupload}|FTP: {$ftp1}, {$ftp2}|Mirrors: {$mirror1};  {$mirror2}|{$comics}|{$sitemap}|{$biblio}|{$newbooks}|{$lastbooks}</font></b></td>
+</tr>
+</table>";
 
     $dlnametypes = array('orig' => '',
                          'md5' => '',
@@ -61,18 +86,19 @@
 	echo $htmlheadfocus;
 
 	// if no arguments passed, give out the main page
-	if ($mainpage) {
-		$searchbody = "<table cellspacing=0 width=100% height=100%>
-		<tr><td height=27% width=35% valign=top align=left></td><td></td><td width=35% valign=top align=right></td></tr>
-		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>237k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
-		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td>";
-
-		//echo $toolbar;
-		echo $searchbody;
-		echo $footer;
-		echo $htmlfoot;
-		die;
-	}
+//	if ($mainpage) {
+//		$searchbody = "<table cellspacing=0 width=100% height=100%>
+//		<th colspan=3 height=30 align=left>{$toolbar}</th>
+//		<tr><td height=27% width=35% valign=top align=left></td><td></td><td width=35% valign=top align=right></td></tr>
+//		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>237k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
+//		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td>";
+//
+//		//echo $toolbar;
+//		echo $searchbody;
+//		echo $footer;
+//		echo $htmlfoot;
+//		die;
+//	}
 
 	// now look up in the database
 	$dberr = $htmlhead."<font color='#A00000'><h1>Error</h1></font>".mysql_error()."<br>Cannot proceed.<p>Please, <a href='{$errurl}'><u>report</u></a> on this error.".$htmlfoot;
@@ -88,14 +114,14 @@
 
 	if ($from < $maxlines - $lines) $from = 0;
 
-	$sql_end = " ORDER BY Periodical, Series, Title, Author, Edition, Volumeinfo LIMIT $from, $lines";
-	$search_words = explode(' ', $req);
-    $search_fields = "CONCAT(Author, Title, Series, Publisher, MD5, Periodical, CHAR(Year)) LIKE '%"; 
-    $search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
-    $search_isbn = "Identifier LIKE '%$req%'";
-    $sql_mid = "FROM $dbtable WHERE ((($search_core) OR $search_isbn) AND Filename!='' AND Generic='' AND Visible='')";
+	$sql_end = " ORDER BY id desc LIMIT 100";
+	///$search_words = explode(' ', $req);
+    ///$search_fields = "CONCAT(Author, Title, Series, Publisher, MD5, Periodical, CHAR(Year)) LIKE '%"; 
+    //$search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
+    //$search_isbn = "Identifier LIKE '%$req%'";
+    $sql_mid = "FROM $dbtable ";
 	$sql_req = "SELECT * ".$sql_mid.$sql_end;
-	$sql_cnt = "SELECT COUNT(*) ".$sql_mid;
+	$sql_cnt = "SELECT COUNT(*) ".$sql_mid.$sql_end;
 
 	$result = mysql_query($sql_cnt,$con);
 	if (!$result) die($dberr);
@@ -110,7 +136,7 @@
 	///////////////////////////////////////////////////////////////
 	// pagination
 
-	$args = "search?nametype=$dlnametype&req=$req_htm_enc&lines=$lines";
+	$args = "last?nametype=$dlnametype&req=$req_htm_enc&lines=$lines";
 
 	if ($totalrows > $from + $lines){
 		$nextpage = $from + $lines;
@@ -181,11 +207,11 @@
     
 	$reshead = "<table width=100% cellspacing=0 cellpadding=0 border=0 class=c align=center>";
 
-	include 'ads.php';
+	//include 'ads.php';
 
-	echo $form;
+	//echo $form;
 	echo $reshead;
-        echo $googletrans;
+       // echo $googletrans;
 
 	$color1 = '#D0D0D0';
 	$color2 = '#F6F6FF';
@@ -195,7 +221,7 @@
 	$navigatortop = "<tr><th valign=top bgcolor=$color3 colspan=6><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
 	$navigatorbottom = "<tr><th valign=top bgcolor=$color3 colspan=6><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
 	$tabheader = "<tr valign=top bgcolor=$color2><td><b>#</b></td><td></td><td><b>Name</b></td><td><b>Author</b></td><td><b>Size</b></td><td><b>Type</b></td></tr>";
-	echo $navigatortop;
+	//echo $navigatortop;
 	echo $tabheader;
 
 	//$repository = str_replace('\\','/',realpath($repository));
@@ -309,9 +335,9 @@
 		$i = $i + 1;
 	}
 
-    echo $onClickScript;
+    //echo $onClickScript;
     
-	echo $navigatorbottom;
+	//echo $navigatorbottom;
 	echo $footer;
 	echo $htmlfoot;
 
