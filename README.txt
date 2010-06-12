@@ -20,7 +20,7 @@ That's it! Now start Apache, visit your local WWW-page (http://127.0.0.1/)
 and enjoy reading!
 
 
-September 17, 2009
+June 12, 2010
 
 ---
 bookwarrior
