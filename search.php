@@ -64,7 +64,7 @@
 	if ($mainpage) {
 		$searchbody = "<table cellspacing=0 width=100% height=100%>
 		<tr><td height=27% width=35% valign=top align=left></td><td></td><td width=35% valign=top align=right></td></tr>
-		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>237k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
+		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>250k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
 		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td>";
 
 		//echo $toolbar;
