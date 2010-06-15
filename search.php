@@ -63,7 +63,7 @@
 	// if no arguments passed, give out the main page
 	if ($mainpage) {
 		$searchbody = "<table cellspacing=0 width=100% height=100%>
-		<tr><td height=27% width=35% valign=top align=left></td><td><table><tr><td height=100*>{$message}</td></tr></table></td><td width=35% valign=top align=right></td></tr>
+		<tr><td height=27% width=35% valign=top align=left></td><td><table><tr valign=top>{$message}</tr></table></td><td width=35% valign=top align=right></td></tr>
 		<tr height=34%><td></td><td><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>250k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></td></tr>
 		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td></tr></table>";
 

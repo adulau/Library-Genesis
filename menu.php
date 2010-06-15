@@ -1,4 +1,7 @@
 ﻿<link rel="stylesheet" media="all" type="text/css" href="menu.css" />
+
+<td>
+<table height=100*>
 <div class="menu">
 <ul>
 
@@ -87,3 +90,5 @@
 
 </ul>
 </div>
+</table>
+</td>
