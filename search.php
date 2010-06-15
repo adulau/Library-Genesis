@@ -3,7 +3,7 @@
 	include 'html.php';
 	include 'strings.php';
 	include 'util.php';
-	include 'menu.html';
+  // include 'menu.html';
 
 	if (sizeof($_GET)) $mainpage = false;
 	else $mainpage = true;
@@ -22,16 +22,7 @@
         $dlnametype = "orig";
 	}
 
-      $googletrans = "<div id='google_translate_element'></div><script>
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-          pageLanguage: 'en'
-        }, 'google_translate_element');
-     }
-      </script><script src='http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>";
-
-
-	$textcol1 = 'gray';//'A0A000';
+      $textcol1 = 'gray';//'A0A000';
 	$textcol2 = '#A00000';//'#E8E880';
 	$footer = "</tr></table>\n";
 
@@ -47,25 +38,26 @@
             $dlnametypes[$key] = '';
         }
     }
-
+    
 	$form = "<form name ='myform' action='search'>
 	<input name=req id='searchform' size=60 maxlength=254 value='$req_htm'> <input type=submit value='Search!'>
-	<font face=Arial color={$textcol1} size=1><br>$searchtip</font>
-    <br><br><label>Download filename as: </label>
+	<br><font face=Arial color={$textcol1} size=1>$searchtip</font>
+    <br><label>Download name as: </label>
     <input type=radio name='nametype' id='orig' value='orig' ".$dlnametypes['orig']." onclick=radioOnClick('orig') />
-    <label for='Original'><b>readable</b></label>
+    <label for='Original'>Original</label>
     <input type=radio name='nametype' id='md5' value='md5' ".$dlnametypes['md5']." onclick=radioOnClick('md5') />
-    <label for='Md5'><b>MD5-hash</b> (if 'readable' doesn't work)</label>
+    <label for='Md5'>Md5</label>
     	</form>";
 
 	echo $htmlheadfocus;
+	include 'menu.php';
 
 	// if no arguments passed, give out the main page
 	if ($mainpage) {
 		$searchbody = "<table cellspacing=0 width=100% height=100%>
-		<tr><td height=27% width=35% valign=top align=left></td><td><table><tr><td height=100*>{$message}</td></tr></table></td><td width=35% valign=top align=right></td></tr>
-		<tr height=34%><td></td><td><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>250k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></td></tr>
-		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td></tr></table>";
+		<tr><td height=27% width=35% valign=top align=left></td><td></td><td width=35% valign=top align=right></td></tr>
+		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>231k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
+		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td>";
 
 		//echo $toolbar;
 		echo $searchbody;
@@ -185,8 +177,7 @@
 
 	echo $form;
 	echo $reshead;
-        echo $googletrans;
-
+      
 	$color1 = '#D0D0D0';
 	$color2 = '#F6F6FF';
 	$color3 = '#A0E000';
@@ -298,7 +289,7 @@
         $repdir = str_replace('\\','/',realpath(getRepDirByFilename($filename)));
 		$tip = "ID: $row[ID]; $tiplib; Location: $repdir/$tipdir";
 		$line = "<tr valign=top bgcolor=$color><td>$ires.</td>
-		<td><a href='http://free-books.dontexist.com/librarian/registration?md5=$row[MD5]'>[edit]</a></td>
+		<td><a href='librarian/registration?md5=$row[MD5]'>[edit]</a></td>
 		<td nowrap><a href='get?nametype=$dlnametype&md5=$row[MD5]' title='$tip' id=$ires>{$bookname}$volume$volstamp</a></td>
 		<td nowrap>$author</td>
 		<td nowrap>$size</td>
