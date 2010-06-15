@@ -1,0 +1,89 @@
+﻿<link rel="stylesheet" media="all" type="text/css" href="menu.css" />
+<div class="menu">
+<ul>
+
+
+<!--MENU 1-->
+
+<li><a href="http://gen.lib.rus.ec/librarian/">Upload \ Залить<!--[if gte IE 7]><!--></a><!--<![endif]-->
+	<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+	<li><a href="http://free-books.dontexist.com/batchupload/">LGUploader (Win32)</a></li>
+	</ul>
+	<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+
+<!--MENU 2-->
+
+<li><a href="#">Mirrors \ Зеркала<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+	<li><a href="http://free-books.dontexist.com/">free-books (250k)</a></li>
+	<li><a href="http://lib.ololo.cc/gen">lib.ololo.cc (110k)</a></li>
+	<li><a href="http://science.flibusta.net/">science.flibusta.net (36k)</a></li>
+	<li><a href="http://flibusta.net/science/">science.flibusta.net (proxy)</a></li>
+	<li><a href="http://webwarper.net/ww/~av/gen.lib.rus.ec/">webwarper.net (proxy)</a></li>
+	</ul>
+<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+
+
+<!--MENU 3-->
+
+<li><a href="last.php">Latest \ Последнее</a></li>
+
+
+<!--MENU 4-->
+
+<li><a href="#">Other \ Прочее<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+	<li><a class="drop" href="#">FTP<!--[if gte IE 7]><!--></a><!--<![endif]-->
+		<!--[if lte IE 6]><table><tr><td><![endif]-->
+		<ul>
+			<li><a href="ftp://free-books.dontexist.com/genesis/!Repository/">0 - 177000</a></li>
+			<li><a href="ftp://free-books.dontexist.com/genesis2/!reposithoty2/">178000 - end</a></li>
+		</ul>
+		<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+	</li>
+	<li><a class="drop" href="#">Source code (PHP) \ Исходники (PHP)<!--[if gte IE 7]><!--></a><!--<![endif]-->
+		<!--[if lte IE 6]><table><tr><td><![endif]-->
+		<ul>
+			<li><a href="http://gen.lib.rus.ec/files/gen.lib.rus.ec_(08-June-2010).rar">gen.lib.rus.ec</a></li>
+			<li><a href="http://free-books.dontexist.com/code/">free-books</a></li>
+			<li><a href="http://assembla.com/spaces/libgen">assembla.com</a></li>
+		</ul>
+		<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+	</li>
+	<li><a class="drop" href="#">MySQL Dump (SQL) \ Дамп БД<!--[if gte IE 7]><!--></a><!--<![endif]-->
+		<!--[if lte IE 6]><table><tr><td><![endif]-->
+		<ul>
+			<li><a href="http://free-books.dontexist.com/dailyupdated/My%20Dropbox/Public/">free-books<br/><font color=green><i>(all dumps, slow)</i></font></a></li>
+			<li><a href="http://dl.dropbox.com/u/3268251/backup-last.rar">dropbox.com<br/><font color=green><i>(last dump, fast)</i></font></a></li>
+		</ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+	</li>
+	<li><a href="http://free-books.dontexist.com/repository_torrent/">Torrents (all)</a></li>
+	<li><a href="http://gen.lib.rus.ec/files/torrents_0-254.rar">Torrents (0-254k)</a></li>
+	<li><a href="http://free-books.dontexist.com/content/">Books list (XLS) \ Список книг  (XLS)</a></li>
+	<li><a href="http://free-books.dontexist.com/dailyupdated/My%20Dropbox/Public/!daily%20add/">New Books lists (TXT) \ Новые книги (TXT)</a></li>
+	<li><a href="http://dc-poisk.no-ip.org:17000/">DC++ Fulltext Search (Yandex)</a></li>
+	<li><a href="http://dc-poisk.no-ip.org/">P2P Fulltext Search (Sphinx, magnet-links)</a></li>
+	<li><a href="ftp://free-books.dontexist.com/librusec/">lib.rus.ec \ flibusta.net - daily updates</a></li>
+	<li><a href="http://free-books.dontexist.com/comics/">Comics \ Комиксы</a></li>
+	</ul>
+<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+
+
+<!--MENU 5-->
+
+<li><a href="http://gen.lib.rus.ec/forum/">Forum \ Форум</a></li>
+
+<!--MENU 6-->
+
+<li><a href="http://gen.lib.rus.ec/forum/viewtopic.php?p=9000#p9000">Sitemap \ Карта сайта</a></li>
+
+
+</ul>
+</div>
