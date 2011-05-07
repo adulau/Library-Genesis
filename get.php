@@ -15,12 +15,15 @@
 	mysql_close($con);
     $title = stripslashes($row['Title']);
     $author = stripslashes($row['Author']);
+    $periodical = stripslashes($row['Periodical']);
+    $series = stripslashes($row['Series']);
     $vol = stripslashes($row['VolumeInfo']);
     $publisher = stripslashes($row['Publisher']);
     $year = $row['Year'];
     $pages = $row['Pages'];
     $lang = stripslashes($row['Language']);
     $ident = stripslashes($row['Identifier']);
+    $volume = stripslashes($row['VolumeInfo']);
     $edition = stripslashes($row['Edition']);
     $ext = stripslashes($row['Extension']);
     $library = stripslashes($row['Library']);
@@ -32,6 +35,9 @@
     $downloadname = '';
     if (!empty($author)) { $downloadname = $author; }
     if (!empty($title)) { $downloadname = $downloadname.'-'.$title; }
+    if (!empty($series)) { $downloadname = '('.$series.')'.$downloadname; }
+    if (!empty($periodical)) { $downloadname = '('.$periodical.')'.$downloadname; }
+    if (!empty($volume)) { $downloadname = $downloadname.'. '.$volume; }
     if (!empty($publisher)) { $downloadname = $downloadname.'-'.$publisher; }
     if (!empty($year)) { $downloadname = $downloadname.'('.$year.')'; }
 
@@ -60,7 +66,11 @@
     $downloadname = removeIllegal($downloadname);
     
     // not more than 200 characters in the string
-    $downloadname = substr($downloadname,0,200); 
+
+     // $downloadname = substr($downloadname,0,200);
+      $downloadname = mb_substr($downloadname, 0, 200, 'utf-8');
+
+ 
     
     //die($htmlhead.'<font color="#A00000"><h1>Download name:</h1></font>"'.basename($downloadname.'.'.$ext).'"'.$htmlfoot);
 

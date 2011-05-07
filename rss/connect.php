@@ -12,4 +12,5 @@
 	mysql_query("SET session character_set_results = 'UTF8'");
 
 	mysql_select_db($db,$con);
+	DEFINE ('LINK', $con);
 ?>

@@ -4,28 +4,61 @@
 	include 'strings.php';
 	include 'util.php';
 
-
 	if (sizeof($_GET)) $mainpage = false;
 	else $mainpage = true;
 
 	// SQL-requests should encode single-quotes and underscores with Esc-sequences
 	if (!$mainpage){
-		$req = addcslashes(mysql_real_escape_string($_GET['req']),"%_");
-		if (strlen($req) < 1) die($htmlhead."<font color='#A00000'><h1>Wrong Request</h1></font>Search string must contain more than one character.<br>Please, type in a longer request and <a href=>try again</a>.".$htmlfoot);
+		//$req = addcslashes(mysql_real_escape_string($_GET['req']),"%_");
+		//if (strlen($req) < 1) die($htmlhead."<font color='#A00000'><h1>Wrong Request</h1></font>Search string must contain more than one character.<br>Please, type in a longer request and <a href=>try again</a>.".$htmlfoot);
 
-		$req_htm = htmlspecialchars($_GET['req'],ENT_QUOTES);
-		$req_htm_enc = urlencode($_GET['req']);
+		//$req_htm = htmlspecialchars($_GET['req'],ENT_QUOTES);
+		//$req_htm_enc = urlencode($_GET['req']);
         if( isset($_GET['nametype'])) $dlnametype = $_GET['nametype'];
-        else $dlnametype = "md5"; //
+        else $dlnametype = "md5"; // в строке €вно Ќ≈ указан тип - скорее всего ожидаетс€ md5, в соответствии со старой версией
 	} else {
 		$req_htm = "";
         $dlnametype = "orig";
 	}
 
-			
+//      $googletrans = "<div id='google_translate_element'></div><script>
+//      function googleTranslateElementInit() {
+//        new google.translate.TranslateElement({
+//          pageLanguage: 'en'
+//        }, 'google_translate_element');
+//     }
+//      </script><script src='http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>";
 
+	$textcol1 = 'gray';//'A0A000';
+	$textcol2 = '#A00000';//'#E8E880';
 
+	$index1 = "<a href='http://free-books.dontexist.com/content/'>Contents</a>";
+	$torrents = "<a href='http://free-books.dontexist.com/repository_torrent/'>Torrents</a>";
+	$source = "<a href='http://free-books.dontexist.com/code/'>Code</a>";
+	$dbdump = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/'>Dump DB (Daily)</a>";
+	$donate = "<a href='http://lib.rus.ec/donate'>Donate</a>";
+        $import = "<a href='http://free-books.dontexist.com/import/'>Import</a>";
+	$forum = "<a href='http://gen.lib.rus.ec/forum/'>Forum</a>";
+        $upload = "<a href='http://free-books.dontexist.com/librarian/'>Single Upload &amp; edit</a>";
+        $batchupload = "<a href='http://free-books.dontexist.com/batchupload/'>Batch Upload</a>";
+        $ftp1 = "<a href='ftp://free-books.dontexist.com/genesis/!Repository/'>1</a>";
+        $ftp2 = "<a href='ftp://free-books.dontexist.com/repository2/'>2</a>";
+        $mirror1 = "<a href='http://gen.lib.rus.ec'>1-110k</a>";
+        $mirror2 = "<a href='http://lib.ololo.cc/gen'>2-110k</a>";
+        $comics = "<a href='http://free-books.dontexist.com/comics/'>Comics</a>";
+        $sitemap = "<a href='http://gen.lib.rus.ec/forum/viewtopic.php?p=9000/'>Sitemap</a>";
+        $biblio = "<a href='http://free-books.dontexist.com/biblio/'>Biblio</a>";
+        $newbooks = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/!daily add/'>New books</a>";
+        $lastbooks = "<a href='http://free-books.dontexist.com/last.php'>Last books</a>";
+	//$master = "bookwarrior";
 	$footer = "</tr></table>\n";
+
+	$toolbar = "
+<table height=100% width=100% cellspacing=0 cellpadding=0>
+<tr>
+//<td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1}|{$torrents}|{$source}|{$dbdump}|{$import}|{$forum}|{$upload}|{$batchupload}|FTP: {$ftp1}, {$ftp2}|Mirrors: {$mirror1};  {$mirror2}|{$comics}|{$sitemap}|{$biblio}|{$newbooks}|{$lastbooks}</font></b></td>
+</tr>
+</table>";
 
     $dlnametypes = array('orig' => '',
                          'md5' => '',
@@ -53,36 +86,33 @@
 </form>
     	</form>";
 
-if(isset($_GET['column'])){
-  $column = $_GET['column'];
-  $fieldslist = implode(',',$column);
+$column = $_GET['column'];
+if (is_array($column)) {
+    $fieldslist = implode(', ', $column);
 }else{
-  $fieldslist = 'Title,Author';
+    $fieldslist = $column;
 }
-
-
 
           echo $htmlheadfocus;
           include 'menu.html';
           include 'stats.php';
 
-
 	// if no arguments passed, give out the main page
-	if ($mainpage) {
-		$searchbody = "<table cellspacing=0 width=100% height=100%>
-		<tr><td height=27% width=35% valign=top align=left></td><td></td><td width=35% valign=top align=right></td></tr>
-		<tr height=34%><td></td><td><center><table><tr><caption><font color=red><h1>Library Genesis<sup><font size=4><img src='http://gen.lib.rus.ec/wiki/images/math/f/8/5/f8577a96a48c2f06d7633a9a9ade5320.png'></font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
-		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td>";
-
-		//echo $toolbar;
-		echo $searchbody;
-		echo $footer;
-		echo $htmlfoot;
-		die;
-	}
+//	if ($mainpage) {
+//		$searchbody = "<table cellspacing=0 width=100% height=100%>
+//		<th colspan=3 height=30 align=left>{$toolbar}</th>
+//		<tr><td height=27% width=35% valign=top align=left></td><td></td><td width=35% valign=top align=right></td></tr>
+//		<tr height=34%><td></td><td><center><table><tr><caption><font color={$textcol2}><h1>Library Genesis<sup><font size=4>300k</font></sup></h1></font></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
+//		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td>";
+//
+//		//echo $toolbar;
+//		echo $searchbody;
+//		echo $footer;
+//		echo $htmlfoot;
+//		die;
+//	}
 
 	// now look up in the database
-        $errurl = 'http://gen.lib.rus.ec/forum/viewtopic.php?f=3&t=210';
 	$dberr = $htmlhead."<font color='#A00000'><h1>Error</h1></font>".mysql_error()."<br>Cannot proceed.<p>Please, <a href='{$errurl}'><u>report</u></a> on this error.".$htmlfoot;
 
 	if (isset($_GET['lines'])) $lines = $_GET['lines'];
@@ -96,14 +126,13 @@ if(isset($_GET['column'])){
 
 	if ($from < $maxlines - $lines) $from = 0;
 
-
-
-	$sql_end = " ORDER BY Title LIMIT $from, $lines";
+	$sql_end = " ORDER BY TimeLastModified desc LIMIT $from, $lines";
 	$search_words = explode(' ', $req);
-        $search_fields = "CONCAT({$fieldslist}) LIKE '%";
-	$search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
-	$search_isbn = "Identifier LIKE '%$req%'";
-	$sql_mid = "FROM $dbtable WHERE ((($search_core) OR $search_isbn) AND Filename!='' AND Generic='' AND Visible='')";
+///	$search_fields = "CONCAT(Author, Title, Series, Publisher, MD5, Periodical, CHAR(Year)) LIKE '%"; 
+//	$search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
+//	$search_isbn = "Identifier LIKE '%$req%'";
+//    	$sql_mid = "FROM $dbtable ";
+	$sql_mid = "FROM $dbtable WHERE (Filename!='' AND Generic='' AND Visible='')";
 	$sql_req = "SELECT * ".$sql_mid.$sql_end;
 	$sql_cnt = "SELECT SUM(Filesize), COUNT(*) ".$sql_mid;
 
@@ -135,13 +164,8 @@ if(isset($_GET['column'])){
 	///////////////////////////////////////////////////////////////
 	// pagination
 
-
-
-
-	$args = "search?nametype=$dlnametype&req=$req_htm_enc&lines=$lines";
-foreach ($column as $col){
-$args .= "&column[]=$col";
-} 
+	$args = "lastedit?nametype=$dlnametype&req=$req_htm_enc&lines=$lines";
+                            //search?nametype=orig&req=g&lines=50&from=100
 
 	if ($totalrows > $from + $lines){
 		$nextpage = $from + $lines;
@@ -210,24 +234,22 @@ $args .= "&column[]=$col";
     forceDlNameTypeSwitch();
     </script>";
     
-//	$reshead = "<table width=100% cellspacing=0 cellpadding=0 border=1 class=c align=center>";
 	$reshead = "<table width=100% cellspacing=1 cellpadding=1 rules=rows class=c align=center>";
 
-	if (!$mainpage){
+
 echo "<table width=100%><tr><td>$form</td><td><font color=red valign=top align=right><h1>Library Genesis<sup><font size=4><img src='http://gen.lib.rus.ec/wiki/images/math/f/8/5/f8577a96a48c2f06d7633a9a9ade5320.png'></font></sup></h1></font></td></tr></table>";
-}
+
 	echo $reshead;
-        // echo $googletrans;
+        echo $googletrans;
 
 	$color1 = '#D0D0D0';
-//	$color2 = '#F6F6FF';
-	$color2 = '#F0F5FE';
+	$color2 = '#F6F6FF';
 	$color3 = '#000000';
 
 	echo "\n<b>".$totalsize."\t,\t".$totalrows." pieces found for <u>$req_htm</u> </b>\n";
 	$navigatortop = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
 	$navigatorbottom = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
-	$tabheader = "<tr valign=top bgcolor=$color2><td><b>#</b></td><td><b>Author</b></td><td><b>Title</b></td><td><b>Publisher</b></td><td><b>Year</b></td><td><b>Pp</b></td><td><b>Lang.</b></td><td><b>Size</b></td><td><b>Type</b></td><td colspan=3><b>Mirrors</b></td><td><b>Edit</b></td></tr>";
+	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b>Author</b></td><td><b>Title</b></td><td><b>Publisher</b></td><td><b>Year</b></td><td><b>Pp</b></td><td><b>Lang.</b></td><td><b>Size</b></td><td><b>Type</b></td><td colspan=3><b>Mirrors</b></td><td><b>Edit</b></td></tr>";
 	echo $navigatortop;
 	echo $tabheader;
 
@@ -235,6 +257,7 @@ echo "<table width=100%><tr><td>$form</td><td><font color=red valign=top align=r
 
 	$i = 1;
 	while ($row = mysql_fetch_assoc($result)){
+		$id = stripslashes($row['ID']);
 		$title = stripslashes($row['Title']);
 		$author = stripslashes($row['Author']);
 		$vol = stripslashes($row['VolumeInfo']);
@@ -249,8 +272,9 @@ echo "<table width=100%><tr><td>$form</td><td><font color=red valign=top align=r
 		$ext = stripslashes($row['Extension']);
 		$library = stripslashes($row['Library']);
         $filename = stripslashes($row['Filename']);
-$ident = ereg_replace("ISBN", " ISBN", $ident1);
         
+$ident = ereg_replace("ISBN", " ISBN", $ident1);
+
         $bookname = '';
         if ($series <> '') {
             $bookname = "<font face=Times color=green><i>($series) </i></font>";
@@ -284,7 +308,7 @@ $ident = ereg_replace("ISBN", " ISBN", $ident1);
 		$volinf = $ident;
 
 		if ($volinf){
-			if ($ident) $volinf = $ident;
+			if ($ident) $volinf = ''.$ident;
 		} else {
 			if ($ident) $volinf = ''.$ident;
 		}
@@ -314,7 +338,6 @@ $ident = ereg_replace("ISBN", " ISBN", $ident1);
         list($tipdir,$file) = split($filesep,$filename);
 		if ($library) $tiplib = 'Library: '.$library."\n";
 		else $tiplib = '';
-
 
         if ($row['ID'] > 215000){
                 $path = "genesis2";
@@ -361,6 +384,4 @@ $ident = ereg_replace("ISBN", " ISBN", $ident1);
 
 	mysql_free_result($result);
 	mysql_close($con);
-
 ?>
-

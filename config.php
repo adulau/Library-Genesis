@@ -7,17 +7,22 @@
 	$dbpass = '';
 
 	// problem resolution URL to mention in error messages
-	$errurl = 'http://gen.lib.rus.ec/forum/viewforum.php?f=6';
+	$errurl = '';
 
 	//$repository = 'repository';
-	$maxlines = 100;
+	$maxlines = 50;
 
-	// separator symbol
-	$filesep = '/';
+    
+        // separator symbol
+        $filesep = '/';
+	
+        // distributed repository
+ 	  $repository = array(
+		'0-178000' => 'I:\!Genesis\!Repository' ,
+		'179000-297000' => 'E:\!Genesis\!reposithoty2' ,
+		'298000-500000' => 'F:\!Genesis\!repository3' ,
+                '' => 'I:\!Genesis\!Repository');
 
-	// distributed repository
-	$repository = array(
-		'0-110000' => 'repository' ,
-		'111000-500000' => 'gen/repository' ,
-		'' => 'repository');
 ?>
+
+

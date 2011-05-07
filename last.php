@@ -9,10 +9,10 @@
 
 	// SQL-requests should encode single-quotes and underscores with Esc-sequences
 	if (!$mainpage){
-		$req = addcslashes(mysql_real_escape_string($_GET['req']),"%_");
-		if (strlen($req) < 1) die($htmlhead."<font color='#A00000'><h1>Wrong Request</h1></font>Search string must contain more than one character.<br>Please, type in a longer request and <a href=>try again</a>.".$htmlfoot);
+		//$req = addcslashes(mysql_real_escape_string($_GET['req']),"%_");
+		//if (strlen($req) < 1) die($htmlhead."<font color='#A00000'><h1>Wrong Request</h1></font>Search string must contain more than one character.<br>Please, type in a longer request and <a href=>try again</a>.".$htmlfoot);
 
-		$req_htm = htmlspecialchars($_GET['req'],ENT_QUOTES);
+		//$req_htm = htmlspecialchars($_GET['req'],ENT_QUOTES);
 		$req_htm_enc = urlencode($_GET['req']);
         if( isset($_GET['nametype'])) $dlnametype = $_GET['nametype'];
         else $dlnametype = "md5"; // в строке €вно Ќ≈ указан тип - скорее всего ожидаетс€ md5, в соответствии со старой версией
@@ -21,44 +21,8 @@
         $dlnametype = "orig";
 	}
 
-      $googletrans = "<div id='google_translate_element'></div><script>
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-          pageLanguage: 'en'
-        }, 'google_translate_element');
-     }
-      </script><script src='http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>";
-
-	$textcol1 = 'gray';//'A0A000';
-	$textcol2 = '#A00000';//'#E8E880';
-
-	$index1 = "<a href='http://free-books.dontexist.com/content/'>Contents</a>";
-	$torrents = "<a href='http://free-books.dontexist.com/repository_torrent/'>Torrents</a>";
-	$source = "<a href='http://free-books.dontexist.com/code/'>Code</a>";
-	$dbdump = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/'>Dump DB (Daily)</a>";
-	$donate = "<a href='http://lib.rus.ec/donate'>Donate</a>";
-        $import = "<a href='http://free-books.dontexist.com/import/'>Import</a>";
-	$forum = "<a href='http://gen.lib.rus.ec/forum/'>Forum</a>";
-        $upload = "<a href='http://free-books.dontexist.com/librarian/'>Single Upload &amp; edit</a>";
-        $batchupload = "<a href='http://free-books.dontexist.com/batchupload/'>Batch Upload</a>";
-        $ftp1 = "<a href='ftp://free-books.dontexist.com/genesis/!Repository/'>1</a>";
-        $ftp2 = "<a href='ftp://free-books.dontexist.com/repository2/'>2</a>";
-        $mirror1 = "<a href='http://gen.lib.rus.ec'>1-110k</a>";
-        $mirror2 = "<a href='http://lib.ololo.cc/gen'>2-110k</a>";
-        $comics = "<a href='http://free-books.dontexist.com/comics/'>Comics</a>";
-        $sitemap = "<a href='http://gen.lib.rus.ec/forum/viewtopic.php?p=9000/'>Sitemap</a>";
-        $biblio = "<a href='http://free-books.dontexist.com/biblio/'>Biblio</a>";
-        $newbooks = "<a href='http://free-books.dontexist.com/dailyupdated/My Dropbox/Public/!daily add/'>New books</a>";
-        $lastbooks = "<a href='http://free-books.dontexist.com/last.php'>Last books</a>";
-	//$master = "bookwarrior";
 	$footer = "</tr></table>\n";
 
-	$toolbar = "
-<table height=100% width=100% cellspacing=0 cellpadding=0>
-<tr>
-<td align=left><b><font face=Arial size=2 color={$textcol1}>{$index1}|{$torrents}|{$source}|{$dbdump}|{$import}|{$forum}|{$upload}|{$batchupload}|FTP: {$ftp1}, {$ftp2}|Mirrors: {$mirror1};  {$mirror2}|{$comics}|{$sitemap}|{$biblio}|{$newbooks}|{$lastbooks}</font></b></td>
-</tr>
-</table>";
 
     $dlnametypes = array('orig' => '',
                          'md5' => '',
@@ -73,17 +37,29 @@
         }
     }
     
-	$form = "<form name ='myform' action='search'>
-	<input name=req id='searchform' size=60 maxlength=254 value='$req_htm'> <input type=submit value='Search!'>
-	<br><font face=Arial color={$textcol1} size=1>$searchtip</font>
-    <br><label>Download name as: </label>
+	$form = "<form name ='myform' action='search'><br>
+	<input name=req id='searchform' size=60 maxlength=80 value='$req_htm'><input type=submit value='Search!'><br>
+    <label><b>Download name as:</b></label>
     <input type=radio name='nametype' id='orig' value='orig' ".$dlnametypes['orig']." onclick=radioOnClick('orig') />
     <label for='Original'>Original</label>
     <input type=radio name='nametype' id='md5' value='md5' ".$dlnametypes['md5']." onclick=radioOnClick('md5') />
-    <label for='Md5'>Md5</label>
+    <label for='Md5'>Md5</label><br>
+ <form action method='get'>
+<font><b>Search in fields:</b></font><input type='checkbox' name='column[]' value='title' checked=true>Title <input type='checkbox' name='column[]' value='author' checked=true>Autor<input type='checkbox' name='column[]' value='publisher'>Publisher <input type='checkbox' name='column[]' value='Identifier'>ISBN<br>
+<input type='checkbox' name='column[]' value='language'>Language <input type='checkbox' name='column[]' value='year'>Year<input type='checkbox' name='column[]' value='md5'>MD5 <input type='checkbox' name='column[]' value='series'>Series <input type='checkbox' name='column[]' value='extension'>Extension <input type='checkbox' name='column[]' value='topic'>Topic
+</form>
     	</form>";
 
-	echo $htmlheadfocus;
+$column = $_GET['column'];
+if (is_array($column)) {
+    $fieldslist = implode(', ', $column);
+}else{
+    $fieldslist = $column;
+}
+
+          echo $htmlheadfocus;
+          include 'menu.html';
+          include 'stats.php';
 
 	// if no arguments passed, give out the main page
 //	if ($mainpage) {
@@ -114,14 +90,13 @@
 
 	if ($from < $maxlines - $lines) $from = 0;
 
-	$sql_end = " ORDER BY id desc LIMIT 100";
-	///$search_words = explode(' ', $req);
-    ///$search_fields = "CONCAT(Author, Title, Series, Publisher, MD5, Periodical, CHAR(Year)) LIKE '%"; 
-    //$search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
-    //$search_isbn = "Identifier LIKE '%$req%'";
-    $sql_mid = "FROM $dbtable ";
+	$sql_end = "ORDER BY id desc LIMIT $from, 50";
+	$search_words = explode(' ', $req);
+	$search_fields = "CONCAT(Author, Title, Series, Publisher, Periodical, Topic) LIKE '%";
+        $sql_mid = "FROM $dbtable WHERE (Filename!='' AND Generic='' AND Visible='')";
 	$sql_req = "SELECT * ".$sql_mid.$sql_end;
-	$sql_cnt = "SELECT COUNT(*) ".$sql_mid.$sql_end;
+	$sql_cnt = "SELECT COUNT(*) ".$sql_mid;
+
 
 	$result = mysql_query($sql_cnt,$con);
 	if (!$result) die($dberr);
@@ -137,6 +112,7 @@
 	// pagination
 
 	$args = "last?nametype=$dlnametype&req=$req_htm_enc&lines=$lines";
+                            //search?nametype=orig&req=g&lines=100&from=100
 
 	if ($totalrows > $from + $lines){
 		$nextpage = $from + $lines;
@@ -205,43 +181,47 @@
     forceDlNameTypeSwitch();
     </script>";
     
-	$reshead = "<table width=100% cellspacing=0 cellpadding=0 border=0 class=c align=center>";
+	$reshead = "<table width=100% cellspacing=1 cellpadding=1 rules=rows class=c align=center>";
 
-	//include 'ads.php';
 
-	//echo $form;
+echo "<table width=100%><tr><td>$form</td><td><font color=red valign=top align=right><h1>Library Genesis<sup><font size=4><img src='http://gen.lib.rus.ec/wiki/images/math/f/8/5/f8577a96a48c2f06d7633a9a9ade5320.png'></font></sup></h1></font></td></tr></table>";
+
+
 	echo $reshead;
-       // echo $googletrans;
+
 
 	$color1 = '#D0D0D0';
 	$color2 = '#F6F6FF';
-	$color3 = '#A0E000';
+	$color3 = '#000000';
 
 	echo "\n<b>".$totalrows." pieces found for <u>$req_htm</u> </b>\n";
-	$navigatortop = "<tr><th valign=top bgcolor=$color3 colspan=6><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
-	$navigatorbottom = "<tr><th valign=top bgcolor=$color3 colspan=6><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
-	$tabheader = "<tr valign=top bgcolor=$color2><td><b>#</b></td><td></td><td><b>Name</b></td><td><b>Author</b></td><td><b>Size</b></td><td><b>Type</b></td></tr>";
-	//echo $navigatortop;
+	$navigatortop = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
+	$navigatorbottom = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
+	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b>Author</b></td><td><b>Title</b></td><td><b>Publisher</b></td><td><b>Year</b></td><td><b>Pp</b></td><td><b>Lang.</b></td><td><b>Size</b></td><td><b>Type</b></td><td colspan=3><b>Mirrors</b></td><td><b>Edit</b></td></tr>";
+	echo $navigatortop;
 	echo $tabheader;
 
 	//$repository = str_replace('\\','/',realpath($repository));
 
 	$i = 1;
 	while ($row = mysql_fetch_assoc($result)){
+		$id = stripslashes($row['ID']);
 		$title = stripslashes($row['Title']);
 		$author = stripslashes($row['Author']);
 		$vol = stripslashes($row['VolumeInfo']);
 		$publisher = stripslashes($row['Publisher']);
 		$year = $row['Year'];
 		$pages = $row['Pages'];
-        $periodical = stripslashes($row['Periodical']);
-        $series = stripslashes($row['Series']);
+                $periodical = stripslashes($row['Periodical']);
+                $series = stripslashes($row['Series']);
 		$lang = stripslashes($row['Language']);
-		$ident = stripslashes($row['Identifier']);
+		$ident1 = stripslashes($row['Identifier']);
 		$edition = stripslashes($row['Edition']);
 		$ext = stripslashes($row['Extension']);
 		$library = stripslashes($row['Library']);
         $filename = stripslashes($row['Filename']);
+
+$ident = ereg_replace("ISBN", " ISBN", $ident1);
         
         $bookname = '';
         if ($series <> '') {
@@ -254,6 +234,7 @@
         }
 
         $bookname = $bookname1.$bookname.$title;
+
 
 		$size = $row['Filesize'];
 		if ($size >= 1024*1024*1024){
@@ -272,28 +253,13 @@
 
 		///////////
 		// book info section (in parentheses)
-		$volinf = $publisher;
+		$volinf = $ident;
 
 		if ($volinf){
-			if ($year) $volinf = $volinf.', '.$year;
+			if ($ident) $volinf = ''.$ident;
 		} else {
-			if ($year) $volinf = $year;
+			if ($ident) $volinf = ''.$ident;
 		}
-
-		if ($lang == 'Russian') $pp = ' '.$str_pp_ru;
-		else $pp = ' '.$str_pp_en;
-		if ($volinf){
-			if ($pages) $volinf = $volinf.', '.$pages.$pp;
-		} else {
-			if ($pages) $volinf = $pages.$pp;
-		}
-
-		if ($volinf){
-			if ($ident) $volinf = $volinf.', '.$ident;
-		} else {
-			if ($ident) $volinf = 'ISBN '.$ident;
-		}
-
 		///////////
 		// output
 		if ($i % 2) $color = ""; // $color1
@@ -321,23 +287,40 @@
 		if ($library) $tiplib = 'Library: '.$library."\n";
 		else $tiplib = '';
 
+        if ($row['ID'] > 215000){
+                $path = "genesis2";
+        }else{$path = "genesis1";
+          }
+
+
         $repdir = str_replace('\\','/',realpath(getRepDirByFilename($filename)));
-		$tip = "ID: $row[ID]; $tiplib; Location: $repdir/$tipdir";
-		$line = "<tr valign=top bgcolor=$color><td>$ires.</td>
-		<td><a href='librarian/registration?md5=$row[MD5]'>[edit]</a></td>
-		<td nowrap><a href='get?nametype=$dlnametype&md5=$row[MD5]' title='$tip' id=$ires>{$bookname}$volume$volstamp</a></td>
-		<td nowrap>$author</td>
+		//$tip = "ID: $row[ID]; $tiplib; Location: $repdir/$tipdir";
+		$tip1 = "Login-Password look at the forum";
+		$tip3 = "Download from free-books.dontexist.com";
+		$tip4 = "Download from bookfi.org";
+		$tip5 = "Download from gen.lib.rus.ec";
+		$line = "<tr valign=top bgcolor=$color><td>$row[ID]</td>
+		<td>$author</td>
+		<td width=500><a href='book/index.php?md5=$row[MD5]'title='' id=$ires>{$bookname}$volume$volstamp</a></td>
+		<td>$publisher</td>
+		<td nowrap>$year</td>
+		<td nowrap>$pages</td>
+		<td nowrap>$lang</td>
 		<td nowrap>$size</td>
 		<td nowrap>$ext</td>
+                <td><a href='http://free-books.dontexist.com/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip3'><b>[dl1]</b></a></td>
+		<td><a href='http://gen.lib.rus.ec/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip5'>[dl2]</a></td>
+		<td><a href='http://proxy.bookfi.org/$path/$row[Filename]/_as/$row[Author]_$row[Title]($row[Year]).$row[Extension]'title='$tip4'>[dl3]</a></td>
+		<td><a href='http://free-books.dontexist.com/librarian/registration?md5=$row[MD5]'title='$tip1'>[edit]</a></td>
 		</tr>\n\n";
 
 		echo $line;
 		$i = $i + 1;
 	}
 
-    //echo $onClickScript;
+    echo $onClickScript;
     
-	//echo $navigatorbottom;
+	echo $navigatorbottom;
 	echo $footer;
 	echo $htmlfoot;
 
