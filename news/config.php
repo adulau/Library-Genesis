@@ -10,7 +10,7 @@
 	$pagesperpage = 25;
 
 	//$servername = 'gen.lib.rus.ec';
-	$servername = 'free-books.dontexist.com';
+	$servername = 'free-books.us.to';
 
 	// separator symbol
 	$filesep = '/';

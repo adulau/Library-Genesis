@@ -3,9 +3,12 @@
 	include 'connect.php';
 	include 'html.php';
 	include 'resume.php';
+
     include 'util.php';
 
-	$sql="SELECT * FROM $dbtable t WHERE MD5='$_GET[md5]' AND Filename!='' AND Generic=''";
+    if (isset($_GET['md5']) ) $nametype = $_GET['md5'];
+
+	$sql="SELECT * FROM $dbtable WHERE MD5='".mysql_real_escape_string($_GET['md5'])."' AND Filename!='' AND Generic=''";
 	$result = mysql_query($sql,$con);
 	if (!$result)
 		die($htmlhead."<font color='#A00000'><h1>Error</h1></font>".mysql_error()."<br>Cannot proceed.<p>Please, report on the error from <a href=>the main page</a>.".$htmlfoot);
@@ -73,7 +76,7 @@
  
     
     //die($htmlhead.'<font color="#A00000"><h1>Download name:</h1></font>"'.basename($downloadname.'.'.$ext).'"'.$htmlfoot);
-
+echo $fullfilename;
 	new getresumable($fullfilename,$ext,$downloadname);
     
     function removeIllegal($str){

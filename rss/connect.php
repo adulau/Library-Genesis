@@ -1,6 +1,5 @@
 <?php
 	include 'config.php';
-	include 'html.php';
 
 	@$con = mysql_connect($dbhost,$dbuser,$dbpass);
 	if (!$con)

@@ -19,8 +19,10 @@
         // distributed repository
  	  $repository = array(
 		'0-178000' => 'I:\!Genesis\!Repository' ,
-		'179000-297000' => 'E:\!Genesis\!reposithoty2' ,
-		'298000-500000' => 'F:\!Genesis\!repository3' ,
+		'179000-297000' => 'E:\!Genesis\!repository2' ,
+		'298000-440000' => 'F:\!Genesis\!repository3' ,
+		'441000-603000' => 'D:\!Genesis\!repository4' ,
+		'604000-903000' => 'B:\!Genesis\!repository5' ,
                 '' => 'I:\!Genesis\!Repository');
 
 ?>

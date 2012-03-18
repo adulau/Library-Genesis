@@ -14,17 +14,17 @@
 	$pagesperpage = 250;
 
 	//$servername = 'gen.lib.rus.ec';
-	$servername = 'free-books.dontexist.com';
+	$servername = 'free-books.us.to';
 
 	// separator symbol
 	$filesep = '/';
 
 	$repository = array(
-		'0-500000' => 'repository' ,
+		'0-1000000' => 'repository' ,
 		'' => 'repository');
 
 	$covers = array(
-		'0-500000' => 'http://free-books.dontexist.com/genesis/covers' ,
+		'0-1000000' => 'http://free-books.us.to/genesis/covers' ,
 		'' => 'repository');
 
 	//DEFINE ('DB_USER', $dbuser);

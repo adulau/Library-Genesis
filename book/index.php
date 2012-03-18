@@ -30,7 +30,7 @@ class RSS
 		mysql_query("SET session character_set_client = 'UTF8'");
 		mysql_query("SET session character_set_results = 'UTF8'");
 
-		mysql_select_db($db, $con);
+		mysql_select_db('bookwarrior.updated', $con);
 		DEFINE ('LINK', $con);
 	}
 
@@ -134,21 +134,21 @@ $ident = ereg_replace($patterns, $replacements, $ident1);
 		<date>'.htmlspecialchars(trim($row['TimeAdded'])).'</date>		
                                      <date2>'.htmlspecialchars(trim($row['TimeLastModified'])).'</date2>
                                       <issue>'.htmlspecialchars(trim($row['Issue'])).'</issue>
-                                      <descr>'.htmlspecialchars(trim($row1['descr'])).'</descr>
+                                      <descr>'.htmlspecialchars(strip_tags(trim($row1['descr']))).'</descr>
 		<commentary>'.htmlspecialchars(strip_tags(trim($row['Commentary']))).'</commentary>
 		<library>'.htmlspecialchars(trim($row['Library'])).'</library>
 		<issue>'.htmlspecialchars(trim($row['Issue'])).'</issue>
-		<url>'.htmlspecialchars(trim('http://free-books.dontexist.com/get?nametype=orig&md5='.$row['MD5'])).'</url>
+		<url>'.htmlspecialchars(trim('../get?nametype=orig&md5='.$row['MD5'])).'</url>
 		<url1>'.htmlspecialchars(trim('Ed2K')).'</url1>
-		<url2>'.htmlspecialchars(trim('http://proxy.bookfi.org/'.$path.'/'.$row['Filename'].'/_as/'.$row['Author'].$row['Title'].$row['Year'].'.'.$row['Extension'])).'</url2>
+		<url2>'.htmlspecialchars(trim('http://bookfi.org/md5/'.$row['MD5'])).'</url2>
 		<url2-1>'.htmlspecialchars(trim('Bookfi.org')).'</url2-1>
 		<url3>'.htmlspecialchars(trim('http://gen.lib.rus.ec/get?nametype=orig&md5='.$row['MD5'])).'</url3>
 		<url3-1>'.htmlspecialchars(trim('Gen.lib.rus.ec')).'</url3-1>
 		<url4>'.htmlspecialchars(trim('magnet:?xt=urn:tree:tiger:'.$row['TTH'].'&xl='.$row['Filesize'].'&dn='.$row['MD5'].'.'.$row['Extension'])).'</url4>
 		<url4-1>'.htmlspecialchars(trim('Magnet')).'</url4-1>
-		<torrent>'.htmlspecialchars(trim('http://free-books.dontexist.com/repository_torrent/r_'.$id1.'000.torrent')).'</torrent>
+		<torrent>'.htmlspecialchars(trim('http://free-books.us.to/repository_torrent/r_'.$id1.'000.torrent')).'</torrent>
 		<torrent1>'.htmlspecialchars(trim('Torrent')).'</torrent1>
-		<edit>'.htmlspecialchars(trim('http://free-books.dontexist.com/librarian/registration?md5='.$row['MD5'])).'</edit>
+		<edit>'.htmlspecialchars(trim('http://free-books.us.to/librarian/registration?md5='.$row['MD5'])).'</edit>
 		<edit1>'.htmlspecialchars(trim('Librarian free-books')).'</edit1>
 		<coverurl>'.$coverurl.'</coverurl>
 

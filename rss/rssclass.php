@@ -111,9 +111,7 @@ class RSS
 			}
 
 			///////////
-			// output
-			if ($i % 2) $color = "red"; // $color1
-			else $color = $color2;
+
 
 			$vol_ed = $vol;
 			if ($lang == 'Russian') $ed = ' '.$str_edition_ru;
