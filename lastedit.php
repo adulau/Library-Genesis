@@ -21,13 +21,6 @@
         $dlnametype = "orig";
 	}
 
-//      $googletrans = "<div id='google_translate_element'></div><script>
-//      function googleTranslateElementInit() {
-//        new google.translate.TranslateElement({
-//          pageLanguage: 'en'
-//        }, 'google_translate_element');
-//     }
-//      </script><script src='http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>";
 
 	$textcol1 = 'gray';//'A0A000';
 	$textcol2 = '#A00000';//'#E8E880';
@@ -81,7 +74,7 @@
     <input type=radio name='nametype' id='md5' value='md5' ".$dlnametypes['md5']." onclick=radioOnClick('md5') />
     <label for='Md5'>Md5</label><br>
  <form action method='get'>
-<font><b>Search in fields:</b></font><input type='checkbox' name='column[]' value='title' checked=true>Title<input type='checkbox' name='column[]' value='author' checked=true>Author<input type='checkbox' name='column[]' value='series' checked=true>Series<input type='checkbox' name='column[]' value='publisher' checked=true>Publisher<br><input type='checkbox' name='column[]' value='year' checked=true>Year
+<font><b>Search in fields:</b></font><input type='checkbox' name='column[]' value='title' checked=true>Title<input type='checkbox' name='column[]' value='author' checked=true>Author<input type='checkbox' name='column[]' value='series' checked=true>Series<input type='checkbox' name='column[]' value='periodical' checked=true>Periodical <input type='checkbox' name='column[]' value='publisher' checked=true>Publisher<br><input type='checkbox' name='column[]' value='year' checked=true>Year
 <input type='checkbox' name='column[]' value='Identifier'>ISBN<input type='checkbox' name='column[]' value='language'><a href='' title='Russian, English, German, French, Spanish, ... etc. (ISO 639)'>Language</a><input type='checkbox' name='column[]' value='md5'>MD5<input type='checkbox' name='column[]' value='extension'>Extension<input type='checkbox' name='column[]' value='topic'>Topic
 </form>
     	</form>";
@@ -132,9 +125,11 @@ if (is_array($column)) {
 //	$search_core = $search_fields.implode("%' AND $search_fields", $search_words)."%'";
 //	$search_isbn = "Identifier LIKE '%$req%'";
 //    	$sql_mid = "FROM $dbtable ";
-	$sql_mid = "FROM $dbtable WHERE (MD5!='')";
+	$sql_mid = "FROM $dbtable WHERE (MD5!='') AND (`TimeLastModified`!=`TimeAdded`) ";
 	$sql_req = "SELECT * ".$sql_mid.$sql_end;
 	$sql_cnt = "SELECT SUM(Filesize), COUNT(*) ".$sql_mid;
+
+//echo $sql_req;
 
 	$result = mysql_query($sql_cnt,$con);
 	if (!$result) die($dberr);
@@ -142,19 +137,19 @@ if (is_array($column)) {
 	$row = mysql_fetch_assoc($result);
 	$totalrows = stripslashes($row['COUNT(*)']);
 	$totalsize = stripslashes($row['SUM(Filesize)']);
-	if ($totalsize >= 1024*1024*1024){
-        	$totalsize = round($totalsize/1024/1024/1024);
-		$totalsize = $totalsize.' GB';
-		} else
-		if ($totalsize >= 1024*1024){
-			$totalsize = round($totalsize/1024/1024);
-			$totalsize = $totalsize.' MB';
-		} else
-		if ($totalsize >= 1024){
-			$totalsize = round($totalsize/1024);
-			$totalsize = $totalsize.' kB';
-		} else
-			$totalsize = $totalsize.' B';
+	//if ($totalsize >= 1024*1024*1024){
+        //	$totalsize = round($totalsize/1024/1024/1024);
+	//	$totalsize = $totalsize.' GB';
+	//	} else
+	//	if ($totalsize >= 1024*1024){
+	//		$totalsize = round($totalsize/1024/1024);
+	//		$totalsize = $totalsize.' MB';
+	//	} else
+	//	if ($totalsize >= 1024){
+	//		$totalsize = round($totalsize/1024);
+	//		$totalsize = $totalsize.' kB';
+	//	} else
+	//		$totalsize = $totalsize.' B';
 
 	mysql_free_result($result);
 
@@ -237,7 +232,7 @@ if (is_array($column)) {
 	$reshead = "<table width=100% cellspacing=1 cellpadding=1 rules=rows class=c align=center>";
 
 
-echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign=top align=right><h1>Library Genesis<sup><font size=4>700k</font></a></sup></h1></font></td></tr></table>";
+echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign=top align=right><h1>Library Genesis<sup><font size=4>800k</font></a></sup></h1></font></td></tr></table>";
 
 	echo $reshead;
         echo $googletrans;
@@ -246,10 +241,10 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 	$color2 = '#F6F6FF';
 	$color3 = '#000000';
 
-	echo "\n<b>".$totalsize."\t,\t".$totalrows." books in library <u>$req_htm</u> </b>\n";
+	//echo "\n<b>".$totalsize."\t,\t".$totalrows." books in library <u>$req_htm</u> </b>\n";
 	$navigatortop = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
 	$navigatorbottom = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
-	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b>Author</b></td><td><b>Title</b></td><td><b>Publisher</b></td><td><b>Year</b></td><td><b>Pages</b></td><td><b>Language</b></td><td><b>Size</b></td><td><b>Extension</b></td><td colspan=3><b>Mirrors</b></td><td><b>Edit Record</b></td></tr>";
+	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b>Author</b></td><td><b>Title</b></td><td><b>Publisher</b></td><td><b>Year</b></td><td><b>Pages</b></td><td><b>Language</b></td><td><b>Size</b></td><td><b>Extension</b></td><td colspan=4><b>Mirrors</b></td><td><b>Edit</b></td></tr>";
 	echo $navigatortop;
 	echo $tabheader;
 
@@ -270,7 +265,7 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 		$ident1 = stripslashes($row['Identifier']);
 		$edition = stripslashes($row['Edition']);
 		$ext = stripslashes($row['Extension']);
-                $ident = ereg_replace("ISBN", " ISBN", $ident1);
+                $ident = ereg_replace(",", ", ", $ident1);
 
         $bookname = '';
         if ($series <> '') {
@@ -279,7 +274,7 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
         
         $bookname1 = '';
         if ($periodical <> '') {
-            $bookname1 = "<font face=Times color=Red><i>$periodical </i></font>";
+            $bookname1 = "<font face=Times color=grey><i>$periodical </i></font>";
         }
 
         $bookname = $bookname1.$bookname.$title;
@@ -333,11 +328,12 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 
 
 
-		$tip = "ID: $row[ID]; $tiplib; Location: $repdir/$tipdir";
+		$tip = "ID: $row[ID]";
 		$tip1 = "Login-Password look at the forum";
 		$tip3 = "Download from free-books.us.to";
 		$tip4 = "Download from bookfi.org";
 		$tip5 = "Download from gen.lib.rus.ec";
+		$tip6 = "Download from libgen.info";
 		$line = "<tr valign=top bgcolor=$color><td>$ires</td>
 		<td>$author</td>
 		<td width=500><a href='book/index.php?md5=$row[MD5]'title='$tip' id=$ires>{$bookname}$volume$volstamp</a></td>
@@ -354,9 +350,10 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 
 
 	
-		<td><a href='get?nametype=$dlnametype&md5=$row[MD5]'title='$tip3'>[dl1]</a></td>
+		<td><a href='http://free-books.us.to/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip3'>[dl1]</a></td>
 		<td><a href='http://gen.lib.rus.ec/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip5'>[dl2]</a></td>
 		<td><a href='http://bookfi.org/md5/$row[MD5]' title='$tip4'>[dl3]</a></td>
+		<td><a href='http://libgen.info/view.php?id=$row[ID]' title='$tip6'>[dl4]</a></td>
 		<td><a href='http://free-books.us.to/librarian/registration?md5=$row[MD5]'title='$tip1'>[edit]</a></td>
 		</tr>\n\n";
 

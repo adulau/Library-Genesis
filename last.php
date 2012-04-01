@@ -45,13 +45,20 @@
     <input type=radio name='nametype' id='md5' value='md5' ".$dlnametypes['md5']." onclick=radioOnClick('md5') />
     <label for='Md5'>Md5</label><br>
  <form action method='get'>
-<font><b>Search in fields:</b></font><input type='checkbox' name='column[]' value='title' checked=true>Title<input type='checkbox' name='column[]' value='author' checked=true>Author<input type='checkbox' name='column[]' value='series' checked=true>Series<input type='checkbox' name='column[]' value='publisher' checked=true>Publisher<br><input type='checkbox' name='column[]' value='year' checked=true>Year
+<font><b>Search in fields:</b></font><input type='checkbox' name='column[]' value='title' checked=true>Title<input type='checkbox' name='column[]' value='author' checked=true>Author<input type='checkbox' name='column[]' value='series' checked=true>Series<input type='checkbox' name='column[]' value='periodical' checked=true>Periodical <input type='checkbox' name='column[]' value='publisher' checked=true>Publisher<br><input type='checkbox' name='column[]' value='year' checked=true>Year
 <input type='checkbox' name='column[]' value='Identifier'>ISBN<input type='checkbox' name='column[]' value='language'><a href='' title='Russian, English, German, French, Spanish, ... etc. (ISO 639)'>Language</a><input type='checkbox' name='column[]' value='md5'>MD5<input type='checkbox' name='column[]' value='extension'>Extension<input type='checkbox' name='column[]' value='topic'>Topic
 </form>
     	</form>";
 
-$column = $_GET['column'];
-if (is_array($column)) {
+
+
+if(isset($_GET['column'])){
+  $columns = $_GET['column'];
+
+}
+
+
+if (@is_array($column)) {
     $fieldslist = implode(', ', $column);
 }else{
     $fieldslist = $column;
@@ -90,7 +97,7 @@ if (is_array($column)) {
 
 	if ($from < $maxlines - $lines) $from = 0;
 
-	$sql_end = "ORDER BY id desc LIMIT $from, 50";
+	$sql_end = "ORDER BY id desc LIMIT $from, 25";
 	$search_words = explode(' ', $req);
 	$search_fields = "CONCAT_WS(Author, Title, Series, Publisher, Periodical, Topic) LIKE '%";
         $sql_mid = "FROM $dbtable WHERE (Filename!='' AND Generic='' AND Visible='')";
@@ -184,7 +191,7 @@ if (is_array($column)) {
 	$reshead = "<table width=100% cellspacing=1 cellpadding=1 rules=rows class=c align=center>";
 
 
-echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign=top align=right><h1>Library Genesis<sup><font size=4>700k</font></a></td></tr></table>";
+echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign=top align=right><h1>Library Genesis<sup><font size=4>800k</font></a></td></tr></table>";
 
 
 	echo $reshead;
@@ -197,7 +204,7 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 	echo "\n<b>".$totalrows." books in library<u>$req_htm</u> </b>\n";
 	$navigatortop = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
 	$navigatorbottom = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
-	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b>Author</b></td><td><b>Title</b></td><td><b>Publisher</b></td><td><b>Year</b></td><td><b>Pages</b></td><td><b>Language</b></td><td><b>Size</b></td><td><b>Extension</b></td><td colspan=3><b>Mirrors</b></td><td><b>Edit Record</b></td></tr>";
+	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b>Author</b></td><td><b>Title</b></td><td><b>Publisher</b></td><td><b>Year</b></td><td><b>Pages</b></td><td><b>Language</b></td><td><b>Size</b></td><td><b>Extension</b></td><td colspan=4><b>Mirrors</b></td><td><b>Edit</b></td></tr>";
 	echo $navigatortop;
 	echo $tabheader;
 
@@ -218,7 +225,7 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 		$ident1 = stripslashes($row['Identifier']);
 		$edition = stripslashes($row['Edition']);
 		$ext = stripslashes($row['Extension']);
-                $ident = ereg_replace("ISBN", " ISBN", $ident1);
+                $ident = ereg_replace(",", ", ", $ident1);
         
         $bookname = '';
         if ($series <> '') {
@@ -227,7 +234,7 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
         
         $bookname1 = '';
         if ($periodical <> '') {
-            $bookname1 = "<font face=Times color=Red><i>$periodical </i></font>";
+            $bookname1 = "<font face=Times color=grey><i>$periodical </i></font>";
         }
 
         $bookname = $bookname1.$bookname.$title;
@@ -286,6 +293,7 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 		$tip3 = "Download from free-books.us.to";
 		$tip4 = "Download from bookfi.org";
 		$tip5 = "Download from gen.lib.rus.ec";
+		$tip6 = "Download from libgen.info";
 		$line = "<tr valign=top bgcolor=$color><td>$row[ID]</td>
 		<td>$author</td>
 		<td width=500><a href='book/index.php?md5=$row[MD5]'title='' id=$ires>{$bookname}$volume$volstamp</a></td>
@@ -295,9 +303,10 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 		<td nowrap>$lang</td>
 		<td nowrap>$size</td>
 		<td nowrap>$ext</td>
-                <td><a href='get?nametype=$dlnametype&md5=$row[MD5]'title='$tip3'><b>[dl1]</b></a></td>
+                <td><a href='http://free-books.us.to/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip3'><b>[dl1]</b></a></td>
 		<td><a href='http://gen.lib.rus.ec/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip5'>[dl2]</a></td>
 		<td><a href='http://bookfi.org/md5/$row[MD5]' title='$tip4'>[dl3]</a></td>
+		<td><a href='http://libgen.info/view.php?id=$row[ID]' title='$tip6'>[dl4]</a></td>
 		<td><a href='http://free-books.us.to/librarian/registration?md5=$row[MD5]'title='$tip1'>[edit]</a></td>
 		</tr>\n\n";
 

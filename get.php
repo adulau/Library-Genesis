@@ -49,7 +49,7 @@
 	$fullfilename = $repdir.$filesep.$filename; // eg c:/library/9000/<md5>
     
 	if (!file_exists($fullfilename))
-		die($htmlhead."<font color='#A00000'><h1>File not found!</h1></font>Please, report to the administrator.".$htmlfoot);    
+		die($htmlhead."<font color='#A00000'><h1>File not found!</h1></font><a href='http://gen.lib.rus.ec/forum/viewtopic.php?f=1&t=210'>Please, report to the administrator.<a>".$htmlfoot);    
     
     if (isset($_GET['nametype']) ) $nametype = $_GET['nametype'];
     else $nametype = 'md5'; //тип явно не указан, вероятнее всего ожидается md5

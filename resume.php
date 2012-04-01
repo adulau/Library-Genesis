@@ -10,7 +10,7 @@ class getresumable {
 	var $filename = null;
 	var $downloadname = null;
 	var $fileext = null;
-	var $bufsize = 2048;
+	var $bufsize = 512;
 	var $seek_start = 0;
 	var $seek_end = -1;
 

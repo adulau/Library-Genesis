@@ -10,8 +10,8 @@
 </head>
 
 <body>
-<h1><font color="brown">Library Genesis: News</font></h1>
-<table border="1" width="100%">
+<h1><font color="brown"><a href="/">Library Genesis</a></font></h1>
+<table border="0" width="100%">
 	<tr><td colspan="3"><div class="paginator" id="paginator1"></div></td></tr>
 	<xsl:for-each select="library/book">
 		<tr valign="top"><td rowspan="19">

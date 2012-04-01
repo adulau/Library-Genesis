@@ -1,6 +1,7 @@
 <?php
 	include 'config.php';
 
+
 class RSS
 {
 	public function RSS()
@@ -109,7 +110,7 @@ class RSS
 		<commentary>'.htmlspecialchars(strip_tags(trim($row['Commentary']))).'</commentary>
 		<library>'.htmlspecialchars(trim($row['Library'])).'</library>
 		<issue>'.htmlspecialchars(trim($row['Issue'])).'</issue>
-		<url>'.htmlspecialchars(trim('http://free-books.dontexist.com/get?nametype=orig&md5='.$row['MD5'])).'</url>
+		<url>'.htmlspecialchars(trim('http://free-books.us.to/get?nametype=orig&md5='.$row['MD5'])).'</url>
 		<coverurl>'.$coverurl.'</coverurl>
 	</book>
 ';

@@ -31,12 +31,11 @@ class RSS
 		$query = "SELECT * FROM $dbtable WHERE Filename!='' AND Generic='' AND Visible='' ORDER BY ID DESC LIMIT ".($page-1)*$maxnewslines.",$maxnewslines;";
 		$res = mysql_db_query (DB_NAME, $query, LINK);
 		$numlines = sizeof($res);
-
-		if (false === strpos(strtolower($_SERVER[HTTP_USER_AGENT]),'google')){
-			$svrlnk = 'http://'.SERVERNAME.'/news/index.php?page=1';
-		} else {
-			$svrlnk = 'http://google.com/';
-		}
+//   if (false === strpos(strtolower($_SERVER[HTTP_USER_AGENT]),'google')){
+      $svrlnk = 'http://'.SERVERNAME.'/news/index.php?page=1';
+//   } else {
+//      $svrlnk = 'http://google.com/';
+//   }
 
 		// items
 		$items = '<?xml version="1.0" encoding="UTF-8"?>

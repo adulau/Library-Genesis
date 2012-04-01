@@ -16,12 +16,11 @@
 	$filesep = '/';
 
 	$repository = array(
-		'0-500000' => 'repository' ,
+		'0-5000000' => 'repository' ,
 		'' => 'repository');
 
 	$covers = array(
-		'0-500000' => 'ftp://free-books.dontexist.com/genesis/covers' ,
-		'' => 'repository');
+		'0-5000000' => 'http://free-books.us.to/genesis/covers');
 
 	DEFINE ('DB_USER', $dbuser);
 	DEFINE ('DB_PASSWORD', $dbpass);

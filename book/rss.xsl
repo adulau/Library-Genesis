@@ -34,7 +34,29 @@
 		<tr valign="top"><td><font color="gray">Time added:</font></td><td><xsl:value-of select="date"/></td><td><font color="gray">Time modified:</font></td><td><xsl:value-of select="date2"/></td></tr>
 		<tr valign="top"><td><font color="gray">Library:</font></td><td><xsl:value-of select="library"/></td><td><font color="gray">Library issue:</font></td><td><xsl:value-of select="issue"/></td></tr>
 		<tr valign="top"><td><font color="gray">Size:</font></td><td><xsl:value-of select="size"/></td><td><font color="gray">Extension:</font></td><td><xsl:value-of select="type"/></td></tr>
-		<tr valign="top"><td><font color="gray">Commentary:</font></td><td colspan="3"><xsl:value-of select="commentary"/></td></tr>		
+		<tr valign="top"><td><font color="gray">Commentary:</font></td><td colspan="3"><xsl:value-of select="commentary"/></td></tr>
+
+		<tr valign="top"><td><font color="gray">Identifiers:</font></td>
+<td colspan="3"><font color="gray">ISSN: </font><xsl:value-of select="issn"/>
+<font color="gray">;UDC: </font><xsl:value-of select="udc"/>
+<font color="gray">;LBC: </font><xsl:value-of select="lbc"/>
+<font color="gray">;LCC: </font><xsl:value-of select="lcc"/>
+<font color="gray">;DDC: </font><xsl:value-of select="ddc"/>
+<font color="gray">;DOI: </font><xsl:value-of select="doi"/>
+<font color="gray">;GoogleID: </font><xsl:value-of select="googlebookid"/></td></tr>
+
+
+		<tr valign="top"><td><font color="gray">Book attributes:</font></td>
+<td colspan="3"><font color="gray">DPI: </font><xsl:value-of select="dpi"/>
+<font color="gray">;OCR: </font><xsl:value-of select="searchable"/>
+<font color="gray">;Bookmarked: </font><xsl:value-of select="bookmarked"/>
+<font color="gray">;Vector: </font><xsl:value-of select="vector"/>
+<font color="gray">;Scanned: </font><xsl:value-of select="scanned"/>
+<font color="gray">;Orientation: </font><xsl:value-of select="orientation"/>
+<font color="gray">;Paginated: </font><xsl:value-of select="paginated"/>
+<font color="gray">;Color: </font><xsl:value-of select="color"/>
+<font color="gray">;Clean: </font><xsl:value-of select="cleaned"/></td></tr>
+
                 <tr valign="top"><td><font color="gray">Mirrors:</font></td><td><b>
 			<xsl:element name="a">
 			<xsl:attribute name="href"><xsl:value-of select="edonkey"/></xsl:attribute>
@@ -59,8 +81,14 @@
  			<xsl:element name="td">
 				<xsl:attribute name="colspan">4</xsl:attribute>
 				<xsl:attribute name="style">padding: 25px</xsl:attribute>
-				<xsl:value-of select="descr"/>
+
+				<xsl:copy-of select="descr"/>
 			</xsl:element>
+
+
+
+
+
 		</tr>
 		<tr height="5" valign="top"><td bgcolor="brown" colspan="4"></td></tr>
 	</xsl:for-each>

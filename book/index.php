@@ -107,13 +107,59 @@ class RSS
                         } else
                         if ($id1 < 1000)
 				$id1 = 0;
-$ident1 = htmlspecialchars(trim($row['Identifier']));
-$patterns = "ISBN";
-$replacements = " ISBN";
+$ident = htmlspecialchars(trim($row['Identifier']));
+$ident = str_replace(",", ", ", $ident);
 
-$ident = ereg_replace($patterns, $replacements, $ident1);
+$searchable = htmlspecialchars(trim($row['Searchable']));
+if ($searchable == '0'){$searchable='no';
+} elseif ($searchable == '1'){$searchable='yes';
+} else {$searchable=' ';}
+
+
+$bookmarked = htmlspecialchars(trim($row['Bookmarked']));
+if ($bookmarked == '0'){$bookmarked='no';
+}elseif ($bookmarked  == '1'){$bookmarked='yes';
+}else{$bookmarked=' ';}
+
+
+$vector = htmlspecialchars(trim($row['Vector']));
+if ($vector == '0'){$vector='no';
+}elseif ($vector == '1'){$vector='yes';
+}else{$vector=' ';}
+
+
+$scanned = htmlspecialchars(trim($row['Scanned']));
+if ($scanned == '0'){$scanned='no';
+}elseif ($scanned == '1'){$scanned='yes';
+}else{$scanned=' ';}
+
+
+$paginated = htmlspecialchars(trim($row['Paginated']));
+if ($paginated == '0'){$paginated='no';
+}elseif ($paginated == '1'){$paginated='yes';
+}else{$paginated=' ';}
+
                         
-			$items .= '	<book>
+$cleaned = htmlspecialchars(trim($row['Cleaned']));
+if ($cleaned == '0'){$cleaned='no';
+}elseif ($cleaned == '1'){$cleaned='yes';
+}else{$cleaned=' ';}			
+
+$color = htmlspecialchars(trim($row['Color']));
+if ($color == '0'){$color='no';
+}elseif ($color == '1'){$color='yes';
+}else{$color=' ';}
+
+$orientation = htmlspecialchars(trim($row['Orientation']));
+if ($orientation == '0'){$orientation='portrait';
+}elseif ($orientation == '1'){$orientation='landscape';
+}else{$orientation=' ';}
+
+$descr = mysql_real_escape_string(htmlspecialchars(strip_tags(trim($row1['descr']))));
+$descr = str_replace("\\r\\n", "\\n", $descr);
+$descr = str_replace("\\n", "<br />", $descr);
+
+$items .= '	<book>
 		<title>'.htmlspecialchars(trim($row['Title'])).'</title>
 		<authors>'.htmlspecialchars(trim($row['Author'])).'</authors>
 		<volume>'.htmlspecialchars(trim($row['VolumeInfo'])).'</volume>
@@ -130,12 +176,12 @@ $ident = ereg_replace($patterns, $replacements, $ident1);
 		<periodical>'.htmlspecialchars(trim($row['Periodical'])).'</periodical>
 		<series>'.htmlspecialchars(trim($row['Series'])).'</series>
 		<id>'.$row['ID'].'</id>
-		<edonkey>'.htmlspecialchars(trim('ed2k://|file|'.$row['MD5'].'.'.$row['Extension'].'|'.$row['Filesize'].'|'.$row['eDonkey'].'|/')).'</edonkey>
+		<edonkey>'.htmlspecialchars(trim('ed2k://|file|'.$row['MD5'].'.'.$row['Extension'].'|'.$row['Filesize'].'|'.$row['eDonkey'].'|h='.$row['AICH'].'|/')).'</edonkey>
 		<date>'.htmlspecialchars(trim($row['TimeAdded'])).'</date>		
-                                     <date2>'.htmlspecialchars(trim($row['TimeLastModified'])).'</date2>
+                                      <date2>'.htmlspecialchars(trim($row['TimeLastModified'])).'</date2>
                                       <issue>'.htmlspecialchars(trim($row['Issue'])).'</issue>
-                                      <descr>'.htmlspecialchars(strip_tags(trim($row1['descr']))).'</descr>
-		<commentary>'.htmlspecialchars(strip_tags(trim($row['Commentary']))).'</commentary>
+                                      <descr>'.$descr.'</descr>
+                <commentary>'.htmlspecialchars(strip_tags(trim($row['Commentary']))).'</commentary>
 		<library>'.htmlspecialchars(trim($row['Library'])).'</library>
 		<issue>'.htmlspecialchars(trim($row['Issue'])).'</issue>
 		<url>'.htmlspecialchars(trim('../get?nametype=orig&md5='.$row['MD5'])).'</url>
@@ -152,6 +198,22 @@ $ident = ereg_replace($patterns, $replacements, $ident1);
 		<edit1>'.htmlspecialchars(trim('Librarian free-books')).'</edit1>
 		<coverurl>'.$coverurl.'</coverurl>
 
+                <issn>'.htmlspecialchars(trim($row['ISSN'])).'</issn>                
+                <udc>'.htmlspecialchars(trim($row['UDC'])).'</udc>
+                <lbc>'.htmlspecialchars(trim($row['LBC'])).'</lbc>                
+                <lcc>'.htmlspecialchars(trim($row['LCC'])).'</lcc>                
+                <ddc>'.htmlspecialchars(trim($row['DDC'])).'</ddc>                
+                <doi>'.htmlspecialchars(trim($row['Doi'])).'</doi>
+                <googlebookid>'.htmlspecialchars(trim($row['Googlebookid'])).'</googlebookid>
+                <dpi>'.htmlspecialchars(trim($row['DPI'])).'</dpi>
+                <searchable>'.$searchable.'</searchable> 
+                <bookmarked>'.$bookmarked.'</bookmarked>                
+                <vector>'.$vector.'</vector>                
+                <scanned>'.$scanned.'</scanned> 
+                <orientation>'.htmlspecialchars(trim($row['Orientation'])).'</orientation>                
+                <paginated>'.$paginated.'</paginated>
+                <color>'.htmlspecialchars(trim($row['Color'])).'</color>                
+                <cleaned>'.$cleaned.'</cleaned>                
 
 	</book>
 ';

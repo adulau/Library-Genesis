@@ -3,11 +3,38 @@
 	include 'html.php';
 	include 'strings.php';
 	include 'util.php';
+    $footer = "</tr></table>\n";
+
+    $dlnametypes = array('orig' => '',
+                         'md5' => ''
+    );
+    
+    foreach( $dlnametypes as $key => $value ) {
+        if ( $key == $dlnametypes ) {
+            $dlnametypes[$key] = 'checked';
+        } else {
+            $dlnametypes[$key] = '';
+        }
+    }
+
+	$form = "<form name ='myform' action='search'><br>
+	<input name=req id='searchform' size=60 maxlength=80 value='$req'><input type=submit value='Искать!'><br>
+    <label><b>Download name as:</b></label>
+    <input type=radio name='nametype' id='orig' checked value='orig' ".$dlnametypes['orig']." onclick=radioOnClick('orig') />
+    <label for='Original'>Original</label>
+    <input type=radio name='nametype' id='md5' value='md5' ".$dlnametypes['md5']." onclick=radioOnClick('md5') />
+    <label for='Md5'>Md5</label><br>
+
+<font><b>Search in fields:</b></font><input type='checkbox' name='column[]' value='title' checked=true>Title<input type='checkbox' name='column[]' value='author' checked=true>Author<input type='checkbox' name='column[]' value='series' checked=true>Series<input type='checkbox' name='column[]' value='periodical' checked=true>Periodical <input type='checkbox' name='column[]' value='publisher' checked=true>Publisher<br><input type='checkbox' name='column[]' value='year' checked=true>Year
+<input type='checkbox' name='column[]' value='Identifier'>ISBN<input type='checkbox' name='column[]' value='language'><a href='' title='Russian, English, German, French, Spanish, ... etc. (ISO 639)'>Language</a><input type='checkbox' name='column[]' value='md5'>MD5<input type='checkbox' name='column[]' value='extension'>Extension<input type='checkbox' name='column[]' value='topic'>Topic
+
+    	</form>";
 
 
 
 
-	if (sizeof($_GET)) $mainpage = false;
+
+if (sizeof($_GET)) $mainpage = false;
 	else $mainpage = true;
 
 	// SQL-requests should encode single-quotes and underscores with Esc-sequences
@@ -29,42 +56,9 @@ $req = trim($req);
         $dlnametype = "orig";
 	}
 
-
-	$footer = "</tr></table>\n";
-
-    $dlnametypes = array('orig' => '',
-                         'md5' => '',
-                         'translit' => ''
-    );
-    
-    foreach( $dlnametypes as $key => $value ) {
-        if ( $key == $dlnametype ) {
-            $dlnametypes[$key] = 'checked';
-        } else {
-            $dlnametypes[$key] = '';
-        }
-    }
-    
-
-	$form = "<form name ='myform' action='search'><br>
-	<input name=req id='searchform' size=60 maxlength=80 value='$req_htm'><input type=submit value='Искать!'><br>
-    <label><b>Download name as:</b></label>
-    <input type=radio name='nametype' id='orig' value='orig' ".$dlnametypes['orig']." onclick=radioOnClick('orig') />
-    <label for='Original'>Original</label>
-    <input type=radio name='nametype' id='md5' value='md5' ".$dlnametypes['md5']." onclick=radioOnClick('md5') />
-    <label for='Md5'>Md5</label><br>
-
-<font><b>Search in fields:</b></font><input type='checkbox' name='column[]' value='title' checked=true>Title<input type='checkbox' name='column[]' value='author' checked=true>Author<input type='checkbox' name='column[]' value='series' checked=true>Series<input type='checkbox' name='column[]' value='publisher' checked=true>Publisher<br><input type='checkbox' name='column[]' value='year' checked=true>Year
-<input type='checkbox' name='column[]' value='Identifier'>ISBN<input type='checkbox' name='column[]' value='language'><a href='' title='Russian, English, German, French, Spanish, ... etc. (ISO 639)'>Language</a><input type='checkbox' name='column[]' value='md5'>MD5<input type='checkbox' name='column[]' value='extension'>Extension<input type='checkbox' name='column[]' value='topic'>Topic
-
-    	</form>";
-
-
 $formcomics = "<form name ='myformcomics' action='http://free-books.us.to/comics/?s=searchcomics'><br>
 	<input name=s id='searchform' size=60 maxlength=80 value='$searchcomics'><input type=submit value='Search!'><br>
 </form>";
-
-
 
 $formfiction = "<form name ='s' action='http://free-books.us.to/foreignfiction/'><br>
 	<input name=s size=60 maxlength=80 value=$s><input type=submit value='Search!'><br>
@@ -92,10 +86,10 @@ foreach($search_words as $search_word)
         $safetyKeyword = mysql_real_escape_string($search_word);
         $matchParts[] = "MATCH(`$column`) AGAINST('$safetyKeyword*' IN BOOLEAN MODE)";
     }
-    $matchParts1[] = "MATCH(`title`,`author`,`series`,`publisher`,`year`) AGAINST('$safetyKeyword*' IN BOOLEAN MODE)";
+    $matchParts1[] = "MATCH(`title`,`author`,`series`,`publisher`,`year`,`periodical`,`volumeinfo`) AGAINST('$safetyKeyword*' IN BOOLEAN MODE)";
     $structureParts[] = '('.join(' or ', $matchParts).')';
 }
-if($columns[0] == 'title' and $columns[1] == 'author' and $columns[2] == 'series' and $columns[3] == 'publisher' and $columns[4] == 'year' and $columns[5] == ''){
+if($columns[0] == 'title' and $columns[1] == 'author' and $columns[2] == 'series' and $columns[3] == 'periodical' and $columns[4] == 'publisher' and $columns[5] == 'year' and $columns[6] == ''){
 
 $sql = join(' and ', $matchParts1);
 }
@@ -115,7 +109,7 @@ $sql = join(' and ', $structureParts);
 	if ($mainpage) {
 		$searchbody = "<table cellspacing=0 border=0 width=100% height=100%>
 		<tr><td height=27% width=35% valign=top align=left></td><td></td><td width=35% valign=top align=right></td></tr>
-		<tr height=34%><td></td><td><center><table><tr><caption><a href='/'><font color=red><h1>Library Genesis<sup><font size=4>700k</font></sup></h1></font></a></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
+		<tr height=34%><td></td><td><center><table><tr><caption><a href='/'><font color=red><h1>Library Genesis<sup><font size=4>800k</font></sup></h1></font></a></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
 		<tr height=34%><td></td><td><center><table><tr><td nowrap valign='bottom'><b><a href='http://free-books.us.to/comics'>Comics</a></b></td><td nowrap>{$formcomics}</td></tr></table></center></td></tr>
 		<tr height=34%><td></td><td><center><table><tr><td nowrap valign='bottom'><b><a href='http://free-books.us.to/foreignfiction'>Foreign fiction</a></b></td><td nowrap valign='top'>{$formfiction}</td></tr></table></center></td></tr>
 		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td>";
@@ -148,7 +142,7 @@ $sql = join(' and ', $structureParts);
 
 	$sql_end = " ORDER BY Title LIMIT $from, $lines";
 	$sql_mid = "FROM $dbtable WHERE ($sql AND Filename!='' AND Generic='' AND Visible='')";
-        $sql_req = "SELECT Title, Author, Edition, Year, VolumeInfo, MD5, Extension, Filesize, Series, Periodical, Identifier, Publisher, Pages, Language ".$sql_mid.$sql_end;
+        $sql_req = "SELECT ID, Title, Author, Edition, Year, VolumeInfo, MD5, Extension, Filesize, Series, Periodical, Identifier, Publisher, Pages, Language ".$sql_mid.$sql_end;
         $sql_cnt = "SELECT SUM(Filesize), COUNT(*) ".$sql_mid;
 	$result = mysql_query($sql_cnt,$con);
 	if (!$result) die($dberr);
@@ -202,8 +196,9 @@ $args .= "&column[]=$col";
 
 	if ($from > 0) {
 		$prevpage = $from - $lines;
-		if ($prevpage < 0) $prevpage = 0;
+		if ($prevpage < 0) {$prevpage = 0;}
 		$argsprev = $args."&from=".$prevpage;
+
 		$prevlink1 = "<a href='$argsprev' id='prevlink1'>".$str_prev."</a>";
 		$prevlink2 = "<a href='$argsprev' id='prevlink2'>".$str_prev."</a>";
 	} else {
@@ -258,7 +253,7 @@ $args .= "&column[]=$col";
 	$reshead = "<table width=100% cellspacing=1 cellpadding=1 rules=rows class=c align=center>";
 
 	if (!$mainpage){
-echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign=top align=right><h1>Library Genesis<sup><font size=4>700k</font></a></td></tr></table>";
+echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign=top align=right><h1>Library Genesis<sup><font size=4>800k</font></a></td></tr></table>";
 }
 	echo $reshead;
         // echo $googletrans;
@@ -271,7 +266,7 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 	echo "\n<b>".$totalsize."\t,\t".$totalrows." books found books on request <u>$req_htm</u> </b>\n";
 	$navigatortop = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
 	$navigatorbottom = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
-	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b>Author</b></td><td><b>Title</b></td><td><b>Publisher</b></td><td><b>Year</b></td><td><b>Pages</b></td><td><b>Language</b></td><td><b>Size</b></td><td><b>Extension</b></td><td colspan=3><b>Mirrors</b></td><td><b>Edit Record</b></td></tr>";
+	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b>Author</b></td><td><b>Title</b></td><td><b>Publisher</b></td><td><b>Year</b></td><td><b>Pages</b></td><td><b>Language</b></td><td><b>Size</b></td><td><b>Extension</b></td><td colspan=4><b>Mirrors</b></td><td><b>Edit</b></td></tr>";
 	echo $navigatortop;
 	echo $tabheader;
 
@@ -291,7 +286,7 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 		$ident1 = stripslashes($row['Identifier']);
 		$edition = stripslashes($row['Edition']);
 		$ext = stripslashes($row['Extension']);
-                $ident = ereg_replace("ISBN", " ISBN", $ident1);
+                $ident = ereg_replace(",", ", ", $ident1);
         
         $bookname = '';
         if ($series <> '') {
@@ -300,7 +295,7 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
         
         $bookname1 = '';
         if ($periodical <> '') {
-            $bookname1 = "<font face=Times color=Red><i>$periodical </i></font>";
+            $bookname1 = "<font face=Times color=grey><i>$periodical </i></font>";
         }
 
         $bookname = $bookname1.$bookname.$title;
@@ -359,6 +354,7 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 		$tip3 = "Download from free-books.us.to";
 		$tip4 = "Download from bookfi.org";
 		$tip5 = "Download from gen.lib.rus.ec";
+		$tip6 = "Download from libgen.info";
 		$line = "<tr valign=top bgcolor=$color><td>$ires</td>
 		<td>$author</td>
 		<td width=500><a href='book/index.php?md5=$row[MD5]'title='$tip0' id=$ires>{$bookname}$volume$volstamp</a></td>
@@ -374,6 +370,7 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 		<td><a href='http://free-books.us.to/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip3'>[dl1]</a></td>
 		<td><a href='http://gen.lib.rus.ec/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip5'><b>[dl2]</b></a></td>
 		<td><a href='http://bookfi.org/md5/$row[MD5]' title='$tip4'>[dl3]</a></td>
+		<td><a href='http://libgen.info/view.php?id=$row[ID]' title='$tip6'>[dl4]</a></td>
 		<td><a href='http://free-books.us.to/librarian/registration?md5=$row[MD5]'title='$tip1'>[edit]</a></td>
 		</tr>\n\n";
 

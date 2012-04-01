@@ -10,20 +10,19 @@
 	$errurl = '';
 
 	//$repository = 'repository';
-	$maxlines = 50;
+	$maxlines = 25;
 
     
         // separator symbol
         $filesep = '/';
 	
         // distributed repository
- 	  $repository = array(
-		'0-178000' => 'I:\!Genesis\!Repository' ,
-		'179000-297000' => 'E:\!Genesis\!repository2' ,
-		'298000-440000' => 'F:\!Genesis\!repository3' ,
-		'441000-603000' => 'D:\!Genesis\!repository4' ,
-		'604000-903000' => 'B:\!Genesis\!repository5' ,
-                '' => 'I:\!Genesis\!Repository');
+ 	  $repository = array('0-178000' => 'I:\!Genesis\!Repository',
+		'179000-297000' => 'E:\!Genesis\!repository2',
+		'298000-440000' => 'F:\!Genesis\!repository3',
+		'441000-603000' => 'D:\!Genesis\!repository4',
+		'604000-753000' => 'B:\!Genesis\!repository5',
+		'754000-999000' => 'M:\!Genesis\!repository6');
 
 ?>
 
