@@ -1,11 +1,31 @@
-﻿<?php
+<?php
+
+
+    // Установка куки для запоминания выбора языка
+    if(isset($_COOKIE['lang'])) { 
+       $lang = $_COOKIE['lang'];
+       $lang_file = 'lang_'.$lang.'.php';
+       if(!file_exists($lang_file)) { $lang_file = 'lang_en.php'; }
+    } else {
+         $lang = 'en';
+         $lang_file = 'lang_en.php';
+       }
+     // -- Конец установки куки
+
+
+    set_time_limit(40); 
+   // usleep(200000);
+
 	include 'connect.php';
 	include 'html.php';
-	include 'strings.php';
+	//include 'strings.php';
 	include 'util.php';
+        include $lang_file;
+
     $footer = "</tr></table>\n";
 
     $dlnametypes = array('orig' => '',
+                         'translit' => '',
                          'md5' => ''
     );
     
@@ -17,16 +37,91 @@
         }
     }
 
-	$form = "<form name ='myform' action='search'><br>
-	<input name=req id='searchform' size=60 maxlength=80 value='$req'><input type=submit value='Искать!'><br>
-    <label><b>Download name as:</b></label>
-    <input type=radio name='nametype' id='orig' checked value='orig' ".$dlnametypes['orig']." onclick=radioOnClick('orig') />
-    <label for='Original'>Original</label>
-    <input type=radio name='nametype' id='md5' value='md5' ".$dlnametypes['md5']." onclick=radioOnClick('md5') />
-    <label for='Md5'>Md5</label><br>
+//запоминаем как установлены галки 
 
-<font><b>Search in fields:</b></font><input type='checkbox' name='column[]' value='title' checked=true>Title<input type='checkbox' name='column[]' value='author' checked=true>Author<input type='checkbox' name='column[]' value='series' checked=true>Series<input type='checkbox' name='column[]' value='periodical' checked=true>Periodical <input type='checkbox' name='column[]' value='publisher' checked=true>Publisher<br><input type='checkbox' name='column[]' value='year' checked=true>Year
-<input type='checkbox' name='column[]' value='Identifier'>ISBN<input type='checkbox' name='column[]' value='language'><a href='' title='Russian, English, German, French, Spanish, ... etc. (ISO 639)'>Language</a><input type='checkbox' name='column[]' value='md5'>MD5<input type='checkbox' name='column[]' value='extension'>Extension<input type='checkbox' name='column[]' value='topic'>Topic
+if(isset($_GET['column'])){
+
+   if(in_array('title', $_GET['column'])) {
+     $titlecheck = ' checked';} 
+   else {$titlecheck = '';}
+
+   if(in_array('author', $_GET['column'])) {
+     $authorcheck = ' checked';} 
+   else {$authorcheck = '';}
+
+   if(in_array('series', $_GET['column'])) {
+     $seriescheck = ' checked';} 
+   else {$seriescheck = '';}
+
+   if(in_array('periodical', $_GET['column'])) {
+     $periodicalcheck = ' checked';} 
+   else {$periodicalcheck = '';}
+
+   if(in_array('publisher', $_GET['column'])) {
+     $publishercheck = ' checked';} 
+   else {$publishercheck = '';}
+
+   if(in_array('year', $_GET['column'])) {
+     $yearcheck = ' checked';} 
+   else {$yearcheck = '';}
+
+   if(in_array('identifier', $_GET['column'])) {
+     $isbncheck = ' checked';} 
+   else {$isbncheck = '';}
+
+   if(in_array('language', $_GET['column'])) {
+     $languagecheck = ' checked';} 
+   else {$languagecheck = '';}
+
+   if(in_array('md5', $_GET['column'])) {
+     $md5check = ' checked';} 
+   else {$md5check = '';}
+
+   if(in_array('extension', $_GET['column'])) {
+     $extensioncheck = ' checked';} 
+   else {$extensioncheck = '';}
+
+   if(in_array('topic', $_GET['column'])) {
+     $topiccheck = ' checked';} 
+   else {$topiccheck = '';}
+
+} else {
+$titlecheck = ' checked';
+$authorcheck = ' checked';
+$seriescheck = ' checked';
+$periodicalcheck = ' checked';
+$publishercheck = ' checked';
+$yearcheck = ' checked';
+$isbncheck = '';
+$languagecheck = '';
+$md5check = '';
+$extensioncheck = '';
+$topiccheck = '';
+}
+
+
+
+
+
+
+
+
+	$form = "<form name ='myform' action='search'><br>
+	<input name='req' id='searchform' size=60 maxlength=80 value='$_GET[req]'><input type=submit onclick='this.disabled='disabled'; document.forms.item(0).submit();' value='".$LANG_SEARCH_0."'><br>
+<font face=Arial color=gray size=1><a href='/batchsearchindex.php'>".$LANG_MESS_0."</a></font><br>
+
+    <label><b>".$LANG_MESS_1."</b></label>
+    <input type=radio name='nametype' id='orig' checked value='orig' ".$dlnametypes['orig']." onclick=radioOnClick('orig') />
+    <label for='Original'>".$LANG_MESS_2."</label>
+    <input type=radio name='nametype' id='translit' value='translit' ".$dlnametypes['translit']." onclick=radioOnClick('translit') />
+    <label for='translit'>".$LANG_MESS_3."</label>
+    <input type=radio name='nametype' id='md5' value='md5' ".$dlnametypes['md5']." onclick=radioOnClick('md5') />
+    <label for='md5'>MD5</label><br>
+
+
+
+<font><b>".$LANG_MESS_4."</b></font><input type='checkbox' name='column[]' value='title'".$titlecheck.">".$LANG_MESS_5."<input type='checkbox' name='column[]' value='author'".$authorcheck.">".$LANG_MESS_6."<input type='checkbox' name='column[]' value='series'".$seriescheck.">".$LANG_MESS_7."<input type='checkbox' name='column[]' value='periodical'".$periodicalcheck.">".$LANG_MESS_8."<input type='checkbox' name='column[]' value='publisher'".$publishercheck.">".$LANG_MESS_9."<br><input type='checkbox' name='column[]' value='year'".$yearcheck.">".$LANG_MESS_10."
+<input type='checkbox' name='column[]' value='identifier'".$isbncheck.">ISBN<input type='checkbox' name='column[]' value='language'".$languagecheck."><a href='' title='Russian, English, German, French, Spanish, ... etc. (ISO 639)'>".$LANG_MESS_11."</a><input type='checkbox' name='column[]' value='md5'".$md5check.">MD5<input type='checkbox' name='column[]' value='extension'".$extensioncheck.">".$LANG_MESS_12."<input type='checkbox' name='column[]' value='topic'".$topiccheck.">".$LANG_MESS_13."
 
     	</form>";
 
@@ -39,29 +134,41 @@ if (sizeof($_GET)) $mainpage = false;
 
 	// SQL-requests should encode single-quotes and underscores with Esc-sequences
 	if (!$mainpage){
-		$req = addcslashes(mysql_real_escape_string($_GET['req']),"%_");     
-$req = preg_replace('/[[:punct:]]+/u', ' ', $req);                
-$req = preg_replace('/[\s]+/u',' ',$req);
-$req = trim($req);
 
 
-		if (strlen($req) < 1) die($htmlhead."<font color='#A00000'><h1>Wrong Request</h1></font>Search string must contain more than one character.<br>Please, type in a longer request and <a href=>try again</a>.".$htmlfoot);
+		@$req = addcslashes(mysql_real_escape_string($_GET['req']),"%_");     
+@$req = preg_replace('/[[:punct:]]+/u', ' ', $req);                
+@$req = preg_replace('/[\s]+/u',' ',$req);
+@$req = trim($req);
 
-		$req_htm = htmlspecialchars($_GET['req'],ENT_QUOTES);
+
+		if (strlen($req) < 1) die($htmlhead."<font color='#A00000'><h1>".$LANG_MESS_14."</h1></font>".$LANG_MESS_15.".<br>".$LANG_MESS_16."<a href=>".$LANG_MESS_17."</a>.".$htmlfoot);
+
+		@$req_htm = htmlspecialchars($_GET['req'],ENT_QUOTES);
 		$req_htm_enc = urlencode($_GET['req']);
         if( isset($_GET['nametype'])) $dlnametype = $_GET['nametype'];
-        else $dlnametype = "md5"; //
+        else $dlnametype = "translit"; //
 	} else {
-		$req_htm = "";
-        $dlnametype = "orig";
-	}
+            
+        $req  = "";
+	$req_htm = "";
 
-$formcomics = "<form name ='myformcomics' action='http://free-books.us.to/comics/?s=searchcomics'><br>
-	<input name=s id='searchform' size=60 maxlength=80 value='$searchcomics'><input type=submit value='Search!'><br>
+        $dlnametype = "orig";
+	} 
+
+
+@$scimag = "<form name ='scimag' action='/scimag/?s=scimag'><br>
+	<input name=s id='sciform' size=60 maxlength=80 value='$scimag'><input type=submit  onclick='this.disabled='disabled'; document.forms.item(0).submit();'  value='".$LANG_SEARCH_0."'><br>
+<font face=Arial color=gray size=1>".$LANG_MESS_18."<a href='http://sci-hub.org/'>sci-hub.org</a></font></td></tr>
 </form>";
 
-$formfiction = "<form name ='s' action='http://free-books.us.to/foreignfiction/'><br>
-	<input name=s size=60 maxlength=80 value=$s><input type=submit value='Search!'><br>
+@$formcomics = "<form name ='myformcomics' action='/comics/?s=searchcomics'><br>
+	<input name=s id='searchform' size=60 maxlength=80 value='$searchcomics'><input type=submit  onclick='this.disabled='disabled'; document.forms.item(0).submit();' value='".$LANG_SEARCH_0."'><br>
+</form>";
+
+@$formfiction = "<form name ='s' action='/foreignfiction/'><br>
+	<input name=s size=60 maxlength=80 value='$s'><input type=submit  onclick='this.disabled='disabled'; document.forms.item(0).submit();'  value='".$LANG_SEARCH_0."'><br>
+<font face=Arial color=gray size=1><a href='/foreignfiction/batchsearchindex.php'>".$LANG_MESS_0."</a></font>
 </form>";
 
 
@@ -89,7 +196,7 @@ foreach($search_words as $search_word)
     $matchParts1[] = "MATCH(`title`,`author`,`series`,`publisher`,`year`,`periodical`,`volumeinfo`) AGAINST('$safetyKeyword*' IN BOOLEAN MODE)";
     $structureParts[] = '('.join(' or ', $matchParts).')';
 }
-if($columns[0] == 'title' and $columns[1] == 'author' and $columns[2] == 'series' and $columns[3] == 'periodical' and $columns[4] == 'publisher' and $columns[5] == 'year' and $columns[6] == ''){
+if($columns[0] == 'title' and $columns[1] == 'author' and $columns[2] == 'series' and $columns[3] == 'periodical' and $columns[4] == 'publisher' and $columns[5] == 'year' and @$columns[6] == ''){
 
 $sql = join(' and ', $matchParts1);
 }
@@ -102,17 +209,24 @@ $sql = join(' and ', $structureParts);
 
 
           echo $htmlheadfocus;
-          include_once 'menu.html';
+          echo '<table class="lang"><tr><td><a href="setlang.php?lang=ru">[RU]</a></td><td><a href="setlang.php?lang=en">[EN]</a></td></tr></table>';
+          include_once 'menu_'.$lang.'.html';
  
 
 	// if no arguments passed, give out the main page
 	if ($mainpage) {
 		$searchbody = "<table cellspacing=0 border=0 width=100% height=100%>
-		<tr><td height=27% width=35% valign=top align=left></td><td></td><td width=35% valign=top align=right></td></tr>
-		<tr height=34%><td></td><td><center><table><tr><caption><a href='/'><font color=red><h1>Library Genesis<sup><font size=4>800k</font></sup></h1></font></a></caption><td nowrap>{$form}</td></tr></table></center></td></tr>
-		<tr height=34%><td></td><td><center><table><tr><td nowrap valign='bottom'><b><a href='http://free-books.us.to/comics'>Comics</a></b></td><td nowrap>{$formcomics}</td></tr></table></center></td></tr>
-		<tr height=34%><td></td><td><center><table><tr><td nowrap valign='bottom'><b><a href='http://free-books.us.to/foreignfiction'>Foreign fiction</a></b></td><td nowrap valign='top'>{$formfiction}</td></tr></table></center></td></tr>
-		<tr><td width=25% valign=bottom align=left></td><td></td><td width=25% valign=bottom align=right></td>";
+<col width='35%'>
+<col width='65%'>		
+<tr><caption><a href='/'><font color=#A00000><h1>Library Genesis<sup><font size=4>800k</font></sup></h1></font></a><br>
+<b>".$LANG_MESS_31."</b></caption>
+
+<td></td><td nowrap>{$form}</td></tr>
+<tr><td nowrap valign='middle' align='right'><b><a href='/scimag/'>".$LANG_MESS_19."</a></b></td><td nowrap>{$scimag}</td></tr>	
+<tr><td nowrap valign='bottom' align='right'><b><a href='/comics'>".$LANG_MESS_20."</a></b></td><td nowrap>{$formcomics}</td></tr>
+<tr><td nowrap valign='middle' align='right'><b><a href='/foreignfiction'>".$LANG_MESS_21."</a></b></td><td nowrap valign='top'>{$formfiction}</td></tr>
+</table>";
+
 
 
 
@@ -124,7 +238,9 @@ $sql = join(' and ', $structureParts);
 	}
 
 	// now look up in the database
-        $errurl = 'http://gen.lib.rus.ec/forum/viewtopic.php?f=3&t=210';
+        $errurl = 'http://genofond.org/viewtopic.php?f=3&t=3925';
+
+
 	$dberr = $htmlhead."<font color='#A00000'><h1>Error</h1></font>".mysql_error()."<br>Cannot proceed.<p>Please, <a href='{$errurl}'><u>report</u></a> on this error.".$htmlfoot;
 
 	if (isset($_GET['lines'])) $lines = $_GET['lines'];
@@ -140,30 +256,39 @@ $sql = join(' and ', $structureParts);
 
 
 
-	$sql_end = " ORDER BY Title LIMIT $from, $lines";
+	if (isset($_GET['sort'])){$sort = $_GET['sort'];
+
+	if (isset($_GET['from'])) $from = $_GET['from'];
+	else $from = 0;
+        }else{$sort = 'title';}
+
+
+
+	$sql_end = " ORDER BY ".$sort." LIMIT $from, $lines";
 	$sql_mid = "FROM $dbtable WHERE ($sql AND Filename!='' AND Generic='' AND Visible='')";
         $sql_req = "SELECT ID, Title, Author, Edition, Year, VolumeInfo, MD5, Extension, Filesize, Series, Periodical, Identifier, Publisher, Pages, Language ".$sql_mid.$sql_end;
+
         $sql_cnt = "SELECT SUM(Filesize), COUNT(*) ".$sql_mid;
 	$result = mysql_query($sql_cnt,$con);
 	if (!$result) die($dberr);
-
+//echo $sql_req;
 
 	$row = mysql_fetch_assoc($result);
 	$totalrows = stripslashes($row['COUNT(*)']);
 	$totalsize = stripslashes($row['SUM(Filesize)']);
 	if ($totalsize >= 1024*1024*1024){
         	$totalsize = round($totalsize/1024/1024/1024);
-		$totalsize = $totalsize.' GB';
+		$totalsize = $totalsize.' '.$LANG_MESS_GB;
 		} else
 		if ($totalsize >= 1024*1024){
 			$totalsize = round($totalsize/1024/1024);
-			$totalsize = $totalsize.' MB';
+			$totalsize = $totalsize.' '.$LANG_MESS_MB;
 		} else
 		if ($totalsize >= 1024){
 			$totalsize = round($totalsize/1024);
-			$totalsize = $totalsize.' kB';
+			$totalsize = $totalsize.' '.$LANG_MESS_KB;
 		} else
-			$totalsize = $totalsize.' B';
+			$totalsize = $totalsize.' '.$LANG_MESS_B;
 
 	mysql_free_result($result);
 
@@ -174,16 +299,18 @@ $sql = join(' and ', $structureParts);
 	// pagination
 
 
+        $args = "search.php?nametype=$dlnametype&req=$req_htm_enc&lines=$lines";
 
 
-	$args = "search.php?nametype=$dlnametype&req=$req_htm_enc&lines=$lines";
+        
 foreach ($columns as $col){
 $args .= "&column[]=$col";
 } 
 
 	if ($totalrows > $from + $lines){
 		$nextpage = $from + $lines;
-		$argsnext = $args."&from=".$nextpage;
+if(isset($_GET['sort'])){
+		$argsnext = $args."&sort=".$sort."&from=".$nextpage;}else{$argsnext = $args."&from=".$nextpage;}
 		$nextlink1 = "<a href='$argsnext' id='nextlink1'>".$str_next."</a>";
 		$nextlink2 = "<a href='$argsnext' id='nextlink2'>".$str_next."</a>";
         $linesOnPage = $lines;
@@ -197,7 +324,11 @@ $args .= "&column[]=$col";
 	if ($from > 0) {
 		$prevpage = $from - $lines;
 		if ($prevpage < 0) {$prevpage = 0;}
-		$argsprev = $args."&from=".$prevpage;
+
+if(isset($_GET['sort'])){
+		$argsprev = $args."&sort=".$sort."&from=".$prevpage;}else{$argsprev = $args."&from=".$prevpage;}
+
+		//$argsprev = $args."&sort=".$sort."&from=".$prevpage;
 
 		$prevlink1 = "<a href='$argsprev' id='prevlink1'>".$str_prev."</a>";
 		$prevlink2 = "<a href='$argsprev' id='prevlink2'>".$str_prev."</a>";
@@ -253,7 +384,7 @@ $args .= "&column[]=$col";
 	$reshead = "<table width=100% cellspacing=1 cellpadding=1 rules=rows class=c align=center>";
 
 	if (!$mainpage){
-echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign=top align=right><h1>Library Genesis<sup><font size=4>800k</font></a></td></tr></table>";
+echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=#A00000 valign=top align=right><h1>Library Genesis<sup><font size=4>800k</font></a></td></tr></table>";
 }
 	echo $reshead;
         // echo $googletrans;
@@ -263,10 +394,12 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 	$color2 = '#F0F5FE';
 	$color3 = '#000000';
 
-	echo "\n<b>".$totalsize."\t,\t".$totalrows." books found books on request <u>$req_htm</u> </b>\n";
-	$navigatortop = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
-	$navigatorbottom = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
-	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b>Author</b></td><td><b>Title</b></td><td><b>Publisher</b></td><td><b>Year</b></td><td><b>Pages</b></td><td><b>Language</b></td><td><b>Size</b></td><td><b>Extension</b></td><td colspan=4><b>Mirrors</b></td><td><b>Edit</b></td></tr>";
+        $req_htmadd = str_replace(' ', '+', $req_htm);
+
+	echo "\n<b>".$totalsize."\t,\t".$totalrows." ".$LANG_MESS_22." \"$req_htm\" ".$LANG_MESS_23." <a href='/scimag/?s=$req_htmadd'>".$LANG_MESS_19."</a>, <a href='/foreignfiction/?s=$req_htm&f_cols=Author:Title:Series&f_lang=0&page=1'>".$LANG_MESS_21."</a>, <a href='/comics/?s=$req_htmadd'>".$LANG_MESS_20."</a></b>\n";
+	$navigatortop = "<tr><th valign=top bgcolor=$color1 colspan=17><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
+	$navigatorbottom = "<tr><th valign=top bgcolor=$color1 colspan=17><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
+	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b><a title='".$LANG_MESS_32."' href='".$args."&sort=author'>".$LANG_MESS_6."</a></b></td><td><b><a title='".$LANG_MESS_33."' href='".$args."&sort=title'>".$LANG_MESS_5."</a></b></td><td><b><a title='".$LANG_MESS_34."' href='".$args."&sort=publisher'>".$LANG_MESS_9."</a></b></td><td><b><a title='".$LANG_MESS_35."' href='".$args."&sort=year'>".$LANG_MESS_10."</a></b></td><td><b><a title='".$LANG_MESS_36."' href='".$args."&sort=abs(pages)'>".$LANG_MESS_28."</a></b></td><td><b><a title='".$LANG_MESS_37."' href='".$args."&sort=language'>".$LANG_MESS_11."</a></b></td><td><b><a title='".$LANG_MESS_38."' href='".$args."&sort=filesize'>".$LANG_MESS_26."</a></b></td><td><b><a title='".$LANG_MESS_39."' href='".$args."&sort=extension'>".$LANG_MESS_12."</a></b></td><td colspan=7><b>".$LANG_MESS_29."</b></td><td><b>".$LANG_MESS_30."</b></td></tr>";
 	echo $navigatortop;
 	echo $tabheader;
 
@@ -304,17 +437,17 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 		$size = $row['Filesize'];
 		if ($size >= 1024*1024*1024){
 			$size = round($size/1024/1024/1024);
-			$size = $size.' GB';
+			$size = $size.' '.$LANG_MESS_GB;
 		} else
 		if ($size >= 1024*1024){
 			$size = round($size/1024/1024);
-			$size = $size.' MB';
+			$size = $size.' '.$LANG_MESS_MB;
 		} else
 		if ($size >= 1024){
 			$size = round($size/1024);
-			$size = $size.' kB';
+			$size = $size.' '.$LANG_MESS_KB;
 		} else
-			$size = $size.' B';
+			$size = $size.' '.$LANG_MESS_B;
 
 		///////////
 		// book info section (in parentheses)
@@ -350,14 +483,18 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 
 
 		$tip0 = "";
-		$tip1 = "Login-Password look at the forum";
-		$tip3 = "Download from free-books.us.to";
-		$tip4 = "Download from bookfi.org";
-		$tip5 = "Download from gen.lib.rus.ec";
-		$tip6 = "Download from libgen.info";
+		$tip1 = $LANG_MESS_40;
+		$tip3 = $LANG_MESS_41."libgen.org";
+		$tip4 = $LANG_MESS_41."bookfi.org";
+		$tip5 = $LANG_MESS_41."gen.lib.rus.ec";
+		$tip6 = $LANG_MESS_41."libgen.info";
+		$tip7 = $LANG_MESS_41."www.libgen.info";
+		$tip8 = $LANG_MESS_41."libgen.net";
+		$tip9 = $LANG_MESS_41."bookos.org";
+
 		$line = "<tr valign=top bgcolor=$color><td>$ires</td>
 		<td>$author</td>
-		<td width=500><a href='book/index.php?md5=$row[MD5]'title='$tip0' id=$ires>{$bookname}$volume$volstamp</a></td>
+		<td width=500><a href='book/index.php?md5=$row[MD5]' title='$tip0' id=$ires>{$bookname}$volume$volstamp</a></td>
 		<td>$publisher</td>
 		<td nowrap>$year</td>
 		<td nowrap>$pages</td>
@@ -367,11 +504,14 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 
 
             
-		<td><a href='http://free-books.us.to/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip3'>[dl1]</a></td>
-		<td><a href='http://gen.lib.rus.ec/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip5'><b>[dl2]</b></a></td>
-		<td><a href='http://bookfi.org/md5/$row[MD5]' title='$tip4'>[dl3]</a></td>
-		<td><a href='http://libgen.info/view.php?id=$row[ID]' title='$tip6'>[dl4]</a></td>
-		<td><a href='http://free-books.us.to/librarian/registration?md5=$row[MD5]'title='$tip1'>[edit]</a></td>
+		<td><a href='/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip3'>[1]</a></td>
+		<td><a href='http://gen.lib.rus.ec/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip5'><b>[2]</b></a></td>
+		<td><a href='http://bookfi.org/md5/$row[MD5]' title='$tip4'>[3]</a></td>
+		<td><a href='http://libgen.info/view.php?id=$row[ID]' title='$tip6'>[4]</a></td>
+		<td><a href='http://www.libgen.info/view.php?id=$row[ID]' title='$tip7'>[5]</a></td>
+		<td><a href='http://libgen.net/view.php?id=$row[ID]' title='$tip8'>[6]</a></td>
+		<td><a href='http://bookos.org/md5/$row[MD5]' title='$tip9'>[7]</a></td>
+		<td><a href='/librarian/registration?md5=$row[MD5]'title='$tip1'>[edit]</a></td>
 		</tr>\n\n";
 
 		echo $line;

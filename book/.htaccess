@@ -1,2 +1,5 @@
 DirectoryIndex index
-Options +MultiViews
+Options -Indexes
+php_value display_errors 0
+php_value max_execution_time 30
+php_value memory_limit 128M

@@ -1,4 +1,6 @@
 <?php
+
+         $freebooksip = str_replace("\r\n", "", str_replace(' ', '', file_get_contents('../scimag/ip')));
 	// mysql params
 	$dbhost = 'localhost';
 	$db = 'bookwarrior';
@@ -10,7 +12,7 @@
 	$pagesperpage = 25;
 
 	//$servername = 'gen.lib.rus.ec';
-	$servername = 'free-books.us.to';
+	$servername = libgen.org;
 
 	// separator symbol
 	$filesep = '/';
@@ -20,7 +22,7 @@
 		'' => 'repository');
 
 	$covers = array(
-		'0-5000000' => 'http://free-books.us.to/genesis/covers');
+		'0-5000000' => 'ftp://'.$freebooksip.'/covers');
 
 	DEFINE ('DB_USER', $dbuser);
 	DEFINE ('DB_PASSWORD', $dbpass);

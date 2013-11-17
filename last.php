@@ -1,18 +1,28 @@
-﻿<?php
+<?php
+
+    // Установка куки для запоминания выбора языка
+    if(isset($_COOKIE['lang'])) { 
+       $lang = $_COOKIE['lang'];
+       $lang_file = 'lang_'.$lang.'.php';
+       if(!file_exists($lang_file)) { $lang_file = 'lang_en.php'; }
+    } else {
+         $lang = 'en';
+         $lang_file = 'lang_en.php';
+       }
+     // -- Конец установки куки
+
 	include 'connect.php';
 	include 'html.php';
-	include 'strings.php';
+	//include 'strings.php';
 	include 'util.php';
+        include $lang_file;
 
 	if (sizeof($_GET)) $mainpage = false;
 	else $mainpage = true;
 
 	// SQL-requests should encode single-quotes and underscores with Esc-sequences
 	if (!$mainpage){
-		//$req = addcslashes(mysql_real_escape_string($_GET['req']),"%_");
-		//if (strlen($req) < 1) die($htmlhead."<font color='#A00000'><h1>Wrong Request</h1></font>Search string must contain more than one character.<br>Please, type in a longer request and <a href=>try again</a>.".$htmlfoot);
 
-		//$req_htm = htmlspecialchars($_GET['req'],ENT_QUOTES);
 		$req_htm_enc = urlencode($_GET['req']);
         if( isset($_GET['nametype'])) $dlnametype = $_GET['nametype'];
         else $dlnametype = "md5"; // в строке явно НЕ указан тип - скорее всего ожидается md5, в соответствии со старой версией
@@ -25,8 +35,8 @@
 
 
     $dlnametypes = array('orig' => '',
-                         'md5' => '',
-                         'translit' => ''
+                         'translit' => '',
+                         'md5' => ''
     );
     
     foreach( $dlnametypes as $key => $value ) {
@@ -38,15 +48,17 @@
     }
     
 	$form = "<form name ='myform' action='search'><br>
-	<input name=req id='searchform' size=60 maxlength=80 value='$req_htm'><input type=submit value='Искать!'><br>
-    <label><b>Download name as:</b></label>
+	<input name=req id='searchform' size=60 maxlength=80 value='$req_htm'><input type=submit value='".$LANG_SEARCH_0."'><br>
+    <label><b>".$LANG_MESS_1."</b></label>
     <input type=radio name='nametype' id='orig' value='orig' ".$dlnametypes['orig']." onclick=radioOnClick('orig') />
-    <label for='Original'>Original</label>
+    <label for='Original'>".$LANG_MESS_2."</label>
+    <input type=radio name='nametype' id='translit' value='translit' ".$dlnametypes['translit']." onclick=radioOnClick('translit') />
+    <label for='translit'>".$LANG_MESS_3."</label>
     <input type=radio name='nametype' id='md5' value='md5' ".$dlnametypes['md5']." onclick=radioOnClick('md5') />
-    <label for='Md5'>Md5</label><br>
+    <label for='md5'>MD5</label><br>
  <form action method='get'>
-<font><b>Search in fields:</b></font><input type='checkbox' name='column[]' value='title' checked=true>Title<input type='checkbox' name='column[]' value='author' checked=true>Author<input type='checkbox' name='column[]' value='series' checked=true>Series<input type='checkbox' name='column[]' value='periodical' checked=true>Periodical <input type='checkbox' name='column[]' value='publisher' checked=true>Publisher<br><input type='checkbox' name='column[]' value='year' checked=true>Year
-<input type='checkbox' name='column[]' value='Identifier'>ISBN<input type='checkbox' name='column[]' value='language'><a href='' title='Russian, English, German, French, Spanish, ... etc. (ISO 639)'>Language</a><input type='checkbox' name='column[]' value='md5'>MD5<input type='checkbox' name='column[]' value='extension'>Extension<input type='checkbox' name='column[]' value='topic'>Topic
+<font><b>".$LANG_MESS_4."</b></font><input type='checkbox' name='column[]' value='title' checked=true>".$LANG_MESS_5."<input type='checkbox' name='column[]' value='author' checked=true>".$LANG_MESS_6."<input type='checkbox' name='column[]' value='series' checked=true>".$LANG_MESS_7."<input type='checkbox' name='column[]' value='periodical' checked=true>".$LANG_MESS_8."<input type='checkbox' name='column[]' value='publisher' checked=true>".$LANG_MESS_9."<br><input type='checkbox' name='column[]' value='year' checked=true>".$LANG_MESS_10."
+<input type='checkbox' name='column[]' value='Identifier'>ISBN<input type='checkbox' name='column[]' value='language'><a href='' title='Russian, English, German, French, Spanish, ... etc. (ISO 639)'>".$LANG_MESS_11."</a><input type='checkbox' name='column[]' value='md5'>MD5<input type='checkbox' name='column[]' value='extension'>".$LANG_MESS_12."<input type='checkbox' name='column[]' value='topic'>".$LANG_MESS_13."
 </form>
     	</form>";
 
@@ -65,7 +77,8 @@ if (@is_array($column)) {
 }
 
           echo $htmlheadfocus;
-          include 'menu.html';
+          include_once 'menu_'.$lang.'.html';
+
 
 
 	// if no arguments passed, give out the main page
@@ -191,7 +204,7 @@ if (@is_array($column)) {
 	$reshead = "<table width=100% cellspacing=1 cellpadding=1 rules=rows class=c align=center>";
 
 
-echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign=top align=right><h1>Library Genesis<sup><font size=4>800k</font></a></td></tr></table>";
+echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=#A00000 valign=top align=right><h1>Library Genesis<sup><font size=4>800k</font></a></td></tr></table>";
 
 
 	echo $reshead;
@@ -202,9 +215,9 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 	$color3 = '#000000';
 
 	echo "\n<b>".$totalrows." books in library<u>$req_htm</u> </b>\n";
-	$navigatortop = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
-	$navigatorbottom = "<tr><th valign=top bgcolor=$color1 colspan=15><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
-	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b>Author</b></td><td><b>Title</b></td><td><b>Publisher</b></td><td><b>Year</b></td><td><b>Pages</b></td><td><b>Language</b></td><td><b>Size</b></td><td><b>Extension</b></td><td colspan=4><b>Mirrors</b></td><td><b>Edit</b></td></tr>";
+	$navigatortop = "<tr><th valign=top bgcolor=$color1 colspan=17><font color=$color1><center><b>$prevlink1 | $nextlink1</b></center></font></th></tr>";
+	$navigatorbottom = "<tr><th valign=top bgcolor=$color1 colspan=17><font color=$color1><center><b>$prevlink2 | $nextlink2</b></center></font></th></tr>";
+	$tabheader = "<tr valign=top bgcolor=$color2><td><b>ID</b></td><td><b>".$LANG_MESS_6."</b></td><td><b>".$LANG_MESS_5."</b></td><td><b>".$LANG_MESS_9."</b></td><td><b>".$LANG_MESS_10."</b></td><td><b>".$LANG_MESS_28."</b></td><td><b>".$LANG_MESS_11."</b></td><td><b>".$LANG_MESS_26."</b></td><td><b>".$LANG_MESS_12."</b></td><td colspan=7><b>".$LANG_MESS_29."</b></td><td><b>".$LANG_MESS_30."</b></td></tr>";
 	echo $navigatortop;
 	echo $tabheader;
 
@@ -243,17 +256,17 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 		$size = $row['Filesize'];
 		if ($size >= 1024*1024*1024){
 			$size = round($size/1024/1024/1024);
-			$size = $size.' GB';
+			$size = $size.' '.$LANG_MESS_GB;
 		} else
 		if ($size >= 1024*1024){
 			$size = round($size/1024/1024);
-			$size = $size.' MB';
+			$size = $size.' '.$LANG_MESS_MB;
 		} else
 		if ($size >= 1024){
 			$size = round($size/1024);
-			$size = $size.' kB';
+			$size = $size.' '.$LANG_MESS_KB;
 		} else
-			$size = $size.' B';
+			$size = $size.' '.$LANG_MESS_B;
 
 		///////////
 		// book info section (in parentheses)
@@ -288,12 +301,16 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 
 
 
-		//$tip = "ID: $row[ID]; $tiplib; Location: $repdir/$tipdir";
-		$tip1 = "Login-Password look at the forum";
-		$tip3 = "Download from free-books.us.to";
-		$tip4 = "Download from bookfi.org";
-		$tip5 = "Download from gen.lib.rus.ec";
-		$tip6 = "Download from libgen.info";
+		$tip0 = "";
+		$tip1 = $LANG_MESS_40;
+		$tip3 = $LANG_MESS_41."libgen.org";
+		$tip4 = $LANG_MESS_41."bookfi.org";
+		$tip5 = $LANG_MESS_41."gen.lib.rus.ec";
+		$tip6 = $LANG_MESS_41."libgen.info";
+		$tip7 = $LANG_MESS_41."www.libgen.info";
+		$tip8 = $LANG_MESS_41."libgen.net";
+		$tip9 = $LANG_MESS_41."bookos.org";
+
 		$line = "<tr valign=top bgcolor=$color><td>$row[ID]</td>
 		<td>$author</td>
 		<td width=500><a href='book/index.php?md5=$row[MD5]'title='' id=$ires>{$bookname}$volume$volstamp</a></td>
@@ -303,11 +320,15 @@ echo "<table width=100%><tr><td>$form</td><td><a href='/'><font color=red valign
 		<td nowrap>$lang</td>
 		<td nowrap>$size</td>
 		<td nowrap>$ext</td>
-                <td><a href='http://free-books.us.to/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip3'><b>[dl1]</b></a></td>
-		<td><a href='http://gen.lib.rus.ec/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip5'>[dl2]</a></td>
-		<td><a href='http://bookfi.org/md5/$row[MD5]' title='$tip4'>[dl3]</a></td>
-		<td><a href='http://libgen.info/view.php?id=$row[ID]' title='$tip6'>[dl4]</a></td>
-		<td><a href='http://free-books.us.to/librarian/registration?md5=$row[MD5]'title='$tip1'>[edit]</a></td>
+
+		<td><a href='/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip3'>[1]</a></td>
+		<td><a href='http://gen.lib.rus.ec/get?nametype=$dlnametype&md5=$row[MD5]'title='$tip5'><b>[2]</b></a></td>
+		<td><a href='http://bookfi.org/md5/$row[MD5]' title='$tip4'>[3]</a></td>
+		<td><a href='http://libgen.info/view.php?id=$row[ID]' title='$tip6'>[4]</a></td>
+		<td><a href='http://www.libgen.info/view.php?id=$row[ID]' title='$tip7'>[5]</a></td>
+		<td><a href='http://libgen.net/view.php?id=$row[ID]' title='$tip8'>[6]</a></td>
+		<td><a href='http://bookos.org/md5/$row[MD5]' title='$tip9'>[7]</a></td>
+		<td><a href='/librarian/registration?md5=$row[MD5]'title='$tip1'>[edit]</a></td>
 		</tr>\n\n";
 
 		echo $line;

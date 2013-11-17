@@ -1,4 +1,5 @@
 <?php
+
 	include 'config.php';
 
 
@@ -65,7 +66,7 @@ class RSS
 ';
 
 		while($row = mysql_fetch_array($res))
-		{
+		{       $freebooksip = str_replace("\r\n", "", str_replace(' ', '', file_get_contents('../scimag/ip')));
 			$coverurl = stripslashes(trim($row['Coverurl']));
 
 			if ($coverurl == '') $coverurl = 'blank.png';
@@ -110,7 +111,7 @@ class RSS
 		<commentary>'.htmlspecialchars(strip_tags(trim($row['Commentary']))).'</commentary>
 		<library>'.htmlspecialchars(trim($row['Library'])).'</library>
 		<issue>'.htmlspecialchars(trim($row['Issue'])).'</issue>
-		<url>'.htmlspecialchars(trim('http://free-books.us.to/get?nametype=orig&md5='.$row['MD5'])).'</url>
+		<url>'.htmlspecialchars(trim('http://'.$freebooksip.'/get?nametype=orig&md5='.$row['MD5'])).'</url>
 		<coverurl>'.$coverurl.'</coverurl>
 	</book>
 ';

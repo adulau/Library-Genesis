@@ -6,7 +6,7 @@
 	$dbuser = 'root';
 	$dbpass = '';
 	//$servername = 'gen.lib.rus.ec';
-	$servername = 'free-books.us.to';
+	$servername = 'free-books.sytes.net';
 
 	$maxnewslines = 30;
 	$pagesperpage = 25;

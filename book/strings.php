@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	$searchtip = "Search through bibliographic records";
 	$str_prev = "&lt; &lt; &lt; PREV";
 	$str_next = "NEXT &gt; &gt; &gt;";

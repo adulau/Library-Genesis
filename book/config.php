@@ -1,12 +1,16 @@
 <?php
 	// mysql params
-
 	$dbhost = 'localhost';
 	$db = 'bookwarrior';
 	$dbtable = 'updated';
-                  $descrtable = 'description';
+	$dbtable_edited = 'updated_edited';
+        $descrtable = 'description';
+        $descrtable_edited = 'description_edited';
 	$dbuser = 'root';
 	$dbpass = '';
+
+
+
 
 
 
@@ -14,7 +18,7 @@
 	$pagesperpage = 250;
 
 	//$servername = 'gen.lib.rus.ec';
-	$servername = 'free-books.us.to';
+	$servername = 'libgen.org';
 
 	// separator symbol
 	$filesep = '/';
@@ -24,14 +28,10 @@
 		'' => 'repository');
 
 	$covers = array(
-		'0-1000000' => 'http://free-books.us.to/genesis/covers' ,
+		'0-1000000' => '../covers' ,
 		'' => 'repository');
 
-	//DEFINE ('DB_USER', $dbuser);
-	//DEFINE ('DB_PASSWORD', $dbpass);
-	//DEFINE ('DB_HOST', $dbhost);
-	//DEFINE ('DB_NAME', $db);
-	//DEFINE ('DB_TABLE', $dbtable);
-	//DEFINE ('DB_TABLE1', $descrtable);
-	//DEFINE ('SERVERNAME', $servername);
+
+
+
 ?>

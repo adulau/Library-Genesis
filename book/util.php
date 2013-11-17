@@ -33,7 +33,7 @@
 
 	  	list($dir,$file) = split($filesep,$filename); //print "$dir $file<br>\n";
 
-		$repdir=$covers[''];
+		@$repdir=$covers[''];
 		foreach  ($covers as $key => $value) {
 			if(!isset($key) or $key=='') {
 			  // $key can't be not set, but it can be empty, in which case we skip it - it's the default value

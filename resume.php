@@ -5,12 +5,13 @@
 // EXAMPLE:
 //   new getresumable('C:/text.doc');
 //
+//usleep(500000);
 class getresumable {
 
 	var $filename = null;
 	var $downloadname = null;
 	var $fileext = null;
-	var $bufsize = 512;
+	var $bufsize = 128;
 	var $seek_start = 0;
 	var $seek_end = -1;
 
