@@ -1,1 +1,1 @@
-<?php	header("Content-Type: text/xml; charset=utf-8");	include("rssclass.php");	$rss = new RSS();	echo $rss->GetFeed();?>
+<?php	header("Content-Type: text/xml; charset=utf-8");	include("rssclass.php");$rss = ob_get_contents();$rss = str_replace(array("\n", "\r", "\t", " "), "", $items);ob_end_clean();	$rss = new RSS();	echo $rss->GetFeed();?>

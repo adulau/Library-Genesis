@@ -1,20 +1,40 @@
 <?php
-include 'config.php';
-include 'html.php';
-echo $htmlheadbegin;
+include '../config.php';
+include '../html.php';
 
-$md5 = $_GET['md5'];
+if(isset($_GET['md5']))
+{
+	if (!preg_match('|^[A-Fa-f0-9]{32}$|', $_GET['md5']))
+	{	
+		die($htmlhead."Wrong MD5".$htmlfoot);
+	}
+	else
+	{
+		$md5 = $_GET['md5'];
+	}		
+}
+else
+{
+	die($htmlhead."Missing MD5".$htmlfoot);
+}
+
+
 $con = mysql_connect($dbhost, $dbuser, $dbpass);
 		mysql_query("SET session character_set_server = 'UTF8'");
 		mysql_query("SET session character_set_connection = 'UTF8'");
 		mysql_query("SET session character_set_client = 'UTF8'");
 		mysql_query("SET session character_set_results = 'UTF8'");
-
+mysql_select_db($db, $con);
 //$md5  = '8b6071fec36f937aa2d042072f0500b4';
 
 
-$sqlbibtex = "SELECT * FROM bookwarrior.updated WHERE MD5='$md5'";
+$sqlbibtex = "SELECT * FROM `".$dbtable."` WHERE `MD5`='$md5'";
 $resultbibtex = mysql_query($sqlbibtex,$con);
+if (!$resultbibtex || mysql_num_rows($resultbibtex) == 0)
+{
+	die($htmlhead."Error " . mysql_error() . "Cannot proceed or MD5 not found in DB".$htmlfoot);
+}
+
 $rowbibtex = mysql_fetch_assoc($resultbibtex);
 
 

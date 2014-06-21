@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	include 'connect.php';
 	include 'html.php';
 	// form 1 (new record) and 2 (editing) defaults

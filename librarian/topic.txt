@@ -1,4 +1,4 @@
-﻿Biology/anatomy and Physiology/Neuroanatomy=Биология/Анатомия и физиология/Нейроанатомия/
+Biology/anatomy and Physiology/Neuroanatomy=Биология/Анатомия и физиология/Нейроанатомия/
 Biology/anatomy and Physiology=Биология/Анатомия и физиология/
 Biology/Anthropology=Биология/Антропология/
 Biology/Biochemistry=Биология/Биохимия/

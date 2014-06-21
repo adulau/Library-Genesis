@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include 'html.php';
 
 // if MD5 provided, go straight to the editor form
