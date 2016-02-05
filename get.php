@@ -5,7 +5,12 @@ header("HTTP/1.0 500 Internal Server Error");
 
 //ini_set('display_errors', '1');
 if (isset($_SERVER["HTTP_REFERER"])) {
-	if (strpos($_SERVER["HTTP_REFERER"], "http://adf.ly") !== false || strpos($_SERVER["HTTP_REFERER"], "http://ebookoid.in") !== false || strpos($_SERVER["HTTP_REFERER"], "http://bookos.org") !== false || strpos($_SERVER["HTTP_REFERER"], "http://bookinist.net") !== false || strpos($_SERVER["HTTP_REFERER"], "http://ebooks.myesci.com") !== false || strpos($_SERVER["HTTP_REFERER"], "http://anonym.to") !== false)
+	if (strpos($_SERVER["HTTP_REFERER"], "http://adf.ly") !== false || 
+strpos($_SERVER["HTTP_REFERER"], "http://ebookoid.in") !== false || 
+strpos($_SERVER["HTTP_REFERER"], "http://bookos.org") !== false || 
+strpos($_SERVER["HTTP_REFERER"], "http://bookinist.net") !== false || 
+strpos($_SERVER["HTTP_REFERER"], "http://ebooks.myesci.com") !== false || 
+strpos($_SERVER["HTTP_REFERER"], "http://anonym.to") !== false)
 	{
 		// play the fool
 		header("HTTP/1.0 200 OK");
@@ -112,7 +117,10 @@ else
 
 
 
-$sql    = "SELECT * FROM $dbtable WHERE MD5='" . mysql_real_escape_string($_GET['md5']) . "' AND Filename!=''";
+//$sql    = "SELECT * FROM $dbtable WHERE MD5='" . mysql_real_escape_string($_GET['md5']) . "' AND Filename!=''";
+$sql    = "SELECT * FROM $dbtable WHERE MD5='" . mysql_real_escape_string($_GET['md5']) . "'";
+
+//echo $sql;
 	$result = mysql_query($sql, $con);
 	if (!$result)
 	{
@@ -120,12 +128,34 @@ $sql    = "SELECT * FROM $dbtable WHERE MD5='" . mysql_real_escape_string($_GET[
 		die($htmlhead."<font color='#A00000'><h1>Error</h1></font>Could not query database: ".mysql_error(). "<br>Cannot proceed.".$htmlfoot);
 	}
 		//die($htmlhead."<font color='#A00000'><h1>Error</h1></font>" . mysql_error() . "<br>Cannot proceed.<p>Please, report on the error from <a href=>the main page</a>.".$htmlfoot);
-	if(mysql_num_rows($result) !=1)
+	if(mysql_num_rows($result) ==1)
+	{
+		$row = mysql_fetch_assoc($result);
+
+		if($row['Filename'] == '')
+		{
+			header("HTTP/1.0 404 Not Found");
+			die($htmlhead."<font color='#A00000'><h1>Error</h1></font><br>File not found on server.".$htmlfoot);
+		}
+		elseif($row['Visible'] != '')
+		{
+			if(!isset($_GET['banned']))
+			{
+				header("HTTP/1.0 404 Not Found");
+				die($htmlhead."<font color='#A00000'><h1>Error</h1></font><br>File banned .".$htmlfoot);
+			}	
+		}
+
+
+	}
+	else
 	{
 		header("HTTP/1.0 404 Not Found");
-		die($htmlhead."<font color='#A00000'><h1>Error</h1></font><br>MD5 not found in DB.".$htmlfoot);
+		die($htmlhead."<font color='#A00000'><h1>Error</h1></font><br>MD5 not found on DB.".$htmlfoot);
 	}
-	$row = mysql_fetch_assoc($result);
+
+
+
 	mysql_free_result($result);
 	mysql_close($con);
 
@@ -249,9 +279,10 @@ if($open == 0)
 
 	if (isset($_SERVER['SERVER_SOFTWARE'])&&substr($_SERVER['SERVER_SOFTWARE'],0,5)=='nginx') 
 	{
+//echo $open;
 		header('Content-type: application/octet-stream');
 		header('Content-Disposition: attachment; filename="' . $downloadname . '.' . $ext . '"');      
-		header("X-Accel-Redirect: /internal/$fullfilename");
+		header('X-Accel-Redirect: /internal/'.$fullfilename);
 	} 
 }
 elseif($open == 1)

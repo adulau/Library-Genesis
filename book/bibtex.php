@@ -4,6 +4,7 @@ include '../html.php';
 
 if(isset($_GET['md5']))
 {
+
 	if (!preg_match('|^[A-Fa-f0-9]{32}$|', $_GET['md5']))
 	{	
 		die($htmlhead."Wrong MD5".$htmlfoot);
@@ -64,6 +65,7 @@ $data = "<textarea rows='11' name='bibtext' id='bibtext' readonly cols='150'>
 }</textarea>";
 
 $data = str_replace('{ ', '{', $data);
+echo "\xEF\xBB\xBF";
 echo $data;
 
 echo $htmlfoot

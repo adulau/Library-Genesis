@@ -43,7 +43,7 @@ $LANG_MESS_14 = 'Wrong Request';
 $LANG_MESS_15 = 'Search string must contain more than 4 characters.';
 $LANG_MESS_16 = 'Please, type in a longer request and ';
 $LANG_MESS_17 = 'try again';
-$LANG_MESS_18 = 'Search in DOI (e.g. 10.1063/1.529338) OR Author+Article, if file not found - redirect to';
+$LANG_MESS_18 = 'Search in DOI or PMID (e.g. 10.1063/1.529338 or 16387140) OR Author+Article, if file not found - redirect to';
 $LANG_MESS_19 = 'Scientific articles';
 $LANG_MESS_20 = 'Comics';
 $LANG_MESS_21 = 'Fiction';
@@ -58,6 +58,7 @@ $LANG_MESS_28 = 'Pages';
 $LANG_MESS_29 = 'Mirrors';
 $LANG_MESS_30 = 'Edit';
 $LANG_MESS_31 = '';
+$LANG_MESS_32_5 = 'Sort results by ID';
 $LANG_MESS_32 = 'Sort results by Author';
 $LANG_MESS_33 = 'Sort results by Title';
 $LANG_MESS_34 = 'Sort results by Publisher';
@@ -104,12 +105,12 @@ $LANG_MESS_75 = 'DL links';
 $LANG_MESS_76 = 'Search in Language';
 $LANG_MESS_77 = 'Found';
 
-$LANG_MESS_78 = 'Enter a hyperlink to upload from remote server (200 Mb max, 50kB min, if possible no *.rar *.zip)';
+$LANG_MESS_78 = 'Enter a hyperlink to upload from libgen ftp (350 Mb max, 50kB min, if possible no *.rar *.zip)';
 $LANG_MESS_79 = 'Choose a file to upload:';
 $LANG_MESS_80 = 'Calculates MD5 upon completion';
 $LANG_MESS_81 = 'Helps avoid a tedious upload, if the book is already in the database';
 $LANG_MESS_82 = 'Upload journals and magazines here';
-$LANG_MESS_83 = 'Fiction should be uploaded to other portals, e.g.';
+$LANG_MESS_83 = 'Upload fiction here';
 $LANG_MESS_400 = 'Scientific articles uploaded here';
 $LANG_MESS_84 = 'Before uploading';
 $LANG_MESS_85 = 'check';
@@ -498,18 +499,19 @@ $LANG_MESS_133 = "<OPTION></OPTION>
 <OPTION VALUE='108'>Literature\\Literary</OPTION>
 <OPTION VALUE='109'>Literature\\Poetry</OPTION>
 <OPTION VALUE='110'>Literature\\Prose</OPTION>
+<OPTION VALUE='113'>Mathematics</OPTION>
 <OPTION VALUE='114'>Mathematics\\Algebra</OPTION>
 <OPTION VALUE='115'>Mathematics\\Algebra: Linear Algebra</OPTION>
 <OPTION VALUE='116'>Mathematics\\Algorithms and Data Structures</OPTION>
 <OPTION VALUE='117'>Mathematics\\Analysis</OPTION>
-<OPTION VALUE='137'>Mathematics\\Applied Mathematicsematics</OPTION>
+<OPTION VALUE='137'>Mathematics\\Applied Mathematics</OPTION>
 <OPTION VALUE='139'>Mathematics\\Automatic Control Theory</OPTION>
 <OPTION VALUE='126'>Mathematics\\Combinatorics</OPTION>
-<OPTION VALUE='120'>Mathematics\\Computational Mathematicsematics</OPTION>
+<OPTION VALUE='120'>Mathematics\\Computational Mathematics</OPTION>
 <OPTION VALUE='128'>Mathematics\\Computer Algebra</OPTION>
 <OPTION VALUE='133'>Mathematics\\Continued fractions</OPTION>
 <OPTION VALUE='125'>Mathematics\\Differential Equations</OPTION>
-<OPTION VALUE='124'>Mathematics\\Discrete Mathematicsematics</OPTION>
+<OPTION VALUE='124'>Mathematics\\Discrete Mathematics</OPTION>
 <OPTION VALUE='123'>Mathematics\\Dynamical Systems</OPTION>
 <OPTION VALUE='146'>Mathematics\\Elementary</OPTION>
 <OPTION VALUE='144'>Mathematics\\Functional Analysis</OPTION>
@@ -519,8 +521,8 @@ $LANG_MESS_133 = "<OPTION></OPTION>
 <OPTION VALUE='140'>Mathematics\\Graph Theory</OPTION>
 <OPTION VALUE='129'>Mathematics\\Lectures</OPTION>
 <OPTION VALUE='130'>Mathematics\\Logic</OPTION>
-<OPTION VALUE='132'>Mathematics\\Mathematicsematical Physics</OPTION>
-<OPTION VALUE='131'>Mathematics\\Mathematicsematical Statistics</OPTION>
+<OPTION VALUE='132'>Mathematics\\Mathematical Physics</OPTION>
+<OPTION VALUE='131'>Mathematics\\Mathematical Statistics</OPTION>
 <OPTION VALUE='143'>Mathematics\\Number Theory</OPTION>
 <OPTION VALUE='145'>Mathematics\\Numerical Analysis</OPTION>
 <OPTION VALUE='142'>Mathematics\\Operator Theory</OPTION>
@@ -531,7 +533,6 @@ $LANG_MESS_133 = "<OPTION></OPTION>
 <OPTION VALUE='138'>Mathematics\\Symmetry and group</OPTION>
 <OPTION VALUE='127'>Mathematics\\The complex variable</OPTION>
 <OPTION VALUE='118'>Mathematics\\Wavelets and signal processing</OPTION>
-<OPTION VALUE='113'>Mathematicsematics</OPTION>
 <OPTION VALUE='147'>Medicine</OPTION>
 <OPTION VALUE='148'>Medicine\\Anatomy and physiology</OPTION>
 <OPTION VALUE='149'>Medicine\\Anesthesiology and Intensive Care</OPTION>
@@ -686,7 +687,7 @@ $LANG_MESS_137 = 'Report an error';
 $LANG_MESS_138 = 'Return to the last page';
 $LANG_MESS_139 = 'and try again';
 
-$LANG_MESS_140 = 'Input DOI in';
+$LANG_MESS_140 = 'Input DOI';
 $LANG_MESS_141 = 'No file selected';
 
 $LANG_MESS_142 = "Use 'Browse...' to choose a file on your computer, then 'Send!' to upload it.";
@@ -728,7 +729,7 @@ $LANG_MESS_164 = 'Only article preview';
 $LANG_MESS_165 = 'Group search results';
 
 
-$LANG_MESS_166 = 'If the article is no DOI, then specify a dummy format 10.0000/&lt;site&gt;/&lt;ID article on site&gt; <br>(e.g. URL article http://elibrary.ru/item.asp?id=18212587 =&gt; DOI: 10.0000/elibrary.ru/18212587)';
+$LANG_MESS_166 = 'If the article is no DOI or PMID, then specify a dummy format 10.0000/&lt;site&gt;/&lt;ID article on site&gt; <br><font size=1>(e.g. URL article http://elibrary.ru/item.asp?id=18212587 =&gt; DOI: 10.0000/elibrary.ru/18212587)</font>';
 
 $LANG_MESS_167 = 'View results';
 $LANG_MESS_168 = 'Simple';
@@ -754,10 +755,10 @@ $LANG_MESS_186 = 'Source string';
 $LANG_MESS_187 = 'Final string+link';
 $LANG_MESS_188 = 'Found';
 $LANG_MESS_189 = 'Showing the first ';
-$LANG_MESS_190 = ' search results';
+$LANG_MESS_190 = ' results';
 $LANG_MESS_191 = 'Book not added in library!';
-$LANG_MESS_192 = 'If you have uploaded better quality version of the book, do not forget input the book of inferior quality md5 better quality book';
-$LANG_MESS_193 = 'The library books found similar in description to book uploaded you: ';
+$LANG_MESS_192 = 'If you have uploaded a version of the book with better quality, please do not forget to enter the md5 hash of this book into the record of the inferior version of the book';
+$LANG_MESS_193 = 'In the library, books are found similar to the book you have just uploaded:: ';
 $LANG_MESS_194 = 'If you are sure that your book is not a double or a double, but better quality, then click on "Add", otherwise - on "Cancel"';
 $LANG_MESS_195 = 'Add';
 $LANG_MESS_196 = 'Cancel';
@@ -768,13 +769,126 @@ $LANG_MESS_200 = 'Edit book record complete!';
 $LANG_MESS_201 = 'Use ftp-clients with resume options';
  
 $LANG_MESS_202 = 'Do not upload archives with passwords, or files with DRM';
-$LANG_MESS_203 = ' File size 200MB max, 50KB min. No *.rar or *zip if possible';
+$LANG_MESS_203 = ' File size 350MB max, 50KB min. No *.rar or *zip if possible';
 $LANG_MESS_204 = ' Preferred extensions:';
 $LANG_MESS_205 = 'This book is already in the database <br>and was uploaded more than 24 hours ago. <br>Only librarians may now edit this book\'s record. <br>You can report mistakes <a href = "http://genofond.org/viewtopic.php?t=6423" > [here] </ a>.';
+$LANG_MESS_206 = 'File is too large, maximum size - ';
+$LANG_MESS_207 = 'File is too small, minimum size - ';
+
+$LANG_MESS_208 = 'Search for a phrase';
+$LANG_MESS_209 = 'Yes';
+$LANG_MESS_210 = 'No';
+
+$LANG_MESS_211 = 'Choose file for upload';
+$LANG_MESS_212 = 'Filesize';
+$LANG_MESS_213 = 'File';
+$LANG_MESS_214 = 'View upload book';
+
+$LANG_MESS_215 = 'Name';
+$LANG_MESS_216 = 'Family';
+$LANG_MESS_217 = 'Surname';
+
+$LANG_MESS_218 = 'Input ISBN or Author+Title';
+
+$LANG_MESS_219 = 'The file extension does not match or is broken';
+
+$LANG_MESS_220 = 'Upload non-fiction ebooks here';
+
+$LANG_MESS_221 = 'Book already exists in the Libgen library';
+$LANG_MESS_222 = 'Aricle already exists in the Libgen: Sci Articles';
+$LANG_MESS_223 = 'Magazine already exists in the Magzdb.org';
+$LANG_MESS_224 = 'Book already exists in the Libgen: Fiction';
+$LANG_MESS_225 = 'link';
+$LANG_MESS_226 = 'Standards';
+$LANG_MESS_227 = 'Search options';
+$LANG_MESS_228 = 'Search in';
+$LANG_MESS_229 = 'Get metadata from file';
+$LANG_MESS_230 = 'or';
+$LANG_MESS_231 = 'on page reults from';
+$LANG_MESS_232 = 'Displayed first';
 
 
-$libgennews = '<a href="http://genofond.org/viewtopic.php?f=8&t=7271"><font color=red><b>We need donations for seedbox lease renewal</b></font></a><p>
-<a href="http://genofond.org/viewtopic.php?f=1&t=7134">Local LibGen based on Sphinx</a>';
+$LANG_MESS_233 = 'Number';
+$LANG_MESS_234 = 'Others';
+$LANG_MESS_235 = 'Main document - number (for additions and changes)';
+$LANG_MESS_236 = 'Main document - description';
+$LANG_MESS_237 = 'Type standard';
+$LANG_MESS_238 = 'Type standard in a foreign';
+$LANG_MESS_239 = 'Standard type description';
+$LANG_MESS_240 = 'Standard number in a foreign';
+$LANG_MESS_241 = 'The name of a foreign ';
+$LANG_MESS_242 = 'Status';
+$LANG_MESS_243 = 'Status - an additional level';
+$LANG_MESS_245 = 'Replaced by standards';
+$LANG_MESS_246 = 'Replaced by standards in part';
+$LANG_MESS_247 = 'Replaces the standard';
+$LANG_MESS_248 = 'Replaces the standard in part';
+$LANG_MESS_249 = 'Related to';
+$LANG_MESS_250 = 'Related in';
+$LANG_MESS_251 = 'Date of publication';
+$LANG_MESS_252 = 'Date of introduction';
+$LANG_MESS_253 = 'Date of actualization of text';
+$LANG_MESS_254 = 'Date of registration';
+$LANG_MESS_255 = 'Date of actualization of description';
+$LANG_MESS_256 = 'Date expiration';
+$LANG_MESS_257 = 'Date of last edition';
+$LANG_MESS_258 = 'Date add in DB';
+$LANG_MESS_259 = 'Table of contents';
+$LANG_MESS_260 = 'Description (sphere of application)';
+$LANG_MESS_261 = 'On any given official publication';
+$LANG_MESS_262 = 'Edition/reedition';
+$LANG_MESS_263 = 'Publisher (organization)';
+$LANG_MESS_264 = 'Control (organization)';
+$LANG_MESS_265 = 'Developer (organization)';
+$LANG_MESS_266 = 'Approved (organization)';
+$LANG_MESS_267 = 'Classifier OKP';
+$LANG_MESS_268 = 'Classifier OKP description';
+$LANG_MESS_269 = 'Classifier GOST group';
+$LANG_MESS_270 = 'Classifier GOST group - description';
+$LANG_MESS_271 = 'Classifier OKS';
+$LANG_MESS_272 = 'Classifier OKS - description';
+$LANG_MESS_273 = 'Catalog number';
+$LANG_MESS_274 = 'Commentary';
+$LANG_MESS_275 = 'File comment';
+$LANG_MESS_276 = 'More/Less';
+$LANG_MESS_277 = 'If DOI not specified';
+$LANG_MESS_278 = 'format';
+$LANG_MESS_279 = 'digits';
+$LANG_MESS_280 = 'Results per page';
 
+$LANG_MESS_300 = 'The uploaded file exceeds the UPLOAD_MAX_FILE_SIZE directive in php.ini';
+$LANG_MESS_301 = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.';
+$LANG_MESS_302 = 'The uploaded file was only partially uploaded.';
+$LANG_MESS_303 = 'No file was uploaded.';
+$LANG_MESS_304 = 'Missing a temporary folder.';
+$LANG_MESS_305 = 'Failed to write file to disk.';
+$LANG_MESS_306 = 'File upload stopped by PHP-extension.';
+$LANG_MESS_307 = 'There was an error copying file.';
+$LANG_MESS_308 = 'Is not a valid MD5. string';
+$LANG_MESS_309 = 'Such MD5 is no in the database. string';
+$LANG_MESS_310 = 'Editing is complete.';
+$LANG_MESS_311 = 'Go to the edit page';
+$LANG_MESS_312 = 'Go to the last modified books page';
+$LANG_MESS_313 = 'No column selected';
+$LANG_MESS_314 = 'The file name does not match pattern';
+$LANG_MESS_315 = 'Such a file is already in database. MD5: ';
+$LANG_MESS_316 = 'This file is not';
+$LANG_MESS_317 = 'Multiupload. Select the files (max. number ';
+$LANG_MESS_318 = 'Template file name: Author;Title;Series;Volume;Publisher;Year;ISBN;Publishing;Language.Extension';
+$LANG_MESS_319 = 'Choose a file to upload: (10 MB. max, csv or txt)';
+$LANG_MESS_320 = 'The file should contain a line like: md5;data';
+$LANG_MESS_321 = 'Select a column';
+$LANG_MESS_322 = 'Tags';
+$LANG_MESS_323 = 'Links';
+
+$LANG_MESS_324 = 'The total number of files in the archive';
+$LANG_MESS_325 = 'Number of pictures in the archive';
+$LANG_MESS_326 = 'Resolution Scan, dpi';
+$LANG_MESS_327 = 'Scan size in pixels';
+$LANG_MESS_328 = 'Abbreviation';
+$LANG_MESS_329 = 'Order by';
+$LANG_MESS_330 = 'You can edit the record for the one day after the addition of';
+
+$libgennews = '';// '<a href="http://gen.lib.rus.ec/donate/">Library Genesis needs your financial support for opening a new mirror!<br/>You may donate with Bitcoin, Visa/MasterCard, PayPal, Yandex.Money.</a>';
 
 ?>

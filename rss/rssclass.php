@@ -52,7 +52,7 @@ class RSS
 
 		$sql_cnt = "SELECT COUNT(*) FROM $dbtable WHERE ".$where."  Visible='' ";
 //echo $sql_cnt;
-		$result = mysql_db_query(DB_NAME,$sql_cnt,LINK);
+		$result = mysql_query($sql_cnt,LINK);
 		if (!$result) die($dberr);
 		$row = mysql_fetch_assoc($result);
 		$count = stripslashes($row['COUNT(*)']);
@@ -115,7 +115,7 @@ class RSS
 			}
 			elseif (false === strpos($coverurl, '://'))
 			{
-				$coverurl = 'http://libgen.org/covers/' . $coverurl;
+				$coverurl = 'http://'.SERVERNAME.'/covers/' . $coverurl;
 			}
 	
 

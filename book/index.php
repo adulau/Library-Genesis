@@ -179,6 +179,7 @@ $row['toc'] = htmlspecialchars_decode($row['toc']);
 $htmltitle = '<title>Library Genesis: ' . $row['Author'] . ' - ' . $row['Title'].'</title>';
 
 
+if($row['Visible'] != 'no')
 include_once '../mirrors.php';
 
 
@@ -434,7 +435,7 @@ echo "
 
 <tr valign='top'>
 <td><font color='gray'>".$LANG_MESS_49.":</font></td><td colspan=1>".$timelastmoifiedold."</td>
-<td><font color='gray'>".$LANG_MESS_54.":</font></td><td><b><a href='http://libgen.org/librarian/registration?md5=" . $row['MD5']."'>Librarian libgen.org</a></b></td></tr>
+<td><font color='gray'>".$LANG_MESS_54.":</font></td><td><b><a href='".$mirror_edit_link."'>".$mirror_edit_title."</a></b></td></tr>
 
 <tr valign='top'><td><font color='gray'>".$LANG_MESS_50.":</font></td><td colspan='3'>".$row['Commentary']."</td></tr>
 <tr valign='top'><td><font color='gray'>".$LANG_MESS_13.":</font></td><td colspan='3'>".$row['topic_descr']."</td></tr>

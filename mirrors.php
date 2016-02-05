@@ -1,27 +1,30 @@
 <?php
 	//mirrors
-	$mirror_0_link = '../get?md5='.$row['MD5'] . $openreq;
+	//$mirror_0_link = 'http://library.gen.in/get.php?md5='.$row['MD5'] . $openreq;
+	$mirror_0_link = '../get.php?md5='.$row['MD5'] . $openreq;
 	$mirror_0_title = 'local';
 	$mirror_0_tooltip = 'local';
 
-	$mirror_1_link = 'http://libgen.org/get?md5='.$row['MD5'] . $openreq;
-	$mirror_1_title = 'Libgen.org';
-	$mirror_1_tooltip = 'Libgen.org';
+	//$mirror_1_link = 'http://library.gen.in/get.php?md5='.$row['MD5'] . $openreq;
+	$mirror_1_link = '/get.php?md5='.$row['MD5'] . $openreq;
+	$mirror_1_title = 'Libgen';
+	$mirror_1_tooltip = 'Libgen';
 
 
-	$mirror_2_link = 'http://bookzz.org/md5/' . $row['MD5'];
-	$mirror_2_title = 'Bookzz.org (Bookos.org, bookza.org)';
-	$mirror_2_tooltip = 'Bookzz.org (Bookos.org, bookza.org)';
+	$mirror_4_link = 'http://bookzz.org/md5/' . $row['MD5'];
+	$mirror_4_title = 'Bookzz.org (Bookos.org, bookza.org)';
+	$mirror_4_tooltip = 'Bookzz.org (Bookos.org, bookza.org)';
 
 
 	$mirror_3_link = 'http://bookfi.org/md5/' . $row['MD5'];
+	//$mirror_3_link = 'http://bookfi.library.ws/genesis/' . $row['Filename'] . '/_as/' . rawurlencode($row['Title']) . '.' . $row['Extension'];
 	$mirror_3_title = 'Bookfi.org';
 	$mirror_3_tooltip = 'Bookfi.org';
 
 
-	$mirror_4_link = 'http://libgen.net/view.php?id=' . $row['ID'];
-	$mirror_4_title = 'Libgen.net';
-	$mirror_4_tooltip = 'Libgen.net';
+	$mirror_2_link = 'http://croco.freeonsciencelibraryguide.com/view.php?id=' . $row['ID'];
+	$mirror_2_title = 'Libgen.net';
+	$mirror_2_tooltip = 'Libgen.net';
 
 
 	$mirror_5_link = '';
@@ -48,7 +51,7 @@
 	$mirror_9_title = '';
 	$mirror_9_tooltip = '';
 
-	$mirror_edit_link = 'http://libgen.org/librarian/registration?md5='.$row['MD5'];
+	$mirror_edit_link = '/librarian/registration.php?md5='.$row['MD5'];
 	$mirror_edit_title = 'Libgen Librarian';
 	$mirror_edit_tooltip = 'Libgen Librarian';
 
@@ -87,7 +90,7 @@ if(!file_exists('../repository_torrent/r_' . substr($row['ID'], 0, -3) . '000.to
 }
 else
 {
-	$mirror_torrent_link = 'http://libgen.org/repository_torrent/r_' . substr($row['ID'], 0, -3) . '000.torrent';
+	$mirror_torrent_link = '/repository_torrent/r_' . substr($row['ID'], 0, -3) . '000.torrent';
 	$mirror_torrent_title = 'Torrent';
 	$mirror_torrent_tooltip = 'torrent per 1000 books ';
 }
