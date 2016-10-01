@@ -27,33 +27,45 @@ class RSS
 
 		// pagination
 		global $dbtable,$maxnewslines,$pagesperpage;
-
-		if(isset($_GET['onlynew']))
+		$where = '';
+		/*if(isset($_GET['onlynew']))
 		{
-		$where = "  ( `commentary` NOT LIKE '%(add ocr)' ) AND ";
+			$where = "  ( `commentary` NOT LIKE '%(add ocr)' ) AND ";
 		}
 		else 
 		{
-		$where = "";
+			$where = " 1=1 ";
 		}
-
+		*/
 
 		if (isset($_GET['topicid']) && preg_match('|^[0-9]{1,3}$|', $_GET['topicid']))
 		{
-		$topic = $_GET['topicid'];
-		if(in_array ($topic, array('1', '12', '32', '38', '41', '57', '64', '69', '102', '113', '147', '178', '183', '189', '198', '205', '210', '264', '289', '296', '305', '314')) ) {$where .= "  ( `topic` = '".$topic."' OR `topic` IN (SELECT `topic_id` FROM `topics` WHERE `topic_id_hl` = '".$topic."' AND `lang` = 'ru') ) AND ";} 
-		else {$where .= "  ( `topic` = '".$topic."' ) AND ";}
+			$topic = $_GET['topicid'];
+			if(in_array ($topic, array('1', '12', '32', '38', '41', '57', '64', '69', '102', '113', '147', '178', '183', '189', '198', '205', '210', '264', '289', '296', '305', '314')) ) 
+			{
+				$where .= "  ( `topic` = '".$topic."' OR `topic` IN (SELECT `topic_id` FROM `topics` WHERE `topic_id_hl` = '".$topic."' AND `lang` = 'ru') ) AND ";
+			} 
+			else 
+			{
+				$where .= "  ( `topic` = '".$topic."' ) AND ";
+			}
 		}
 		else
 		{
-		$where .= "";
+			$where .= " ";
 		}
 
 
-		$sql_cnt = "SELECT COUNT(*) FROM $dbtable WHERE ".$where."  Visible='' ";
+		if(isset($_GET['language']))
+		{
+			$where .= " `language` = '".mysql_real_escape_string($_GET['language'])."'  AND  ";
+		}
+
+
+		$sql_cnt = "SELECT COUNT(*) FROM ".$dbtable." WHERE 1=1 AND ".$where." `Visible`='' ";
 //echo $sql_cnt;
 		$result = mysql_query($sql_cnt,LINK);
-		if (!$result) die($dberr);
+		if (!$result) die('');
 		$row = mysql_fetch_assoc($result);
 		$count = stripslashes($row['COUNT(*)']);
 
@@ -66,9 +78,9 @@ class RSS
 		if (isset($_GET['page'])) $page = $_GET['page'];
 		else $page = 1;
 
-		$query = "SELECT * FROM $dbtable WHERE ".$where."  Visible='' ORDER BY `ID` DESC LIMIT ".($page-1)*$maxnewslines.",$maxnewslines;";
+		$query = "SELECT * FROM $dbtable WHERE 1=1 AND ".$where." Visible='' ORDER BY `ID` DESC LIMIT ".($page-1)*$maxnewslines.",$maxnewslines;";
 		//echo $query;
-		$res = mysql_db_query (DB_NAME, $query, LINK);
+		$res = mysql_query ($query, LINK);
 		$numlines = sizeof($res);
 
 		if (false === strpos(strtolower($_SERVER['HTTP_USER_AGENT']),'google')){
@@ -106,7 +118,7 @@ class RSS
 			$edition = htmlspecialchars(trim($row['Edition']), ENT_QUOTES);
 			$ext = htmlspecialchars(trim($row['Extension']), ENT_QUOTES);
 			$library = htmlspecialchars(trim($row['Library']), ENT_QUOTES);
-			$filename = htmlspecialchars(trim($row['Filename']), ENT_QUOTES);
+			//$filename = htmlspecialchars(trim($row['Filename']), ENT_QUOTES);
 
 			$coverurl = htmlspecialchars(trim($row['Coverurl']), ENT_QUOTES);
 			if ($coverurl == '')
@@ -115,7 +127,7 @@ class RSS
 			}
 			elseif (false === strpos($coverurl, '://'))
 			{
-				$coverurl = 'http://'.SERVERNAME.'/covers/' . $coverurl;
+				$coverurl = '/covers/' . $coverurl;
 			}
 	
 

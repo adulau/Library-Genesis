@@ -29,6 +29,16 @@ else
 
 
 
+function isbn_find_req($isbn)
+{
+	$isbn             = preg_replace('/[[:punct:]]+/u', ' ', str_replace('-', '', $isbn)); //для подстановки в sql запрос
+	$isbn             = preg_replace('/[\s]+/u', ' ', trim($isbn));
+	$sql_req = " MATCH(`IdentifierWODash`) AGAINST (' +".str_replace(' ', ' +', $isbn)."' IN BOOLEAN MODE) ";
+	return($sql_req);
+}
+
+
+
 if($limit2 == '') $limit = ' LIMIT '.$limit1;
 else $limit = ' LIMIT '.$limit1.', '.$limit2;
 
@@ -67,19 +77,22 @@ else
 
 if(isset($_REQUEST['fields']))
 {
-	$fields = $_REQUEST['fields'];
-	if ($fields=='*') {
+	$fields = strtolower($_REQUEST['fields']);
+	if ($fields=='*') 
+	{
 		$fields='*';
-	} else {
+	} 
+	else 
+	{
 		$fieldsarray = explode(',', $fields);
 		if(count(array_diff($fieldsarray, array(
-		'ID', 'Title', 'VolumeInfo', 'Series', 'Periodical', 'Author', 'Year',
-		'Edition', 'Publisher', 'City', 'Pages', 'Language', 'Topic', 'Library',
-		'Issue', 'Identifier', 'ISSN', 'ASIN', 'UDC', 'LBC', 'DDC', 'LCC', 'Doi',
-		'Googlebookid', 'OpenLibraryID', 'Commentary', 'DPI', 'Color', 'Cleaned',
-		'Orientation', 'Paginated', 'Scanned', 'Bookmarked', 'Searchable', 'Filesize',
-		'Extension', 'MD5', 'CRC32', 'eDonkey', 'AICH', 'SHA1', 'TTH', 'Generic',
-		'Filename', 'Visible', 'Locator', 'Local', 'TimeAdded', 'TimeLastModified', 'Coverurl'
+		'id', 'title', 'volumeinfo', 'series', 'periodical', 'author', 'year',
+		'edition', 'publisher', 'city', 'pages', 'language', 'topic', 'library',
+		'issue', 'identifier', 'issn', 'asin', 'udc', 'lbc', 'ddc', 'lcc', 'doi',
+		'googlebookid', 'openLibraryid', 'commentary', 'dpi', 'color', 'cleaned',
+		'orientation', 'paginated', 'scanned', 'bookmarked', 'searchable', 'filesize',
+		'extension', 'md5', 'generic',
+		'visible', 'locator', 'local', 'timeadded', 'timelastmodified', 'coverurl','identifierwodash', 'tags','pagesinfile'
 		))) == 0)
 		{
 		$fields = implode('`,`', $fieldsarray);
@@ -87,7 +100,7 @@ if(isset($_REQUEST['fields']))
 		}
 		else
 		{
-		die("WRONG FIELDS");
+			die("WRONG FIELDS");
 		}
 	}
 }
@@ -99,7 +112,7 @@ die("WHERE FIELDS?");
 $ids = array();
 if(isset($_REQUEST['ids']) && $mode == '')
 {
-	if(preg_match('|^[0-9,]+$|', $_REQUEST['ids']))
+	if(preg_match('|^[0-9,]+$|', $_REQUEST['ids']) || preg_match('|^[0-9A-Za-z]{32}$|', $_REQUEST['ids']))
 	{
 		$ids = $_REQUEST['ids'];
 	}
@@ -111,6 +124,10 @@ if(isset($_REQUEST['ids']) && $mode == '')
 elseif(isset($_REQUEST['doi']) && !empty($_REQUEST['doi']))
 {
 	$doi = $_REQUEST['doi'];
+}
+elseif(isset($_REQUEST['isbn']) && !empty($_REQUEST['isbn']))
+{
+	$isbn = $_REQUEST['isbn'];
 }
 elseif(!isset($_REQUEST['ids']) && $mode == '')
 {
@@ -177,17 +194,33 @@ elseif ($mode == 'newer')
 	{
 		$where = " (`TimeLastModified` = '" . addslashes($timenewer) . "' AND ID > '" . addslashes($idnewer) . "') OR (`TimeLastModified` > '" . addslashes($timenewer) . "') ";
 	}
-	$orderby = " ORDER BY TimeLastModified, ID ";
+	$orderby = " ORDER BY `TimeLastModified`, `ID` ";
 }
 elseif(isset($doi))
 {
 	$where = "`Doi` = '".mysql_real_escape_string($doi)."'";
-	$orderby = " ORDER BY TimeLastModified, ID ";
+	$orderby = " ORDER BY `TimeLastModified`, `ID` ";
+}
+elseif(isset($isbn))
+{
+//1 ищем убрав дефисы из поиск. запроса через Match against
+//2 если не найдено ничего и поисковый запрос содержит дефисы -ищем по фразе через match against
+//3 если ничего не найдено, то убрираем дефисы из колонки и из запроса и ищем через like
+
+
+
+	$where = isbn_find_req($isbn);
+
+	$orderby = " ORDER BY `TimeLastModified`, `ID` ";
 }
 else
 {
+	if(preg_match('|^[0-9,]+$|', $ids))
 	$where = "`ID` IN (".$ids.")";
-	$orderby = " ORDER BY TimeLastModified, ID ";
+ 	if(preg_match('|^[0-9A-Za-z,]{32}$|', $ids))
+	$where = "`MD5` IN ('". $ids."')";
+
+	$orderby = " ORDER BY `TimeLastModified`, `ID` ";
 }
 
 header('HTTP/1.0 500 Internal Server Error');

@@ -8,10 +8,10 @@
         $descrtable_edited = 'description_edited';
         $topictable = 'topics';
 
-	$dbuser = '';
+	$dbuser = 'root';
 	$dbpass = '';
 
-	$dbuser_get = '';
+	$dbuser_get = 'root';
 	$dbpass_get = '';
 
 
@@ -31,7 +31,7 @@
         $filesep = '/';
 
 //'785000-824000'   => 'K:\\!genesis\\!repository4',
-	
+
         // distributed repository
  	 $repository = array(
 		       '0-390000' => 'K:\\!genesis\\!repository1',

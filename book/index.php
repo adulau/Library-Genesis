@@ -1,6 +1,77 @@
 <?php
 ini_set('display_errors', '0');
 
+
+	function convBase($numberInput, $fromBaseInput, $toBaseInput)
+	{
+	    if ($fromBaseInput==$toBaseInput) return $numberInput;
+	    $fromBase = str_split($fromBaseInput,1);
+	    $toBase = str_split($toBaseInput,1);
+	    $number = str_split($numberInput,1);
+	    $fromLen=strlen($fromBaseInput);
+	    $toLen=strlen($toBaseInput);
+	    $numberLen=strlen($numberInput);
+	    $retval='';
+	    if ($toBaseInput == '0123456789')
+	    {
+	        $retval=0;
+	        for ($i = 1;$i <= $numberLen; $i++)
+	            $retval = bcadd($retval, bcmul(array_search($number[$i-1], $fromBase),bcpow($fromLen,$numberLen-$i)));
+	        return $retval;
+	    }
+	    if ($fromBaseInput != '0123456789')
+	        $base10=convBase($numberInput, $fromBaseInput, '0123456789');
+	    else
+	        $base10 = $numberInput;
+	    if ($base10<strlen($toBaseInput))
+	        return $toBase[$base10];
+	    while($base10 != '0')
+	    {
+	        $retval = $toBase[bcmod($base10,$toLen)].$retval;
+	        $base10 = bcdiv($base10,$toLen,0);
+	    }
+	    return $retval;
+	}
+
+
+function sanitize_filename($str)
+{
+	static $tbl = array(
+		'<' => '_',
+		'>' => '_',
+		':' => '_',
+		'"' => '_',
+		'/' => '_',
+		'\\' => '_',
+		'|' => '_',
+		'?' => '_',
+		'*' => '_',
+		'#' => '_',
+		';' => '_'
+	);
+	return strtr($str, $tbl);
+}
+
+function compose_filename($row)
+{   
+	$filename = '';
+	if (!empty($row['Author']))
+		$filename = $row['Author'];
+	if (!empty($row['Title']))
+		$filename .= '-' . $row['Title'];
+	if (!empty($row['Series']))
+		$filename = '(' . $row['Series'] . ') ' . $filename;
+	if (!empty($row['Periodical']))
+		$filename = '(' . $row['Periodical'] . ') ' . $filename;
+	if (!empty($row['VolumeInfo']))
+		$filename .= '. ' . $row['VolumeInfo'];
+	if (!empty($row['Publisher']))
+		$filename .= '-' . $row['Publisher'];
+	if (!empty($row['Year']))
+		$filename .= ' (' . $row['Year'] . ')';
+	return (empty($filename) ? strtoupper($row['MD5']) : mb_substr($filename, 0, 200, 'utf-8'));
+}
+
 // Установка куки для запоминания выбора языка
 if (isset($_COOKIE['lang']))
 {
@@ -90,15 +161,14 @@ if(!isset($tlm))
 {
 
 // now look up in the database
-$sql = "SELECT u.*, d.`descr`, d.`toc`, t.`topic_descr`, g.`generic_md5`, u_e.`u_tlm`, d_e.`d_tlm` FROM `".$dbtable."` as `u`
+$sql = "SELECT u.*, d.`descr`, d.`toc`, t.`topic_descr`, g.`generic_md5`, u_e.`u_tlm`, d_e.`d_tlm` ,  h.`CRC32`, h.`TTH`, h.`SHA1`, h.`eDonkey`, h.`AICH`, h.`torrent`, h.`BTIH` FROM `".$dbtable."` as `u`
+LEFT JOIN `hashes`                                                as `h` ON `h`.`MD5`=`u`.`MD5` 
 LEFT JOIN `".$descrtable."`                                       as `d` ON d.`MD5`=u.`MD5`
 LEFT JOIN `".$topictable."`                                       as `t` ON t.`topic_id`=u.`topic` AND t.`lang` = '".$lang."'
 LEFT JOIN (SELECT  GROUP_CONCAT(`md5` separator '|')              as `generic_md5` from `".$dbtable."`        as `g` WHERE `g`.`generic` = '".$md5."' ) as `g`   ON 1=1
 LEFT JOIN (SELECT  GROUP_CONCAT(DATE_FORMAT(`timelastmodified`, '%Y-%m-%d %H:%i:%s') separator '|') as `u_tlm` from `".$dbtable_edited."`       as `u_e` WHERE `u_e`.`MD5` = '".$md5."' ) as `u_e` ON 1=1
 LEFT JOIN (SELECT  GROUP_CONCAT(DATE_FORMAT(`timelastmodified`, '%Y-%m-%d %H:%i:%s') separator '|') as `d_tlm` from `".$descrtable_edited."`    as `d_e` WHERE `d_e`.`MD5` = '".$md5."' ) as `d_e` ON 1=1
 WHERE `u`.`MD5` = '".$md5."'";
-
-
 
 }
 else
@@ -154,7 +224,8 @@ $result = mysql_query($sql, $con);
 if( mysql_error() !='') //если есть ошибка, ставился неполный дамп без доп. таблиц, то берем только из updated
 { 
 	unset($result); 
-	$sql = "SELECT u.* FROM `".$dbtable_edited."` as `u` WHERE  `u`.`MD5` = '".$md5."'";
+	$sql = "SELECT u.*, '' as `CRC32`, '' as `TTH`, '' as `SHA1`, '' as `eDonkey`, '' as `AICH` FROM `".$dbtable_edited."` as `u` WHERE `u`.`MD5` = '".$md5."'";
+
 	$result = mysql_query($sql, $con);
 
 }
@@ -178,14 +249,30 @@ $row['descr'] = htmlspecialchars_decode($row['descr']);
 $row['toc'] = htmlspecialchars_decode($row['toc']);
 $htmltitle = '<title>Library Genesis: ' . $row['Author'] . ' - ' . $row['Title'].'</title>';
 
+//$row['torrent'] = convBase(strtoupper($row['SHA1']), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', '0123456789ABCDEF');
 
-if($row['Visible'] != 'no')
+//$row['SHA1'] = convBase(strtoupper('D53D1A331F9F126805C28DAEDE840DF6799A9D5E'), '0123456789ABCDEF', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567');
+
+if($row['Visible'] != 'del')
 include_once '../mirrors.php';
+//echo $row['torrent'];
+
+if(isset($_GET['oftorrent']) && $row['torrent'] !='')
+{	//ob_start();
+	header("HTTP/1.0 200 OK");
+	//header("X-Accel-Redirect: ".$torrent_folder."/".$row['Filename'].".torrent");	
+	header('Content-type: application/octet-stream');
+	header('Content-Disposition: attachment; filename="'.$row['MD5'].'.torrent"');
+	echo  preg_replace('|e$|','e5:nodesll21:router.bittorrent.comi6881eel20:router.lanspirit.neti53eeee',  preg_replace('|^d4:infod6|', 'd8:announce29:http://lgtracker.org/announce13:creation datei1462923669e8:encoding5:UTF-84:infod6', base64_decode($row['torrent']))); //открыть в браузере
+	die();
+}
+
+//https://cdn.rawgit.com/zenorocha/clipboard.js/master/dist/
 
 
-
-echo str_replace('<title>Library Genesis</title>', $htmltitle, $htmlhead);
+echo str_replace('<title>Library Genesis</title>', $htmltitle, str_replace('</head>', '<script src="/clipboard.min.js"></script></head>', $htmlhead));
 include_once '../menu_' . $lang . '.html';
+
 
 
 $coverurl = $row['Coverurl'];
@@ -197,6 +284,25 @@ elseif (false === strpos($coverurl, '://'))
 {
 	$coverurl = $covers_repository . $coverurl;
 }
+
+
+
+
+
+if(!file_exists('../repository_torrent/r_' . substr($row['ID'], 0, -3) . '000.torrent'))
+{
+	$mirror_torrent_link = '#';
+	$mirror_torrent_title = '<font color="grey">'.$LANG_MESS_419.'</font>';
+	$mirror_torrent_tooltip = $LANG_MESS_419;
+}
+else
+{
+	$mirror_torrent_link = '/repository_torrent/r_' . substr($row['ID'], 0, -3) . '000.torrent';
+	$mirror_torrent_title = $LANG_MESS_419;
+	$mirror_torrent_tooltip = $LANG_MESS_419;
+}
+
+
 
 
 $sizebytes = $row['Filesize'];
@@ -354,39 +460,20 @@ if (!empty($toc))
 	$toc = '<HR /><font color="gray">' . $LANG_MESS_182 . ': <br/></font>' . $toc;
 }
 
-//выводим ссылки на старые описания
-if((!empty($row['u_tlm']) || !empty($row['u_tlm'])) && !isset($tlm))
-{
-
-	$timelastmoifiedold = $row['u_tlm'].'|'.$row['d_tlm'];
-	$timelastmoifiedold = array_filter(array_unique(explode('|', $timelastmoifiedold)));
-	sort($timelastmoifiedold);
-	foreach ($timelastmoifiedold as $timelastmoifiedold1)
-	{
-		$timelastmoifiedold2[] = "<a href='../book/index.php?md5=".$md5."&tlm=".$timelastmoifiedold1."'>".$timelastmoifiedold1."</a>";
-	}
-	$timelastmoifiedold = join("&nbsp;&nbsp;", $timelastmoifiedold2);
-}
-else
-{
-	$timelastmoifiedold = '';
-}
-
-
 
 //ссылки на худщие версии
 if(!empty($row['generic_md5']))
 {
-$generic = array_filter(explode('|',$row['generic_md5']));
-foreach ($generic as $generic1)
-{
-  $generic2[] = "<a href='../book/index.php?md5=".$generic1."&open=".$open."'>".$generic1."</a>";
-}
-$generic = join("<br>", $generic2);
+	$generic = array_filter(explode('|', strtoupper($row['generic_md5'])));
+	foreach ($generic as $generic1)
+	{
+	  $generic2[] = "<a href='../book/index.php?md5=".$generic1."&open=".$open."'>".$generic1."</a>";
+	}
+	$generic = join("<br>", $generic2);
 }
 else
 {
-$generic = '';
+	$generic = '';
 }
 
 
@@ -395,6 +482,62 @@ if(isset($tlm))
 	$row['ID'] = '';
 	$row['TimeAdded'] = $row['TimeLastModified'];
 }
+
+$filename = sanitize_filename(compose_filename($row)).'.'.$row['Extension'];
+
+$tagnum = 0;
+foreach(explode(';', trim($row['Tags'], ' ;')) as $taglink)
+{
+	if($tagnum==2) //показываем первые  3 тега, остальное скрываем css
+	$taglinks[] = '<input type="checkbox" id="hd-1" class="taghide"/><label for="hd-1">&gt;&gt;</label><div><a href="/search.php?req='.rawurlencode($taglink).'&column=tags">'.$taglink.'</a>';
+	else
+	$taglinks[] = '<a href="/search.php?req='.rawurlencode($taglink).'&column=tags">'.$taglink.'</a>';
+
+	$tagnum  = $tagnum + 1;
+} 
+if($tagnum > 2)
+$taglinks = implode(';', $taglinks).'</div>';
+else
+$taglinks = implode(';', $taglinks);
+
+
+
+
+//выводим ссылки на старые описания
+if((!empty($row['u_tlm']) || !empty($row['u_tlm'])) && !isset($tlm))
+{
+
+	$timelastmoifiedold = $row['u_tlm'].'|'.$row['d_tlm'];
+	$timelastmoifiedold = array_filter(array_unique(explode('|', $timelastmoifiedold)));
+	sort($timelastmoifiedold);
+	$editnum = 0;
+	foreach ($timelastmoifiedold as $timelastmoifiedold1)
+	{
+		//$timelastmoifiedold2[] = "<a href='../book/index.php?md5=".$md5."&tlm=".$timelastmoifiedold1."'>".$timelastmoifiedold1."</a>";
+		if($editnum==3) //показываем первые  3 тега, остальное скрываем css
+		$timelastmoifiedold2[] = '<input type="checkbox" id="hd-2" class="taghide"/><label for="hd-2">&gt;&gt;</label><div><a href="../book/index.php?md5='.$md5.'&tlm='.$timelastmoifiedold1.'"><nobr>'.$timelastmoifiedold1.'</nobr></a>';
+		else
+		$timelastmoifiedold2[] = '<a href="../book/index.php?md5='.$md5.'&tlm='.$timelastmoifiedold1.'"><nobr>'.$timelastmoifiedold1.'</nobr></a>';
+		$editnum  = $editnum + 1;
+	}
+	if($editnum > 3)
+	$timelastmoifiedold = implode("; ", $timelastmoifiedold2).'</div>';
+	else
+	$timelastmoifiedold = implode("; ", $timelastmoifiedold2);
+}
+else
+{
+	$timelastmoifiedold = '';
+}
+
+if($row['torrent'] == '')
+{
+	$copy_filename = '';
+}
+else
+{
+	$copy_filename = '<br><input id="textarea-example" value="'.$filename.'" type="text" size="9"><button class="btn-clipboard" data-clipboard-target="#textarea-example">'.$LANG_MESS_417.'</button><script>new Clipboard(".btn-clipboard");</script>';
+}	
 
 echo "
 <body>
@@ -412,16 +555,16 @@ echo "
 				</font>
 				</td>
 
-                <td><font color='gray'>".$LANG_MESS_5.": </font></td><td colspan=2><b><a href='".$mirror_0_link."'>".htmlspecialchars(trim($row['Title']))."</a></b></td><td><font color='gray'>".$LANG_MESS_42.": </font>".$row['VolumeInfo']."</td></tr>
-		<tr valign=top><td><font color='gray'>".$LANG_MESS_6.":</font></td><td colspan=3><b>".$row['Author']."</b></td></tr>
-	        <tr valign=top><td><font color='gray'>".$LANG_MESS_7.":</font></td><td>".$row['Series']."</td><td><font color='gray'>".$LANG_MESS_8.":</font></td><td>".$row['Periodical']."</td></tr>
-                <tr valign=top><td><font color='gray'>".$LANG_MESS_9.":</font></td><td>".$row['Publisher']."</td><td><font color='gray'>".$LANG_MESS_93.":</font></td><td>".$row['City']."</td></tr>
-		<tr valign=top><td><font color='gray'>".$LANG_MESS_10.":</font></td><td>".$row['Year']."</td><td><font color='gray'>".$LANG_MESS_43.":</font></td><td>".$row['Edition']."</td></tr>
-		<tr valign=top><td><font color='gray'>".$LANG_MESS_11.":</font></td><td>".$row['Language']."</td><td><font color='gray'>".$LANG_MESS_28.":</font></td><td>".$row['Pages']."</td></tr>
-		<tr valign=top><td><font color='gray'>ISBN:</font></td><td>".trim(str_replace(',', ', ', $row['Identifier']), ',. ;')."</td><td><font color='gray'>ID:</font></td><td>".$row['ID']."</td></tr>
-		<tr valign=top><td><font color='gray'>".$LANG_MESS_44.":</font></td><td>".$row['TimeAdded']."</td><td><font color='gray'>".$LANG_MESS_45.":</font></td><td>".$row['TimeLastModified']."</td></tr>
-		<tr valign=top><td><font color='gray'>".$LANG_MESS_46.":</font></td><td>".$row['Library']."</td><td><font color='gray'>".$LANG_MESS_47.":</font></td><td>".$row['Issue']."</td></tr>
-		<tr valign=top><td><font color='gray'>".$LANG_MESS_26.":</font></td><td>".$size." (".$sizebytes." bytes)</td><td><font color='gray'>".$LANG_MESS_12.":</font></td><td>".$row['Extension']."</td></tr>
+                <td><nobr><font color='gray'>".$LANG_MESS_5.": </font></nobr></td><td colspan=2><b><a href='".$mirror_0_link."'>".htmlspecialchars(trim($row['Title']))."</a></b></td><td><nobr><font color='gray'>".$LANG_MESS_42.": </font></nobr>".$row['VolumeInfo']."</td></tr>
+		<tr valign=top><td><nobr><font color='gray'>".$LANG_MESS_6.":</font></nobr></td><td colspan=3><b>".$row['Author']."</b></td></tr>
+	        <tr valign=top><td><nobr><font color='gray'>".$LANG_MESS_7.":</font></nobr></td><td>".$row['Series']."</td>                 <td><nobr><font color='gray'>".$LANG_MESS_8.":</font></nobr></td><td>".$row['Periodical']."</td></tr>
+                <tr valign=top><td><nobr><font color='gray'>".$LANG_MESS_9.":</font></nobr></td><td>".$row['Publisher']."</td>              <td><nobr><font color='gray'>".$LANG_MESS_93.":</font></nobr></td><td>".$row['City']."</td></tr>
+		<tr valign=top><td><nobr><font color='gray'>".$LANG_MESS_10.":</font></nobr></td><td>".$row['Year']."</td>                  <td><nobr><font color='gray'>".$LANG_MESS_43.":</font></nobr></td><td>".$row['Edition']."</td></tr>
+		<tr valign=top><td><nobr><font color='gray'>".$LANG_MESS_11.":</font></nobr></td><td>".$row['Language']."</td>              <td><nobr><font color='gray'>".$LANG_MESS_28." (biblio\\tech):</font></nobr></td><td>".$row['Pages']."\\".$row['PagesInFile']."</td></tr>
+		<tr valign=top><td><font color='gray'>ISBN:</font></td><td>".trim(str_replace(',', ', ', $row['Identifier']), ',. ;')."</td><td><nobr><font color='gray'>ID:</font></nobr></td><td>".$row['ID']."</td></tr>
+		<tr valign=top><td><nobr><font color='gray'>".$LANG_MESS_44.":</font></nobr></td><td>".$row['TimeAdded']."</td>             <td><nobr><font color='gray'>".$LANG_MESS_45.":</font></nobr></td><td>".$row['TimeLastModified']."</td></tr>
+		<tr valign=top><td><nobr><font color='gray'>".$LANG_MESS_46.":</font></nobr></td><td>".$row['Library']."</td>               <td><nobr><font color='gray'>".$LANG_MESS_47.":</font></nobr></td><td>".$row['Issue']."</td></tr>
+		<tr valign=top><td><nobr><font color='gray'>".$LANG_MESS_26.":</font></nobr></td><td>".$size." (".$sizebytes." bytes)</td>  <td><nobr><font color='gray'>".$LANG_MESS_12.":</font></nobr></td><td>".$row['Extension']."</td></tr>
 
 
 
@@ -434,13 +577,14 @@ echo "
 
 
 <tr valign='top'>
-<td><font color='gray'>".$LANG_MESS_49.":</font></td><td colspan=1>".$timelastmoifiedold."</td>
-<td><font color='gray'>".$LANG_MESS_54.":</font></td><td><b><a href='".$mirror_edit_link."'>".$mirror_edit_title."</a></b></td></tr>
+<td><nobr><font color='gray'>".$LANG_MESS_49.":</font></nobr></td><td colspan=1>".$timelastmoifiedold."</td>
+<td><nobr><font color='gray'>".$LANG_MESS_54.":</font></nobr></td><td><b><a href='".$mirror_edit_link."'>".$mirror_edit_title."</a></b></td></tr>
 
-<tr valign='top'><td><font color='gray'>".$LANG_MESS_50.":</font></td><td colspan='3'>".$row['Commentary']."</td></tr>
-<tr valign='top'><td><font color='gray'>".$LANG_MESS_13.":</font></td><td colspan='3'>".$row['topic_descr']."</td></tr>
+<tr valign='top'><td><nobr><font color='gray'>".$LANG_MESS_50.":</font></nobr></td><td colspan='3'>".$row['Commentary']."</td></tr>
+<tr valign='top'><td><nobr><font color='gray'>".$LANG_MESS_13.":</font></nobr></td><td>".$row['topic_descr']."</td><td><font color='gray'>".$LANG_MESS_322.":</font></td><td width=300>".$taglinks."</td>
+</tr>
 
-<tr valign='top'><td><font color='gray'>".$LANG_MESS_51.":</font></td>
+<tr valign='top'><td><nobr><font color='gray'>".$LANG_MESS_51.":</font></nobr></td>
 <td colspan='3'><table border='0'  rules='cols'  width='100%'><tr>
 <td align='center' width='11,1%'><font color='gray'>ISSN: </font></td>
 <td align='center' width='11,1%'><font color='gray'>UDC: </font></td>
@@ -465,7 +609,7 @@ echo "
 </tr></table></td></tr>
 
 
-<tr valign='top'><td><font color='gray'>".$LANG_MESS_52.":</font></td>
+<tr valign='top'><td><nobr><font color='gray'>".$LANG_MESS_52.":</font></nobr></td>
 
 
 <td colspan=3><table border=0  rules='cols' width='100%'><tr>
@@ -500,10 +644,10 @@ echo "
 <td align='center' width='11,1%'><a href='".$mirror_2_link."'>".$mirror_2_title."</a></td>
 <td align='center' width='11,1%'><a href='".$mirror_3_link."'>".$mirror_3_title."</a></td>
 <td align='center' width='11,1%'><a href='".$mirror_4_link."'>".$mirror_4_title."</a></td>
-<td align='center' width='11,1%'><a href='".$mirror_5_link."'>".$mirror_5_title."</a></td>
-<td align='center' width='11,1%'><a href='".$mirror_6_link."'>".$mirror_6_title."</a></td>
+<td align='center' width='11,1%'><a href='".$mirror_oftorrent_link."'>".$mirror_oftorrent_title."</a>".$copy_filename."</td>
+<td align='center' width='11,1%'><a href='".$mirror_gnu_link."'>".$mirror_gnu_title."</a></td>
 <td align='center' width='11,1%'><a href='".$mirror_e2k_link."'>".$mirror_e2k_title."</a></td>
-<td align='center' width='11,1%'><a href='".$mirror_magnet_link."'>".$mirror_magnet_title."</a></td>
+<td align='center' width='11,1%'><a href='".$mirror_dc_link."'>".$mirror_dc_title."</a></td>
 <td align='center' width='11,1%'><a href='".$mirror_torrent_link."'>".$mirror_torrent_title."</a></td>
 
 </tr></table></td></tr>
@@ -511,7 +655,7 @@ echo "
                    <tr valign='top'><td colspan=4 style='padding: 25px'>".$toc."</tr>
 		<tr height='5' valign='top'><td bgcolor='brown' colspan=4></td></tr><tr><td colspan=4><a href='http://genofond.org/viewtopic.php?t=6423'>Error Report</a></td></tr></table>";
 
-
+//echo '<br>'.$ads2;
 echo $htmlfoot;
 mysql_close($con);
 ?>

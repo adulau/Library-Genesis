@@ -376,4 +376,27 @@ body, ul, li {
 
 }
 
+div#ads2154 {
+position:absolute;
+bottom: -18px;
+left:15%
+}
 
+
+/* скрываем чекбоксы и блоки с содержанием */
+.taghide {
+    display: none; 
+}
+.taghide + label ~ div {
+    display: none;
+}
+/* оформляем текст label */
+.taghide + label {
+    display: inline-block; 
+}
+/* вид текста label при активном переключателе */
+
+/* когда чекбокс активен показываем блоки с содержанием  */
+.taghide:checked + label + div {
+    display: block; 
+}

@@ -1,9 +1,50 @@
-﻿<?php
+<?php
 ini_set('max_execution_time', '36000');
 
 ini_set('display_errors', '0');
 include_once 'connect.php';
 include_once 'html.php';
+
+
+/*
+function isbn_find_req($isbn)
+{
+	global $con;
+
+	if(preg_match('|\-|',$isbn))
+	{
+		if(mysql_num_rows(mysql_query("select `id` from `bookwarrior`.`updated` where MATCH(`Identifier`) AGAINST ('» +".str_replace('-', ' +', $isbn)."»' IN BOOLEAN MODE) ", $con))>0)
+		{
+			$sql_req = " MATCH(`Identifier`) AGAINST ('» +".str_replace('-', ' +', $isbn)."»' IN BOOLEAN MODE) ";
+		}
+		elseif(mysql_num_rows(mysql_query("select `id` from `bookwarrior`.`updated` where MATCH(`Identifier`) AGAINST ('".str_replace('-', '', $isbn)."' IN BOOLEAN MODE) ", $con))>0)
+		{
+			$sql_req = " MATCH(`Identifier`) AGAINST ('".str_replace('-', '', $isbn)."' IN BOOLEAN MODE) ";
+		}
+		else
+		{
+			$sql_req = " REPLACE(`Identifier`, '-', '') like '%".str_replace('-', '', $isbn)."%' ";
+		}
+		
+	}
+	else
+	{
+		if(mysql_num_rows(mysql_query("select `id` from `bookwarrior`.`updated` where MATCH(`Identifier`) AGAINST ('".$isbn."' IN BOOLEAN MODE) ", $con))>0)
+		{
+			$sql_req = " MATCH(`Identifier`) AGAINST ('".$isbn."' IN BOOLEAN MODE) ";
+		}
+		else
+		{
+			$sql_req = " REPLACE(`Identifier`, '-', '') LIKE '%".$isbn."%' ";
+		}
+
+	}
+
+	return($sql_req);
+}
+
+*/
+
 echo $htmlhead;
 
 if (isset($_COOKIE['lang']))
@@ -154,8 +195,10 @@ else
 			$a6 = mb_strtolower(trim($a5), 'UTF8');
 			$a2 = explode(" ", $a6);
 		}
-			else{$a6 = preg_replace('/[[:punct:]]/', '', str_replace('—', '', str_replace('–', '', $a0)));
-			$a2 = explode(" ", $a6);
+		else
+		{
+			//$a6 = preg_replace('/[[:punct:]]/', '', str_replace('—', '', str_replace('–', '', $a0)));
+			$a2 = explode(" ", $a0);
 		}
 		
 		for($i = 0, $c = count($a2); $i < $c; $i++)
@@ -208,10 +251,15 @@ else
 		{
 			if(preg_match('~^(979-|978-|979|978|)[0-9]{1,5}[-][0-9]{1,7}[-][0-9]{1,6}[-][0-9X]$~', $a2[0]) || preg_match('~^(979|978|)[0-9]{9}[0-9X]{1}$~', $a2[0]))
 			{
-				$sql = "SELECT COUNT(*) FROM updated WHERE MATCH(`identifier`) AGAINST('*".$a2[0]."*' IN BOOLEAN MODE) ";
+				$sql = "SELECT COUNT(*) FROM `updated` WHERE MATCH(`IdentifierWODash`) AGAINST ('".preg_replace('/[[:punct:]]+/u', '', $a2[0])."' IN BOOLEAN MODE) ";
+
+				//echo $sql;
+
+			
 				$result = mysql_query($sql,$con);
 				$row = mysql_fetch_assoc($result);
 				$totalrows = stripslashes($row['COUNT(*)']);
+/*
 				if ($totalrows == 0)
 				{
 					$sql = '';//"SELECT COUNT(*) FROM updated WHERE replace(identifier, '-', '') like '%".$a2[0]."%'";
@@ -219,6 +267,7 @@ else
 					$row = mysql_fetch_assoc($result);
 					$totalrows = stripslashes($row['COUNT(*)']);
 				}
+				*/
 			}
 			$getparameters = '&column[]=identifier';
 		}

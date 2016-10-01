@@ -5,7 +5,7 @@ ini_set('memory_limit','10M');
 ini_set('max_input_time','60');
 ini_set('display_errors','0');
 
-
+//file_put_contents('search.txt', "\n", FILE_APPEND);
 //print_r($_SERVER);
 
 ini_set('display_errors', '0');
@@ -190,6 +190,8 @@ else
 
 
 
+
+
 if (isset($res_on_page))
 {
 	$res_on_page25 = '';
@@ -335,7 +337,7 @@ if (isset($_GET['column']))
 	$md5check        = '';
 	$extensioncheck  = '';
 	$topiccheck      = '';
-
+	$tagscheck  = '';
 
 	if    ($_GET['column'] == 'def')
 	{
@@ -360,6 +362,10 @@ if (isset($_GET['column']))
 	elseif ($_GET['column'] == 'publisher')
 	{
 		$publishercheck = ' checked';
+	}
+	elseif ($_GET['column'] == 'tags')
+	{
+		$tagscheck = ' checked';
 	}
 	elseif ($_GET['column'] == 'year')
 	{
@@ -404,9 +410,9 @@ else
 	$md5check        = '';
 	$extensioncheck  = '';
 	$topiccheck      = '';
+	$tagscheck      = '';
 }
 
-//	"language",
 if (isset($_GET['column']) && !is_array($_GET['column']) && in_array($_GET['column'], array(
 	"title",
 	"author",
@@ -415,8 +421,9 @@ if (isset($_GET['column']) && !is_array($_GET['column']) && in_array($_GET['colu
 	"publisher",
 	"year",
 	"identifier",
-
+	"language",
 	"md5",
+	"tags",
 	"extension",
 	"topic")))
 {
@@ -447,13 +454,10 @@ elseif($lg_topic == 'magzdb')
 {
 	header( 'Location: http://magzdb.org/makelist?t='.$req, true, 301 );
 }
-
-
 if (sizeof($_GET))
 	$mainpage = false; //определяем выводится гл. стр или поиск по ЛГ
 else
 	$mainpage = true;
-
 
 if($mainpage)
 {
@@ -463,7 +467,7 @@ if($mainpage)
 	}	
 	else
 	{
-		$smradio_button = '<td></td>';
+		$smradio_button = "<td><input type='radio' name='lg_topic' value='scimag' " . $scimagchecked . "><a href='/scimag/index.php'>$LANG_MESS_19</a></td>";
 	}
 
 	$form = "<form name ='libgen' action='search.php'>
@@ -526,8 +530,13 @@ if($mainpage)
 <input type='radio' name='column' value='identifier'" . $isbncheck . ">ISBN
 <input type='radio' name='column' value='language'" . $languagecheck . "><a href='' title='Russian, English, German, French, Spanish, ... etc. (ISO 639)'>" . $LANG_MESS_11 . "</a>
 <input type='radio' name='column' value='md5'" . $md5check . ">MD5
+<input type='radio' name='column' value='tags'" . $tagscheck . ">" . $LANG_MESS_322 . "
 <input type='radio' name='column' value='extension'" . $extensioncheck . ">" . $LANG_MESS_12 . "
 </form>";
+
+
+
+
 }
 else
 {
@@ -571,37 +580,16 @@ $form = "<form name ='libgen' action='search.php'><br>
 <input type='radio' name='column' value='identifier'" . $isbncheck . ">ISBN
 <input type='radio' name='column' value='language'" . $languagecheck . "><a href='' title='Russian, English, German, French, Spanish, ... etc. (ISO 639)'>" . $LANG_MESS_11 . "</a>
 <input type='radio' name='column' value='md5'" . $md5check . ">MD5
+<input type='radio' name='column' value='tags'" . $tagscheck . ">" . $LANG_MESS_322 . "
 <input type='radio' name='column' value='extension'" . $extensioncheck . ">" . $LANG_MESS_12 . "
 </form>";
 
 }
-//<tr><td nowrap valign='middle' align='right'><b><a href='/scimag/index.php'>" . $LANG_MESS_19 . "</a></b></td><td nowrap>{$lg_topic_form}</td></tr>	
-//<tr><td nowrap valign='middle' align='right'><b><a href='/comics/index.php'>" . $LANG_MESS_20 . "</a></b></td><td nowrap>{$formcomics}</td></tr>
-//<tr><td nowrap valign='middle' align='right'><b><a href='/foreignfiction/index.php'>" . $LANG_MESS_21 . "</a></b></td><td nowrap valign='top'>{$formfiction}</td></tr>
-//<tr><td nowrap valign='bottom' align='right'><b><a href='http://magzdb.org/'>" . $LANG_MESS_180 . "</a></b></td><td nowrap valign='top'>{$formmagzdb}</td></tr>
-
-
-
-/*
-<input type='checkbox' name='column[]' value='title'" . $titlecheck . ">" . $LANG_MESS_5 . "
-<input type='checkbox' name='column[]' value='author'" . $authorcheck . ">" . $LANG_MESS_6 . "
-<input type='checkbox' name='column[]' value='series'" . $seriescheck . ">" . $LANG_MESS_7 . "
-<input type='checkbox' name='column[]' value='periodical'" . $periodicalcheck . ">" . $LANG_MESS_8 . "
-<input type='checkbox' name='column[]' value='publisher'" . $publishercheck . ">" . $LANG_MESS_9 . "<br>
-<input type='checkbox' name='column[]' value='year'" . $yearcheck . ">" . $LANG_MESS_10 . "
-<input type='checkbox' name='column[]' value='identifier'" . $isbncheck . ">ISBN
-<input type='checkbox' name='column[]' value='language'" . $languagecheck . "><a href='' title='Russian, English, German, French, Spanish, ... etc. (ISO 639)'>" . $LANG_MESS_11 . "</a>
-<input type='checkbox' name='column[]' value='md5'" . $md5check . ">MD5
-<input type='checkbox' name='column[]' value='extension'" . $extensioncheck . ">" . $LANG_MESS_12 . "
-</form>";
-*/
-
-
 
 if (!$mainpage && $mode == 'search')
 {
-	if (strlen($req) < 4)
-		die($htmlhead . "<font color='#A00000'><h1>" . $LANG_MESS_14 . "</h1></font>" . $LANG_MESS_15 . ".<br>" . $LANG_MESS_16 . "<a href=>" . $LANG_MESS_17 . "</a>." . $htmlfoot);
+	if (strlen(preg_replace('|[[:punct:]\ \t\r\n]+|u', '', $req)) < 3)
+		die($htmlhead . "<font color='#A00000'><h1>" . $LANG_MESS_14 . "</h1></font>" . $LANG_MESS_15 . ".<br>" . $LANG_MESS_16 . "<a href=>" . $LANG_MESS_17 . "</a>." .$htmlfoot);
 	$req_htm     = htmlspecialchars($_GET['req'], ENT_QUOTES); //для вывода на веб-страницу
 	$req_htm_enc = urlencode($_GET['req']); //для вывода в адресную строку
 	//$req         = preg_replace('/[[:punct:]]+/u', ' ', trim($req)); //для подстановки в sql запрос
@@ -615,98 +603,35 @@ else
 	//$res_on_page = "25";
 }
 
-//@$lg_topic_form = "<form name ='search' action='/search.php?lg_topic=$lg_topic&s=$search'><br>
-//	<input name=s  size=60 maxlength=80 value='$search'>
-
-//<input type=submit   value='" . $LANG_SEARCH_0 . "' onclick='this.disabled='disabled'; document.forms.item(0).submit();'><br>
-//<font face=Arial color=gray size=1>" . $LANG_MESS_18 . " <a href='http://sci-hub.org/'>sci-hub.org</a></font><br>
-//<input type='radio' name='lg_topic' value='scimag'" . $scimagcheck . ">Scimag
-//<input type='radio' name='lg_topic' value='comics'" . $comicscheck . ">Comics
-
-//</td></tr>
-
-//</form>";
-
-
-//@$formcomics = "<form name ='comics' action='/comics/index.php?s=searchcomics'><br>
-//	<input name=s  size=60 maxlength=80 value='$searchcomics' ><input type=submit  value='" . $LANG_SEARCH_0 . "' onclick='this.disabled='disabled'; document.forms.item(0).submit();'><br>
-//<font face=Arial color=gray size=1><a href='http://libgen.org/comics/batchsearchindex.php'>" . $LANG_MESS_183 . "</a></font>
-//</form>";
-//@$formfiction = "<form name ='ffiction' action='/foreignfiction/'><br>
-//	<input name=s size=60 maxlength=80 value='$s'><input type=submit   value='" . $LANG_SEARCH_0 . "' onclick='this.disabled='disabled'; document.forms.item(0).submit();'><br>
-//<font face=Arial color=gray size=1><a href='/foreignfiction/batchsearchindex.php'>" . $LANG_MESS_0 . "</a></font>
-//</form>";
-//@$formmagzdb = "<form name ='magzdb' action='http://magzdb.org/makelist'><br>
-//	<input name=t size=60 maxlength=80 value='$t'><input type=submit   value='" . $LANG_SEARCH_0 . "' onclick='this.disabled='disabled'; document.forms.item(0).submit();'></form>";
-
-
-
 function fulltext_search($req, $columns, $full_phrase)
 {
-	$req = strtr($req, array(
-		'—' => '-',
-		'–' => ''
-	));
-	//предварительно заменить длинное тире и пр. на дефисы
-	preg_match_all('~(97[89][-]){0,1}[0-9]{1,5}[- ][0-9]{1,7}[- ][0-9]{1,6}[- ][0-9X]~', $req, $isbnfindname, PREG_PATTERN_ORDER);
+	$sql = ' 1=1 ';
 
 
-	if (count($isbnfindname[0]) < 1) //если в имени файла не найден ISBN с дефисами, то ищем без дефисов
+	preg_match_all('~(978[0-9]{9}[0-9X]{1}|[0-9]{9}[0-9X]{1})~', str_replace('-', '', $req), $isbnfindname, PREG_PATTERN_ORDER);
+	//print_r($isbnfindname);
+
+	if (count($isbnfindname[0]) > 0)
 	{
-		preg_match_all('~(978|)[0-9]{9}[0-9X]{1}~', str_replace('-', '', $req), $isbnfindname, PREG_PATTERN_ORDER);
-		if (count($isbnfindname[0]) > 0)
-		{
-			$isbnfindname1 = array_fill_keys($isbnfindname[0], '');
-			$req           = strtr($req, $isbnfindname1);
-		}
-	}
-	else
-	{
-		$isbnfindname1 = array_fill_keys($isbnfindname[0], '');
-		$req           = strtr($req, $isbnfindname1);
+		//$isbnfindname1 = array_fill_keys($isbnfindname[0], '');
+		$req           = preg_replace('~[0-9Xx\-]{10,17}~', '', $req); //убираем isbn из поискового запроса, все прочие слова ищем отдельно и isbn отдельно
 	}
 
-print_r($isbnfindname1);
-
-
-	//if (!empty($isbnfindname[0]))
-	//{
-	//	$columns = array_diff(array_map('strtolower', $columns), array('identifier'));
-
-	//} //если ISBN найден в поисковой строке, то колонку Identifier из дальнейшего поиска исключаем, тк ISBN ищутся позже отдельно
-	//echo $req;
-	//print_r($isbnfindname[0]);
-	preg_match_all('|topicid[0-9]+|', $req, $topicfindname, PREG_PATTERN_ORDER);
+	preg_match_all('|topicid[0-9]{1,3}|', $req, $topicfindname,PREG_PATTERN_ORDER);
+	//print_r($topicfindname);
 	if (count($topicfindname[0]) > 0) //если в имени файла не найден ISBN с дефисами, то ищем без дефисов
 	{
-		$topicfindname1 = array_fill_keys($topicfindname[0], '');
-		$req            = strtr($req, $topicfindname1);
+		$req           = preg_replace('~topicid[0-9]{1,3}~', '', $req); //убираем isbn из поискового запроса, все прочие слова ищем отдельно и isbn отдельно
 	}
 	//echo $req;
 	//print_r($topicfindname[0]);
-	if (!empty($topicfindname[0]))
-	{
-		$columns = array_diff(array_map('strtolower', $columns), array(
-			'topic'
-		));
-	} //если ISBN найден в поисковой строке, то колонку Identifier из дальнейшего поиска исключаем, тк ISBN ищутся позже отдельно
-	if (preg_match('|[A-Za-zА-Яа-я0-9]|', $req) && !empty($columns))
+ //если ISBN найден в поисковой строке, то колонку Identifier из дальнейшего поиска исключаем, тк ISBN ищутся позже отдельно
+	if (preg_match('|[A-Za-zА-Яа-я0-9]|', $req) && !empty($columns) && $columns!='identifier' && $columns!='topic')
 	{
 		$req             = preg_replace('/[[:punct:]]+/u', ' ', $req); //для подстановки в sql запрос
 		$req             = preg_replace('/[\s]+/u', ' ', trim($req));
 
-				
-
-		/*$default_columns = array(
-			'title',
-			'author',
-			'series',
-			'periodical',
-			'publisher',
-			'year'
-		);
-		*/
-		$search_words    = explode(' ', $req);
+		$search_words    = explode(' ', strtolower(str_replace('эксмо', '', $req)));
 		if ($columns == 'def')
 		{
 			$def_columns = 'title`,`author`,`series`,`publisher`,`year`,`periodical`,`volumeinfo';
@@ -718,7 +643,7 @@ print_r($isbnfindname1);
 
 		foreach ($search_words as $search_word)
 		{
-			if (preg_match('~^[0-9]{1,3}$~', $search_word) && empty($isbnfindname1)) //для случая, если ищется номер, который может быть записан с 0 в начале
+			if (preg_match('~^[0-9]{1,3}$~', $search_word)) //для случая, если ищется номер, который может быть записан с 0 в начале
 			{
 				$sql_word[] = "+(" . ltrim($search_word, "0") . " 0" . ltrim($search_word, "0") . " 00" . ltrim($search_word, "0") . " 000" . ltrim($search_word, "0") . ")";
 			}
@@ -727,207 +652,55 @@ print_r($isbnfindname1);
 				$sql_word[] = '+' . $search_word . '*';
 			}
 		}
-
-
 		if($full_phrase == '0')
-		$sql = " MATCH(`".$def_columns."`) AGAINST(' " . join(' ', $sql_word) . "' IN BOOLEAN MODE)";
+		$sql .= " AND MATCH(`".$def_columns."`) AGAINST(' " . join(' ', $sql_word) . "' IN BOOLEAN MODE)";
 		else 	
-		$sql = " MATCH(`".$def_columns."`) AGAINST('» " . join(' ', $sql_word) . "»' IN BOOLEAN MODE)";
+		$sql .= " AND MATCH(`".$def_columns."`) AGAINST('» " . join(' ', $sql_word) . "»' IN BOOLEAN MODE)";
 
-		if($columns == 'language')
+		if($columns == 'language' || $columns == 'extension')
 		{
-			//$sql = " `Language`= '".$req."'";
-			$sql = " MATCH(`Language`) AGAINST('" . $req . "' IN BOOLEAN MODE)";
-			
+			$sql = "  MATCH(`".$columns."`) AGAINST('" . $req . "' IN BOOLEAN MODE)";
 		}
-
-
 		if($columns == 'md5')
 		{
 			if(preg_match('|^[0-9A-Fa-f]{32}$|', $req))
 			{
 				$sql = " `MD5`= '".$req."'";
-
-
 			}
 			else
 			{
-
-die($htmlhead . "<font color='#A00000'><h1>Wrong MD5</h1></font>" . $htmlfoot);
-
+				die($htmlhead . "<font color='#A00000'><h1>Wrong MD5</h1></font>" .$htmlfoot);
 			}
-		
 		}
-		
-
-
-
-		//}
-		/*else //для случая если не стандартный набор колонок по умолчанию, по которому нет индекса
-		{
-			foreach ($search_words as $search_word)
-			{
-				if (preg_match('~^[0-9]{1,3}$~', $search_word)) //для случая, если ищется номер, который может быть записан с 0 в начале
-				{
-					foreach ($columns as $column)
-					{
-						$sql_cols[] = " MATCH(`$column`) AGAINST('" . ltrim($search_word, "0") . " " . $search_word . " 0" . $search_word . " 00" . $search_word . " 000" . $search_word . "' IN BOOLEAN MODE) ";
-					}
-				}
-				else
-				{
-					foreach ($columns as $column)
-					{
-						$sql_cols[] = " MATCH(`$column`) AGAINST('$search_word*' IN BOOLEAN MODE) ";
-					}
-				}
-				$sql_word[] = '(' . join(' or ', $sql_cols) . ')';
-				unset($sql_cols);
-			}
-			$sql = join(' AND ', $sql_word);
-		}
-		*/
 		if (!empty($isbnfindname[0])) // дописываем условие поиска по ISBN, не зависимо от того задана ли такая колонка
 		{
-			foreach ($isbnfindname[0] as $isbnfindname1)
-			{
-				//$sqlisbn[] = " REPLACE(`Identifier`, '-', '') like '%" . str_replace('-', '', $isbnfindname1) . "%'";
-				if(preg_match('|\-|',$isbnfindname1))
-				{
-					if(mysql_num_rows(mysql_query("select id from `".$dbtable."` where MATCH(`Identifier`) AGAINST ('» +".str_replace('-', ' +', $isbnfindname1)."»' IN BOOLEAN MODE)", con))>0)
-					{
-						$sqlisbn[] = " MATCH(`Identifier`) AGAINST ('» +".str_replace('-', ' +', $isbnfindname1)."»' IN BOOLEAN MODE) ";
-					}
-					else
-					{
-						$sqlisbn[] = " MATCH(`Identifier`) AGAINST ('".str_replace('-', '', $isbnfindname1)."' IN BOOLEAN MODE) ";
-					}
-				}
-				else
-				{
-					$sqlisbn[] = " MATCH(`Identifier`) AGAINST ('". $isbnfindname1."' IN BOOLEAN MODE) ";
-				}				
-
-			}
-			$sqlisbn = join(' OR ', $sqlisbn);
-			$sql .= " AND (" . $sqlisbn . ")";
+			$sql .= " AND (MATCH(`IdentifierWODash`) AGAINST ('+" . implode(' +', $isbnfindname[0]) . "' IN BOOLEAN MODE) )";	
 		}
 		if (!empty($topicfindname[0])) 
 		{
-			foreach ($topicfindname[0] as $topicfindname1)
-			{
-				/*if (in_array($topicfindname1, array(
-					'topicid1',
-					'topicid12',
-					'topicid32',
-					'topicid38',
-					'topicid41',
-					'topicid57',
-					'topicid64',
-					'topicid69',
-					'topicid102',
-					'topicid113',
-					'topicid147',
-					'topicid178',
-					'topicid183',
-					'topicid189',
-					'topicid198',
-					'topicid205',
-					'topicid210',
-					'topicid264',
-					'topicid289',
-					'topicid296',
-					'topicid305',
-					'topicid314'
-				)))
-				{
-					$sqltopic[] = "(`topic` = '" . str_replace('topicid', '', $topicfindname1) . "' OR `topic` IN (SELECT `topic_id` FROM `topics` WHERE `topic_id_hl` = '" . str_replace('topicid', '', $topicfindname1) . "' AND `lang` = 'ru'))";
-				}
-				else
-				{*/
-					$sqltopic[] = " (`Topic` = '" . str_replace('topicid', '', $topicfindname1) . "' )";
-				//}
-			}
-			$sqltopic = join(' OR ', $sqltopic);
-			$sql .= " AND (" . $sqltopic . ")";
+			$sql .= " AND (`Topic` IN ('" . str_replace('topicid', '', implode(',', $topicfindname[0])) . "') )";
 		}
 	}
-	else
+	else/*if($columns=='identifier' || $columns=='topic')*/ 
+	//если есть isbn или topic, но нет прочих слов
 	{
-		if (!empty($isbnfindname[0])) // дописываем условие поиска по ISBN, не зависимо от того задана ли такая колонка
+		if (!empty($isbnfindname[0]) ) // дописываем условие поиска по ISBN, если указана колонка
 		{
-			foreach ($isbnfindname[0] as $isbnfindname1)
-			{
-				//$sqlisbn[] = " REPLACE(`Identifier`, '-', '') like '%" . str_replace('-', '', $isbnfindname1) . "%'";
-				if(preg_match('|\-|',$isbnfindname1))
-				{
-					if(mysql_num_rows(mysql_query("select id from `".$dbtable."` where MATCH(`Identifier`) AGAINST ('» +".str_replace('-', ' +', $isbnfindname1)."»' IN BOOLEAN MODE)", con))>0)
-					{
-						$sqlisbn[] = " MATCH(`Identifier`) AGAINST ('» +".str_replace('-', ' +', $isbnfindname1)."»' IN BOOLEAN MODE) ";
-					}
-					else
-					{
-						$sqlisbn[] = " MATCH(`Identifier`) AGAINST ('".str_replace('-', '', $isbnfindname1)."' IN BOOLEAN MODE) ";
-					}
-				}
-				else
-				{
-					$sqlisbn[] = " MATCH(`Identifier`) AGAINST ('".$isbnfindname1."' IN BOOLEAN MODE) ";
-				}
-			}
-			$sqlisbn = join(' OR ', $sqlisbn);
-			$sql     = " (" . $sqlisbn . ")";
+			$sql .= " AND (MATCH(`IdentifierWODash`) AGAINST ('+" . implode(' +', $isbnfindname[0]) . "' IN BOOLEAN MODE) )"; 
 		}
-		if (!empty($topicfindname[0])) // дописываем условие поиска по ISBN, не зависимо от того задана ли такая колонка
+		if (!empty($topicfindname[0]) ) // дописываем условие поиска по ISBN, не зависимо от того задана ли такая колонка
 		{
-			foreach ($topicfindname[0] as $topicfindname1)
-			{
-				/*if (in_array($topicfindname1, array(
-					'topicid1',
-					'topicid12',
-					'topicid32',
-					'topicid38',
-					'topicid41',
-					'topicid57',
-					'topicid64',
-					'topicid69',
-					'topicid102',
-					'topicid113',
-					'topicid147',
-					'topicid178',
-					'topicid183',
-					'topicid189',
-					'topicid198',
-					'topicid205',
-					'topicid210',
-					'topicid264',
-					'topicid289',
-					'topicid296',
-					'topicid305',
-					'topicid314'
-				)))
-				{
-					$sqltopic[] = "(`topic` = '" . str_replace('topicid', '', $topicfindname1) . "' OR `topic` IN (SELECT `topic_id` FROM `topics` WHERE `topic_id_hl` = '" . str_replace('topicid', '', $topicfindname1) . "' AND `lang` = 'ru'))";
-				}
-				else
-				{*/
-					$sqltopic[] = " (`Topic` = '" . str_replace('topicid', '', $topicfindname1) . "' )";
-				//}
-			}
-			$sqltopic = join(' OR ', $sqltopic);
-			$sql      = " (" . $sqltopic . ")";
+			$sql .= " AND (`Topic` IN ('" . str_replace('topicid', '', implode("','", $topicfindname[0])) . "') )";
 		}
 	}
+
+	
+	if((empty($isbnfindname[0]) && $columns=='identifier') || (empty($topicfindname) && $columns=='topic'))
+	$sql = ' 1=2 ';
+
 	return ($sql);
 }
-//echo $req;
-//print_r($columns);
-//if($mode =='search')
-//{
-//	$sql = fulltext_search($req, $columns);
-//}
 echo $htmlhead;
-//echo '<table class="lang"><tr><td><a href="setlang.php?lang=ru">[RU]</a></td><td><a href="setlang.php?lang=en">[EN]</a></td></tr></table>';
 include_once 'menu_' . $lang . '.html';
 if ($mainpage)
 {
@@ -939,18 +712,10 @@ if ($mainpage)
 
 <td></td><td nowrap>{$form}</td></tr>
 </table>";
-
-//<tr><td nowrap valign='middle' align='right'><b><a href='/scimag/index.php'>" . $LANG_MESS_19 . "</a></b></td><td nowrap>{$lg_topic_form}</td></tr>	
-//<tr><td nowrap valign='middle' align='right'><b><a href='/comics/index.php'>" . $LANG_MESS_20 . "</a></b></td><td nowrap>{$formcomics}</td></tr>
-//<tr><td nowrap valign='middle' align='right'><b><a href='/foreignfiction/index.php'>" . $LANG_MESS_21 . "</a></b></td><td nowrap valign='top'>{$formfiction}</td></tr>
-//<tr><td nowrap valign='bottom' align='right'><b><a href='http://magzdb.org/'>" . $LANG_MESS_180 . "</a></b></td><td nowrap valign='top'>{$formmagzdb}</td></tr>
-
-
-
 	echo $searchbody;
 	echo $footer;
-//echo '<iframe frameborder="0" allowtransparency="true" scrolling="no" src="https://money.yandex.ru/embed/small.xml?account=41001819963532&quickpay=small&yamoney-payment-type=on&button-text=04&button-size=m&button-color=orange&targets=Libgen+Donations&default-sum=400&successURL=41001819963532" width="229" height="42"></iframe><br>';
-//echo '<iframe frameborder="0" allowtransparency="true" scrolling="no" src="https://money.yandex.ru/embed/small.xml?account=41001819963532&quickpay=small&any-card-payment-type=on&button-text=04&button-size=m&button-color=orange&targets=Libgen+Donations&default-sum=400&successURL=41001819963532" width="229" height="42"></iframe>';
+	//echo '<br><br><br><br>';
+	//echo str_replace('<div id="ads2">', '<div id="ads2"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>', $ads2);
 	echo $htmlfoot;
 	die;
 }
@@ -1015,28 +780,23 @@ if ($mode == 'search')
 	}
 
 	$sql = fulltext_search($req, $columns,$full_phrase);
-
-	//$sql_end = "  LIMIT " . (($page - 1) * $maxlines) . ", " . $maxlines;
-	//$sql_mid = " FROM `".$dbtable."` WHERE ( `Visible`='' AND `Generic` = '' AND ( $sql )) ";
-$sql_mid = " FROM `".$dbtable."` WHERE ( `Visible`='' AND ( $sql )) ";
+	$sql_mid = " FROM `".$dbtable."` WHERE ( `Visible`='' AND ( $sql )) ";
 	if ( $timefirst !='')
 	{
 		$sql_mid .= " AND (`TimeAdded` BETWEEN STR_TO_DATE('" . $timefirst . " 00:00:00','%Y-%m-%d %H:%i:%s') AND STR_TO_DATE('" . $timelast . " 23:59:59','%Y-%m-%d %H:%i:%s') ) ";
 	}
-	$sql_req = "SELECT SQL_CALC_FOUND_ROWS * " . $sql_mid . $sql_end;
+	$sql_req = "SELECT SQL_CALC_FOUND_ROWS *, '' as `SHA1`, '' as `AICH`, '' as `TTH`, '' as `eDonkey`, '' as `CRC32` " . $sql_mid . $sql_end;
 
 }
 elseif ($mode == 'last')
 {
-	//$where = " ( `Visible`='' AND `Generic` = '' )";
-$where = " ( `Visible`='' )";
-
+	$where = " ( `Visible`='' )";
 	if ($timefirst !='')
 	{
 		$where .= " AND (`TimeAdded` BETWEEN STR_TO_DATE('" . $timefirst . " 00:00:00','%Y-%m-%d %H:%i:%s') AND STR_TO_DATE('" . $timelast . " 23:59:59','%Y-%m-%d %H:%i:%s') ) ";
 		if((($page - 1) * $res_on_page) < 50000)
 		{
-			$sql_req = "SELECT SQL_CALC_FOUND_ROWS * FROM `".$dbtable."` WHERE " . $where . " ORDER BY `ID` DESC LIMIT " . (($page - 1) * $res_on_page) . ", " . $res_on_page;
+			$sql_req = "SELECT SQL_CALC_FOUND_ROWS * , '' as `SHA1`, '' as `AICH`, '' as `TTH`, '' as `eDonkey`, '' as `CRC32` FROM `".$dbtable."` WHERE " . $where . " ORDER BY `ID` DESC LIMIT " . (($page - 1) * $res_on_page) . ", " . $res_on_page;
 		}
 	}
 	else
@@ -1044,11 +804,8 @@ $where = " ( `Visible`='' )";
 		$rescount = mysql_query("SHOW TABLE STATUS WHERE `name`='" . $dbtable . "'", $con);
 		$rowcount = mysql_fetch_assoc($rescount);
 		$where .= " AND `ID` BETWEEN ". ($rowcount['Rows'] - ($page - 1) * $res_on_page - $res_on_page ). " AND " .($rowcount['Rows'] - ($page - 1) * $res_on_page );
-		$sql_req = "SELECT * FROM `".$dbtable."` WHERE " . $where . " ORDER BY `ID` DESC";
+		$sql_req = "SELECT *, '' as `SHA1`, '' as `AICH`, '' as `TTH`, '' as `eDonkey`, '' as `CRC32`  FROM `".$dbtable."` WHERE " . $where . " ORDER BY `ID` DESC";
 	}
-
-	
-
 }
 elseif ($mode == 'modified')
 {
@@ -1066,11 +823,10 @@ elseif ($mode == 'modified')
 
 	if((($page - 1) * $res_on_page) < 50000)
 	{
-		$sql_req = "SELECT SQL_CALC_FOUND_ROWS * FROM `".$dbtable."` WHERE " . $where . " ORDER BY `TimeLastModified` DESC, ID DESC LIMIT " . (($page - 1) * $res_on_page) . ", " . $res_on_page;
+		$sql_req = "SELECT SQL_CALC_FOUND_ROWS *, '' as `SHA1`, '' as `AICH`, '' as `TTH`, '' as `eDonkey`, '' as `CRC32`  FROM `".$dbtable."` WHERE " . $where . " ORDER BY `TimeLastModified` DESC, ID DESC LIMIT " . (($page - 1) * $res_on_page) . ", " . $res_on_page;
 
 	}
 }
-
 //echo $sql_req."<br><br>";
 $result = mysql_query($sql_req, $con);
 if (!$result)
@@ -1134,7 +890,7 @@ if (!$mainpage)
 {
 //	echo "<table width=100% border=0><tr><td>$form</td><td><a href='/'><font color=#A00000 valign=top align=right><h1>Library Genesis<sup><font size=4>1M</font></a></td></tr></table>";
 
-	echo "<table width=100% border=0><tr><td>$form</td><td><h1 style=\"color:#A00000\"><a href=\"/\">Library Genesis<sup style=\"font-size:65%\">1M</sup></h1></a><br/></td></tr></table>";
+	echo "<table width=100% border=0><tr><td>$form</td><td><h1 style=\"color:#A00000\"><a href=\"/\">Library Genesis<sup style=\"font-size:65%\">1M</sup></h1></a><br/>$libgennews</td></tr></table>";
 
 }
 $arrowleft  = '<font size="3" color="gray"><a href="' . $args . '&sort=' . $sort . '&sortmode=' . $sortmode1 . '&page=' . ($page - 1) . '">&#9668;&nbsp;&nbsp;</a></font>';
@@ -1179,7 +935,10 @@ if ($mode == 'search')
 		$smsearch = '';
 	}
 
-	echo "</td><td align='right' width=45%><font size=2>" . $LANG_MESS_22_5 . "\"$req_htm\" " . $LANG_MESS_23 . " ".$smsearch." <a href='/foreignfiction/index.php?s=$req_htm&f_cols=Author:Title:Series&f_lang=0&page=1'>" . $LANG_MESS_21 . "</a>, <a href='/comics/index.php?s=$req_htmadd'>" . $LANG_MESS_20 . "</a></font></td></tr></table>";
+	echo "</td><td align='right' width=45%><font size=2>" . $LANG_MESS_22_5 . "\"$req_htm\" " . $LANG_MESS_23 . " ".$smsearch." 
+<a href='/foreignfiction/index.php?s=$req_htm&f_lang=All&f_columns=0&f_ext=All&f_group=1'>" . $LANG_MESS_374 . "</a>|
+<a href='/fiction_rus/index.php?s=$req_htm'>" . $LANG_MESS_372 . "</a> ".$LANG_MESS_373.", 
+<a href='/comics/index.php?s=$req_htmadd'>" . $LANG_MESS_20 . "</a></font></td></tr></table>";
 	if ($view !== 'detailed')
 	{
 		$tabheader = "<tr valign=top bgcolor=$color1>
@@ -1334,9 +1093,27 @@ while ($row = mysql_fetch_assoc($result))
 		$vol        = htmlspecialchars($row['VolumeInfo']);
 		$publisher  = htmlspecialchars($row['Publisher']);
 		$year       = htmlspecialchars($row['Year']);
-		$pagesbook  = htmlspecialchars($row['Pages']);
+		
+		if($row['Pages'] != $row['PagesInFile'] && $row['PagesInFile']!=0)
+		{
+			$pagesbook  = htmlspecialchars($row['Pages']).'['.htmlspecialchars($row['PagesInFile']).']';
+		}
+		else
+		{
+			$pagesbook  = htmlspecialchars($row['Pages']);
+		}
+
+
 		$periodical = htmlspecialchars($row['Periodical']);
-		$series     = htmlspecialchars($row['Series']);
+		if($row['Series']!='')
+		{
+			$series = "<a href='search.php?req=".trim(str_replace(array('series', 'серия'), array('', ''), preg_replace('~[0-9-]{1,6}~', '', htmlspecialchars($row['Series']))))."&column=series'><font face=Times color=green><i>".htmlspecialchars($row['Series'])."</i></font></a><br>";
+		}
+		else
+		{
+			$series = '';
+		}
+
 		$lang       = htmlspecialchars($row['Language']);
 		$ident1     = trim(htmlspecialchars($row['Identifier']), ',- ');
 		$edition    = htmlspecialchars($row['Edition']);
@@ -1369,10 +1146,6 @@ while ($row = mysql_fetch_assoc($result))
 		if ($view != 'detailed')
 		{
 			$bookname = '';
-			if ($series <> '')
-			{
-				$bookname = "<font face=Times color=green><i>$series </i><br></font>";
-			}
 			$bookname1 = '';
 			if ($periodical <> '')
 			{
@@ -1437,7 +1210,7 @@ while ($row = mysql_fetch_assoc($result))
 		
 			$line = "<tr valign=top bgcolor=$color><td>$ires</td>
 				<td>$author</td>
-				<td width=500><a href='book/index.php?md5=$row[MD5]$openreq' title='$tip0' id=$ires>{$bookname}$volume$volstamp</a></td>
+				<td width=500>$series<a href='book/index.php?md5=".strtoupper($row[MD5]).$openreq."' title='$tip0' id=$ires>{$bookname}$volume$volstamp</a></td>
 				<td>$publisher</td>
 				<td nowrap>$year</td>
 				<td>$pagesbook</td>
@@ -1460,9 +1233,9 @@ while ($row = mysql_fetch_assoc($result))
 <col width=20%><col width=100><col width=300><col width=100><col width=300>
 <tbody><tr height="2" valign="top"><td bgcolor="brown" colspan="5"></td></tr>
 <tr valign="top">
-<td rowspan="20" width="150"><a href="/get?' . $resreq . $openreq . '&md5=' . $row['MD5'] . '"><img src="/covers/' . $coverurl . '" border="0" width="240" style="padding: 5px" alt="Download"></a></td>
+<td rowspan="20" width="150"><a href="/get?' . $resreq . $openreq . '&md5=' . strtoupper($row['MD5']) . '"><img src="/covers/' . $coverurl . '" border="0" width="240" style="padding: 5px" alt="Download"></a></td>
 <td><font color="gray">' . $LANG_MESS_5 . '</font></td>
-<td colspan="2"><b><a href="../book/index.php?md5=' . $row['MD5'] . $openreq . '">' . $title . '</a></b></td>
+<td colspan="2"><b><a href="../book/index.php?md5=' . strtoupper($row['MD5']) . $openreq . '">' . $title . '</a></b></td>
 <td><font color="gray">' . $LANG_MESS_42 . ':</font></td>
 </tr>
 <tr valign="top">
@@ -1513,7 +1286,7 @@ while ($row = mysql_fetch_assoc($result))
 </tr>
 <tr valign="top">
 <td><font color="gray">BibTeX</font></td>
-<td><a href="/book/bibtex.php?md5=' . $row['MD5'] . '"><b>Link</b></a></td>
+<td><a href="/book/bibtex.php?md5=' . strtoupper($row['MD5']) . '"><b>Link</b></a></td>
 <td><font color="gray">' . $LANG_MESS_54 . ':</font></td>
 <td><b><a href="'.$mirror_edit_link.'">'.$mirror_edit_title.'</a></b></td>
 </tr>
@@ -1578,4 +1351,3 @@ mysql_free_result($result);
 mysql_close($con);
 
 ?>
-

@@ -40,7 +40,7 @@ $LANG_MESS_11 = 'Language';
 $LANG_MESS_12 = 'Extension';
 $LANG_MESS_13 = 'Topic';
 $LANG_MESS_14 = 'Wrong Request';
-$LANG_MESS_15 = 'Search string must contain more than 4 characters.';
+$LANG_MESS_15 = 'Search string must contain minimum 3 characters.';
 $LANG_MESS_16 = 'Please, type in a longer request and ';
 $LANG_MESS_17 = 'try again';
 $LANG_MESS_18 = 'Search in DOI or PMID (e.g. 10.1063/1.529338 or 16387140) OR Author+Article, if file not found - redirect to';
@@ -90,8 +90,8 @@ $LANG_MESS_60 = 'Size, kB';
 $LANG_MESS_61 = 'Pages';
 $LANG_MESS_62 = 'Record from';
 $LANG_MESS_63 = 'to';
-$LANG_MESS_64 = 'First page';
-$LANG_MESS_65 = 'Last page';
+$LANG_MESS_64 = 'First&nbsp;page';
+$LANG_MESS_65 = 'Last&nbsp;page';
 $LANG_MESS_66 = 'Month';
 $LANG_MESS_67 = 'Day';
 $LANG_MESS_68 = 'from';
@@ -681,7 +681,7 @@ $LANG_MESS_133 = "<OPTION></OPTION>
 $LANG_MESS_134 = 'ISBN Founded in file';
 $LANG_MESS_135 = 'Open in Browser';
 
-$LANG_MESS_136 = 'Batch search of books';
+$LANG_MESS_136 = 'Batch search of ';
 $LANG_MESS_137 = 'Report an error';
 
 $LANG_MESS_138 = 'Return to the last page';
@@ -889,6 +889,107 @@ $LANG_MESS_328 = 'Abbreviation';
 $LANG_MESS_329 = 'Order by';
 $LANG_MESS_330 = 'You can edit the record for the one day after the addition of';
 
-$libgennews = '';// '<a href="http://gen.lib.rus.ec/donate/">Library Genesis needs your financial support for opening a new mirror!<br/>You may donate with Bitcoin, Visa/MasterCard, PayPal, Yandex.Money.</a>';
+$LANG_MESS_331 = 'In the description of the book does not fill the "Title" or "Series", return to the previous page and complete fill';
+$LANG_MESS_332 = 'In the description of the book is not filled with the "Language", return to the previous page and complete fill';
+
+$LANG_MESS_333 = 'In the description of the book is not filled with the "Author", return to the previous page and complete fill';
+
+$LANG_MESS_334 = 'This book already in fiction DB';
+$LANG_MESS_335 = 'Edit mode temporary unavailable';
+$LANG_MESS_336 = 'Standarts';
+$LANG_MESS_337 = 'Lib. IDs';
+$LANG_MESS_338 = 'Ext.';
+$LANG_MESS_339 = 'File info';
+$LANG_MESS_340 = 'Publ. series';
+$LANG_MESS_341 = 'Auth. series';
+$LANG_MESS_342 = 'Translator';
+$LANG_MESS_343 = 'Form (add. title info)';
+$LANG_MESS_344 = 'Title original';
+
+$LANG_MESS_345 = 'Author(s)';
+$LANG_MESS_346 = 'Translator(s)';
+$LANG_MESS_347 = 'Compiler(s)';
+$LANG_MESS_348 = 'Designer(s)';
+$LANG_MESS_349 = 'Illustrator(s)';
+$LANG_MESS_350 = 'Editor(s)';
+$LANG_MESS_351 = 'Commentator(s)';
+$LANG_MESS_352 = 'Corrector(s)';
+$LANG_MESS_353 = 'Publisher(s)';
+$LANG_MESS_354 = 'Printing';
+$LANG_MESS_355 = 'Current file version';
+$LANG_MESS_356 = 'Changes in the current version of the file';
+$LANG_MESS_357 = 'City';
+$LANG_MESS_358 = 'Year of publication';
+$LANG_MESS_359 = 'Year writing';
+$LANG_MESS_360 = 'Language of original';
+$LANG_MESS_361 = 'Part of the collection';
+$LANG_MESS_362 = 'Just published in the series';
+$LANG_MESS_363 = 'Publishing Series title';
+$LANG_MESS_364 = 'Publishing Series number';
+$LANG_MESS_365 = 'Author Series title';
+$LANG_MESS_366 = 'Author Series number';
+$LANG_MESS_367 = 'Replaced better version';
+$LANG_MESS_368 = 'Link to the original book';
+$LANG_MESS_369 = 'Tags';
+$LANG_MESS_370 = 'It is written about the author';
+$LANG_MESS_371 = 'Annotation';
+
+$LANG_MESS_372 = 'Russian';
+$LANG_MESS_373 = 'fiction';
+$LANG_MESS_374 = 'non-Russian';
+
+$LANG_MESS_375 = 'Series Name';
+$LANG_MESS_376 = 'Volume';
+$LANG_MESS_377 = 'Vol. Name';
+$LANG_MESS_378 = 'Publ. Period';
+$LANG_MESS_379 = 'Issues';
+$LANG_MESS_380 = 'Files';
+$LANG_MESS_381 = 'Lang.';
+$LANG_MESS_382 = 'Type';
+$LANG_MESS_383 = 'Publisher\Imprint';
+$LANG_MESS_384 = 'Comics series by Title';
+$LANG_MESS_385 = 'Comics series by Publisher';
+$LANG_MESS_386 = 'Comics series by Language';
+$LANG_MESS_387 = 'Comics series by Comics type';
+$LANG_MESS_388 = 'Section in the process of filling';
+$LANG_MESS_389 = 'Imprint';
+$LANG_MESS_390 = 'Total size (bytes)';
+$LANG_MESS_391 = 'Format type';
+$LANG_MESS_392 = 'Series additional info';
+$LANG_MESS_393 = 'Issue number';
+$LANG_MESS_394 = 'Issue subtitle';
+$LANG_MESS_395 = 'Issue publ. date';
+$LANG_MESS_396 = 'Sub Series';
+$LANG_MESS_397 = 'Issue additional info';
+$LANG_MESS_398 = 'Top Series (or crossover)';
+$LANG_MESS_399 = 'Top Series number';
+
+$LANG_MESS_401 = 'Picture size/DPI';
+$LANG_MESS_402 = 'Scan type';
+$LANG_MESS_403 = 'Add.info/Content';
+$LANG_MESS_404 = 'Files/Pic. count';
+$LANG_MESS_405 = 'Scan quality';
+$LANG_MESS_406 = 'Add/File Create';
+$LANG_MESS_407 = 'Series original name';
+$LANG_MESS_408 = 'Cover info';
+$LANG_MESS_409 = 'Comics series by Letter';
+$LANG_MESS_410 = 'Files';
+$LANG_MESS_411 = 'Releaser';
+$LANG_MESS_412 = 'Pages (in file)';
+$LANG_MESS_413 = 'Pages (biblio)';
+
+$LANG_MESS_414 = 'Display only COUNT(*), not path';
+$LANG_MESS_415 = 'Only files added in series';
+
+
+$LANG_MESS_416 = 'One-file<br>Torrent';
+$LANG_MESS_417 = 'Copy fname';
+$LANG_MESS_419 = 'Torrent per 1000 books';
+
+
+$libgennews =  '<a href="http://custodians.online/">Letter of Solidarity</a><br>
+<a href="http://libgen.io/foreignfiction/repository_torrent/">New torrents for fiction, over 1.5M files!</a><br>
+<a href="/comics/series.php?letter=A">Added new interface for a series of comic books</a><br>';
+//<a href="http://gen.lib.rus.ec/donate/">Library Genesis needs your financial support for opening a new mirror!<br/>You may donate with Bitcoin, Visa/MasterCard, PayPal, Yandex.Money.</a>';
 
 ?>
